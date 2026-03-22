@@ -67,7 +67,6 @@ body::before{
   min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
   position:relative;overflow:hidden;
 }
-@media(max-width:768px){.login-scene{grid-template-columns:1fr;}}
  
 .login-left{
   display:flex;flex-direction:column;justify-content:center;
@@ -99,7 +98,6 @@ body::before{
   font-size:15px;flex-shrink:0;
   background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.2);
 }
-@media(max-width:768px){.login-left{display:none;}}
  
 .login-right{
   display:flex;align-items:center;justify-content:center;
@@ -111,7 +109,6 @@ body::before{
   background:linear-gradient(to bottom,transparent,var(--border2),transparent);
   pointer-events:none;
 }
-@media(max-width:768px){.login-right{padding:32px 24px;background:var(--navy);}}
 .login-form-wrap{width:100%;max-width:400px;position:relative;z-index:2;}
 .login-form-logo{margin-bottom:36px;}
 .login-form-logo img{height:52px;width:auto;}
@@ -237,7 +234,6 @@ body::before{
   animation:fadeUp 0.4s ease both;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-@media(max-width:600px){.content-area{padding:24px 16px;}}
  
 /* ════════════════════════════════════════════
    PAGE HEADING
@@ -354,7 +350,6 @@ body::before{
 .plan-hero-manager{font-size:13px;color:var(--muted);}
 .plan-hero-manager strong{color:var(--gold);font-weight:700;}
 .plan-details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;}
-@media(max-width:700px){.plan-details-grid{grid-template-columns:1fr 1fr;}}
 .plan-detail-tile{
   background:rgba(255,255,255,0.03);border:1px solid var(--border);
   border-radius:12px;padding:14px 16px;
@@ -366,7 +361,6 @@ body::before{
    PLAN COMPARISON CARDS
 ════════════════════════════════════════════ */
 .plans-compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
-@media(max-width:900px){.plans-compare-grid{grid-template-columns:1fr;}}
 .plan-card{
   background:rgba(255,255,255,0.02);border:1px solid var(--border);
   border-radius:20px;padding:26px;position:relative;overflow:hidden;
@@ -378,12 +372,13 @@ body::before{
   background:rgba(240,165,0,0.03);
   box-shadow:0 0 40px rgba(240,165,0,0.08);
 }
-.plan-card.is-active::before{
-  content:'YOUR PLAN';position:absolute;top:14px;right:14px;
-  font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--gold);
-  background:rgba(240,165,0,0.1);padding:4px 9px;border-radius:100px;
-  border:1px solid rgba(240,165,0,0.25);
+.plan-card-your-plan{
+  display:none;font-size:9px;font-weight:800;letter-spacing:0.12em;
+  color:var(--gold);background:rgba(240,165,0,0.1);
+  padding:4px 9px;border-radius:100px;border:1px solid rgba(240,165,0,0.25);
+  margin-bottom:12px;width:fit-content;
 }
+.plan-card.is-active .plan-card-your-plan{display:inline-block;}
 .plan-card-accent{height:3px;border-radius:10px;margin-bottom:20px;}
 .plan-card-accent.starter{background:linear-gradient(90deg,#64748b,#94a3b8);}
 .plan-card-accent.growth{background:linear-gradient(90deg,var(--gold),var(--gold2));}
@@ -410,7 +405,6 @@ body::before{
    TERMS & CONDITIONS
 ════════════════════════════════════════════ */
 .tnc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:640px){.tnc-grid{grid-template-columns:1fr;}}
 .tnc-tile{
   background:rgba(255,255,255,0.02);border:1px solid var(--border);
   border-radius:14px;padding:20px;
@@ -430,7 +424,6 @@ body::before{
    BRANDING DOCS
 ════════════════════════════════════════════ */
 .branding-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:640px){.branding-grid{grid-template-columns:1fr;}}
 .branding-tile{
   background:rgba(255,255,255,0.02);border:1px solid var(--border);
   border-radius:14px;padding:20px;
@@ -534,7 +527,6 @@ body::before{
  
 /* Stats */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
-@media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr);}}
 .stat-tile{
   background:rgba(255,255,255,0.03);border:1px solid var(--border);
   border-radius:14px;padding:20px;text-align:center;
@@ -564,7 +556,6 @@ body::before{
 .etab:hover{color:var(--text2);}
 .etab.active{color:var(--gold);border-bottom-color:var(--gold);}
 .ef-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:640px){.ef-grid{grid-template-columns:1fr;}}
 .ef-field{display:flex;flex-direction:column;gap:6px;}
 .ef-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
 .ef-input,.ef-select,.ef-textarea{
@@ -583,7 +574,6 @@ body::before{
  
 /* Branding editor */
 .brand-editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:640px){.brand-editor-grid{grid-template-columns:1fr;}}
 .brand-editor-tile{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px;}
 .brand-editor-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:block;}
 .color-row{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:8px;padding:5px 8px;margin-bottom:7px;}
@@ -649,7 +639,6 @@ body::before{
 }
 .request-btn.secondary:hover{border-color:rgba(240,165,0,0.3);color:var(--gold);}
 .request-types-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px;}
-@media(max-width:640px){.request-types-grid{grid-template-columns:1fr;}}
 .request-type-card{
   background:rgba(255,255,255,0.02);border:1px solid var(--border);
   border-radius:16px;padding:22px;cursor:pointer;
@@ -683,7 +672,6 @@ body::before{
   border-radius:100px;padding:6px 14px;white-space:nowrap;flex-shrink:0;
 }
 .info-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-@media(max-width:700px){.info-row{grid-template-columns:1fr;}}
 .info-tile{
   background:rgba(255,255,255,0.02);border:1px solid var(--border);
   border-radius:12px;padding:18px;
@@ -705,6 +693,178 @@ body::before{
 .login-footer{
   position:absolute;bottom:20px;left:0;right:0;text-align:center;
   font-size:11px;color:var(--muted2);
+}
+ 
+/* ════════════════════════════════════════════
+   MOBILE — COMPREHENSIVE RESPONSIVE STYLES
+════════════════════════════════════════════ */
+@media(max-width:768px){
+ 
+  /* ── Login ── */
+  .login-scene{grid-template-columns:1fr;}
+  .login-left{display:none;}
+  .login-right{
+    padding:40px 24px 32px;background:var(--navy);
+    min-height:100vh;align-items:flex-start;
+  }
+  .login-form-wrap{padding-top:8px;}
+  .login-form-logo img{height:40px;}
+  .login-heading{font-size:22px;}
+  .login-subheading{font-size:13px;margin-bottom:24px;}
+  .portal-chip{margin-bottom:20px;}
+  .field-wrap{margin-bottom:14px;}
+  .field-input{padding:12px 14px;font-size:14px;}
+  .login-btn{padding:14px;font-size:14px;}
+ 
+  /* ── Topbar ── */
+  .topbar{padding:0 14px;height:56px;}
+  .topbar-logo img{height:26px;}
+  .live-chip{display:none;}
+  .user-badge{padding:5px 10px;font-size:11px;gap:5px;}
+  .user-badge-avatar{width:18px;height:18px;font-size:9px;}
+  .signout-btn{padding:5px 10px;font-size:11px;}
+ 
+  /* ── Tab bar ── */
+  .tab-bar{top:56px;padding:0 4px;}
+  .tab-btn{padding:0 10px;height:42px;font-size:11px;gap:4px;}
+  .tab-icon{font-size:13px;}
+ 
+  /* ── Content area ── */
+  .content-area{padding:18px 14px;}
+  .page-header{margin-bottom:18px;}
+  .page-header h1{font-size:20px;letter-spacing:-0.3px;}
+  .page-header p{font-size:12px;}
+ 
+  /* ── Cards & blocks ── */
+  .glass-card{padding:16px;border-radius:14px;margin-bottom:14px;}
+  .section-block{padding:16px;border-radius:14px;margin-bottom:14px;}
+  .section-block-top{gap:10px;margin-bottom:12px;padding-bottom:12px;}
+  .section-icon{width:32px;height:32px;font-size:15px;flex-shrink:0;}
+  .section-title{font-size:14px;}
+  .section-subtitle{font-size:11px;}
+  .goal-row{padding:10px 0;gap:10px;}
+  .goal-badge{width:24px;height:24px;font-size:10px;}
+  .goal-text{font-size:13px;}
+ 
+  /* ── Plan hero ── */
+  .plan-hero{padding:20px 16px;margin-bottom:14px;}
+  .plan-hero-name{font-size:18px;}
+  .plan-hero-manager{font-size:12px;}
+  .plan-details-grid{grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+  .plan-detail-tile{padding:10px 12px;}
+  .plan-detail-label{font-size:9px;}
+  .plan-detail-val{font-size:12px;}
+ 
+  /* ── Plan comparison ── */
+  .plans-compare-grid{grid-template-columns:1fr;gap:12px;}
+  .plan-card{padding:18px;}
+  .plan-card-price{font-size:26px;}
+  .plan-card-lang{font-size:10px;}
+  .plan-feature{font-size:11px;gap:7px;}
+ 
+  /* ── T&C ── */
+  .tnc-grid{grid-template-columns:1fr;gap:10px;}
+  .tnc-tile{padding:16px;}
+  .tnc-tile-body{font-size:12px;}
+ 
+  /* ── Calendar ── */
+  .cal-grid-wrap{gap:2px;}
+  .cal-cell{min-height:52px;padding:5px 3px;}
+  .cal-head{font-size:8px;padding:4px 0;}
+  .cal-num{font-size:9px;}
+  .post-chip{font-size:8px;padding:1px 3px;letter-spacing:0;}
+  .post-topic{display:none;}
+ 
+  /* ── Branding ── */
+  .branding-grid{grid-template-columns:1fr;gap:10px;}
+  .branding-tile{padding:16px;}
+ 
+  /* ── Contact ── */
+  .contact-hero{padding:20px 16px;}
+  .contact-hero-title{font-size:20px;}
+  .contact-hero-sub{font-size:12px;margin-bottom:20px;}
+  .contact-hero-email{font-size:13px;padding:9px 14px;}
+  .request-btn-row{flex-direction:column;gap:8px;}
+  .request-btn{justify-content:center;padding:12px 18px;}
+  .request-types-grid{grid-template-columns:1fr;gap:10px;}
+  .request-type-card{padding:16px;}
+  .whatsapp-card{padding:16px;gap:12px;}
+  .whatsapp-cta{margin-left:0;width:100%;text-align:center;padding:8px 0;display:block;}
+  .info-row{grid-template-columns:1fr 1fr;gap:10px;}
+ 
+  /* ── Admin sidebar → horizontal top nav ── */
+  .admin-wrap{flex-direction:column;}
+  .sidebar{
+    width:100%;height:auto;position:static;
+    display:flex;flex-direction:row;overflow-x:auto;scrollbar-width:none;
+    padding:10px 10px;gap:4px;flex-shrink:0;
+    border-right:none;border-bottom:1px solid var(--border);
+  }
+  .sidebar::-webkit-scrollbar{display:none;}
+  .sidebar-user{display:none;}
+  .nav-group-label{display:none;}
+  .nav-btn{
+    flex-shrink:0;padding:7px 14px;border-radius:20px;
+    font-size:12px;white-space:nowrap;width:auto;text-align:center;
+  }
+ 
+  /* ── Admin content ── */
+  .adm-content{padding:18px 14px;}
+  .adm-page-header{gap:10px;margin-bottom:18px;}
+  .adm-page-header h1{font-size:20px;}
+  .adm-page-header p{font-size:12px;}
+ 
+  /* ── Admin table → stacked cards ── */
+  .admin-table{border-spacing:0 8px;}
+  .admin-table thead{display:none;}
+  .admin-table,.admin-table tbody{display:block;width:100%;}
+  .admin-tr{display:grid;grid-template-columns:1fr 1fr;margin-bottom:10px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.03);}
+  .admin-tr td{
+    padding:10px 14px;font-size:12px;
+    border:none;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;
+  }
+  .admin-tr td:nth-child(1){grid-column:1/-1;border-top:none;}
+  .admin-tr td:nth-child(1){border-left:none;border-radius:12px 12px 0 0;}
+  .admin-tr td:last-child{grid-column:1/-1;border-bottom:none;border-right:none;border-radius:0 0 12px 12px;}
+ 
+  /* ── Stats ── */
+  .stats-row{grid-template-columns:1fr 1fr;gap:10px;}
+  .stat-tile{padding:16px;}
+  .stat-val{font-size:26px;}
+ 
+  /* ── Edit panel ── */
+  .edit-panel{padding:16px;border-radius:14px;}
+  .edit-tabs{margin-bottom:18px;}
+  .etab{padding:8px 12px;font-size:11px;}
+  .ef-grid{grid-template-columns:1fr;gap:10px;}
+  .brand-editor-grid{grid-template-columns:1fr;}
+ 
+  /* ── Footer ── */
+  .site-footer{padding:14px 16px;}
+  .site-footer span{font-size:11px;}
+}
+ 
+@media(max-width:480px){
+  /* Hide tab text, show icons only */
+  .tab-btn{padding:0 10px;font-size:10px;}
+  .tab-label{display:none;}
+  .tab-icon{display:block;font-size:17px;opacity:1;}
+ 
+  /* Plan details single column */
+  .plan-details-grid{grid-template-columns:1fr;}
+  .info-row{grid-template-columns:1fr;}
+ 
+  /* Tighter login */
+  .login-right{padding:28px 18px;}
+  .login-heading{font-size:20px;}
+ 
+  /* Calendar — show numbers only */
+  .cal-cell{min-height:44px;}
+ 
+  /* Content area tighter */
+  .content-area{padding:14px 12px;}
+  .adm-content{padding:14px 12px;}
 }
 </style>
 </head>
@@ -804,12 +964,12 @@ body::before{
   </div>
  
   <div class="tab-bar">
-    <button class="tab-btn" id="cl-tab-overview"  onclick="clTab('overview')"><span class="tab-icon">📊</span> Live Dashboard</button>
-    <button class="tab-btn" id="cl-tab-plan"      onclick="clTab('plan')"><span class="tab-icon">📦</span> My Plan</button>
-    <button class="tab-btn" id="cl-tab-goals"     onclick="clTab('goals')"><span class="tab-icon">🎯</span> Goals & Strategy</button>
-    <button class="tab-btn" id="cl-tab-content"   onclick="clTab('content')"><span class="tab-icon">📅</span> Content Plan</button>
-    <button class="tab-btn" id="cl-tab-branding"  onclick="clTab('branding')"><span class="tab-icon">🎨</span> Brand Docs</button>
-    <button class="tab-btn" id="cl-tab-contact"   onclick="clTab('contact')"><span class="tab-icon">✉️</span> Contact & Support</button>
+    <button class="tab-btn" id="cl-tab-overview"  onclick="clTab('overview')"><span class="tab-icon">📊</span><span class="tab-label"> Live Dashboard</span></button>
+    <button class="tab-btn" id="cl-tab-plan"      onclick="clTab('plan')"><span class="tab-icon">📦</span><span class="tab-label"> My Plan</span></button>
+    <button class="tab-btn" id="cl-tab-goals"     onclick="clTab('goals')"><span class="tab-icon">🎯</span><span class="tab-label"> Goals & Strategy</span></button>
+    <button class="tab-btn" id="cl-tab-content"   onclick="clTab('content')"><span class="tab-icon">📅</span><span class="tab-label"> Content Plan</span></button>
+    <button class="tab-btn" id="cl-tab-branding"  onclick="clTab('branding')"><span class="tab-icon">🎨</span><span class="tab-label"> Brand Docs</span></button>
+    <button class="tab-btn" id="cl-tab-contact"   onclick="clTab('contact')"><span class="tab-icon">✉️</span><span class="tab-label"> Contact</span></button>
   </div>
  
   <div class="content-area">
@@ -866,6 +1026,7 @@ body::before{
         <div class="plans-compare-grid">
  
           <div class="plan-card starter" id="plan-card-starter">
+            <div class="plan-card-your-plan">YOUR PLAN</div>
             <div class="plan-card-accent starter"></div>
             <div class="plan-card-name">Starter</div>
             <div class="plan-card-price">฿18,000<span> / month</span></div>
@@ -879,6 +1040,7 @@ body::before{
           </div>
  
           <div class="plan-card growth" id="plan-card-growth">
+            <div class="plan-card-your-plan">YOUR PLAN</div>
             <div class="plan-card-accent growth"></div>
             <div class="plan-card-name">Growth</div>
             <div class="plan-card-price">฿27,000<span> / month</span></div>
@@ -897,6 +1059,7 @@ body::before{
           </div>
  
           <div class="plan-card pro" id="plan-card-pro">
+            <div class="plan-card-your-plan">YOUR PLAN</div>
             <div class="plan-card-accent pro"></div>
             <div class="plan-card-name">Pro</div>
             <div class="plan-card-price">฿42,000<span> / month</span></div>
@@ -976,117 +1139,86 @@ body::before{
         <p>Reach your account manager or send a request directly — one click away</p>
       </div>
  
-      <!-- Hero CTA -->
+      <!-- Hero CTA — single email button only -->
       <div class="contact-hero">
         <div class="contact-hero-title">Need something changed?</div>
         <div class="contact-hero-sub">Whether it's a caption edit, a new brief, a schedule change or a general question — just send us a message and we'll handle it. We typically respond within one business day.</div>
-        <a class="contact-hero-email" href="/cdn-cgi/l/email-protection#c3aaada5ac83aea6a7aaa2adaaada9a2a4b1acb6b3eda0acae">
-          <span>✉️</span> <span class="__cf_email__" data-cfemail="f990979f96b9949c9d909897909793989e8b968c89d79a9694">[email&#160;protected]</span>
-        </a>
-        <div class="request-btn-row">
-          <a class="request-btn primary" id="btn-general-request" href="/cdn-cgi/l/email-protection#cba2a5ada48ba6aeafa2aaa5a2a5a1aaacb9a4bebbe5a8a4a6f4b8bea9a1aea8bff688a7a2aea5bfeef9fb99aebabeaeb8bfeda9a4afb2f683a2eef9fb86aeafa2aa85a2a5a1aaeef9fb9faeaaa6eef988eefb8aeefb8a82eef9fba3aabdaeeef9fbbfa3aeeef9fbada4a7a7a4bca2a5aceef9fbb9aebabeaeb8bfeef88aeefb8aeefb8a909ba7aeaab8aeeef9fbafaeb8a8b9a2a9aeeef9fbb2a4beb9eef9fbb9aebabeaeb8bfeef9fba3aeb9ae96eefb8aeefb8a9fa3aaa5a0eef9fbb2a4beea">
-            ✉️ Send a Request
-          </a>
-          <a class="request-btn secondary" href="/cdn-cgi/l/email-protection#b8d1d6ded7f8d5dddcd1d9d6d1d6d2d9dfcad7cdc896dbd7d587cbcddad2dddbcc85ffddd6ddcad9d49d8a88fdd6c9cdd1cac19edad7dcc185f0d19d8a88f5dddcd1d9f6d1d6d2d99d8a88ecddd9d59d8afb9d88f99d88f9e3e1d7cdca9d8a88d5ddcbcbd9dfdd9d8a88d0ddcadde59d88f99d88f9ecd0d9d6d39d8a88c1d7cd99">
-            💬 General Enquiry
-          </a>
-        </div>
+        <div style="margin-bottom:10px;font-size:13px;color:var(--muted);">Our email:</div>
+        <div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:28px;">info@medianinjagroup.com</div>
+        <button class="request-btn primary" id="btn-general-request" onclick="openEmail('general')">
+          &#x2709;&#xFE0F; &nbsp;Send Us an Email
+        </button>
       </div>
  
       <!-- Quick request type cards -->
       <div class="section-block">
         <div class="section-block-top">
-          <div class="section-icon">⚡</div>
+          <div class="section-icon">&#x26A1;</div>
           <div><div class="section-title">Quick Requests</div><div class="section-subtitle">Click any card to open a pre-filled email for that request type</div></div>
         </div>
         <div class="request-types-grid">
- 
-          <a class="request-type-card" href="/cdn-cgi/l/email-protection#4f262129200f222a2b262e212621252e283d203a3f612c2022703c3a2d252a2c3b720c20213b2a213b6a7d7f0c272e21282a6a7d7f1d2a3e3a2a3c3b692d202b367207266a7d7f022a2b262e012621252e6a7d7f1b2a2e226a7d0c6a7f0e6a7f0e066a7d7f38203a232b6a7d7f2326242a6a7d7f3b206a7d7f3d2a3e3a2a3c3b6a7d7f2e6a7d7f2c272e21282a6a7d7f3b206a7d7f2e6a7d7f3c2c272a2b3a232a2b6a7d7f3f203c3b616a7f0e6a7f0e1f203c3b6a7d7f2b2a3b2e26233c6a7c0e6a7f0e0b2e3b2a6a7d090b2e366a7c0e6a7d7f6a7f0e1f232e3b29203d226a7c0e6a7d7f6a7f0e1d2a3e3a2a3c3b2a2b6a7d7f2c272e21282a6a7c0e6a7d7f6a7f0e6a7f0e1b272e21246a7d7f36203a6e">
-            <div class="request-type-icon">✏️</div>
+          <div class="request-type-card" onclick="openEmail('edit')">
+            <div class="request-type-icon">&#x270F;&#xFE0F;</div>
             <div class="request-type-title">Edit a Post</div>
             <div class="request-type-desc">Request a caption edit, image change, or update to a scheduled post before it goes live.</div>
-            <div class="request-type-action">Send request →</div>
-          </a>
- 
-          <a class="request-type-card" href="/cdn-cgi/l/email-protection#3a53545c557a575f5e535b545354505b5d48554f4a1459555705494f58505f594e07745f4d1f080a7955544e5f544e1f080a7848535f5c1c58555e430772531f080a775f5e535b745354505b1f080a6e5f5b571f08791f0a7b1f0a7b731f080a525b4c5f1f080a5b1f080a545f4d1f080a5955544e5f544e1f080a5848535f5c1f080a731f080a4d554f565e1f080a5653515f1f080a4e551f080a49525b485f141f0a7b1f0a7b6e554a53591f087c795554595f4a4e1f097b1f080a1f0a7b6a565b4e5c5548571f097b1f080a1f0a7b6a485f5c5f48485f5e1f080a7e5b4e5f1f097b1f080a1f0a7b7b5e5e534e5355545b561f080a74554e5f491f097b1f080a1f0a7b1f0a7b6e525b54511f080a43554f1b">
-            <div class="request-type-icon">💡</div>
+            <div class="request-type-action">Send request &#x2192;</div>
+          </div>
+          <div class="request-type-card" onclick="openEmail('brief')">
+            <div class="request-type-icon">&#x1F4A1;</div>
             <div class="request-type-title">Submit a Content Brief</div>
             <div class="request-type-desc">Have a new idea or topic you'd like us to create content around? Share it with us here.</div>
-            <div class="request-type-action">Send request →</div>
-          </a>
- 
-          <a class="request-type-card" href="/cdn-cgi/l/email-protection#acc5c2cac3ecc1c9c8c5cdc2c5c2c6cdcbdec3d9dc82cfc3c193dfd9cec6c9cfd891edc8899e9cefcdc1dccdc5cbc2899e9cfec9ddd9c9dfd88acec3c8d591e4c5899e9ce1c9c8c5cde2c5c2c6cd899e9cf8c9cdc1899eef899ced899cede5899e9cdbc3d9c0c8899e9cc0c5c7c9899e9cd8c3899e9cc8c5dfcfd9dfdf899e9ccdc2899e9ccdc8899e9ccfcdc1dccdc5cbc282899ced899cedefcdc1dccdc5cbc2899e9cebc3cdc0899fed899e9c899cedeed9c8cbc9d8899fed899e9c899cedf8cddecbc9d8899e9cedd9c8c5c9c2cfc9899fed899e9c899cedfcdec9cac9dedec9c8899e9cffd8cdded8899e9ce8cdd8c9899fed899e9c899cededc8c8c5d8c5c3c2cdc0899e9ce2c3d8c9df899fed899e9c899ced899cedf8c4cdc2c7899e9cd5c3d98d">
-            <div class="request-type-icon">📢</div>
+            <div class="request-type-action">Send request &#x2192;</div>
+          </div>
+          <div class="request-type-card" onclick="openEmail('ad')">
+            <div class="request-type-icon">&#x1F4E2;</div>
             <div class="request-type-title">Request an Ad Campaign</div>
             <div class="request-type-desc">Want to boost a post or run a paid campaign? Tell us your goal, budget and timeline.</div>
-            <div class="request-type-action">Send request →</div>
-          </a>
- 
-          <a class="request-type-card" href="/cdn-cgi/l/email-protection#0e676068614e636b6a676f606760646f697c617b7e206d6163317d7b6c646b6d7a335c6b7e617c7a2b3c3e5c6b7f7b6b7d7a286c616a773346672b3c3e436b6a676f406760646f2b3c3e5a6b6f632b3c4d2b3e4f2b3e4f472b3c3e79617b626a2b3c3e6267656b2b3c3e7a612b3c3e7c6b7f7b6b7d7a2b3c3e6f2b3c3e7e6b7c68617c636f606d6b2b3c3e7c6b7e617c7a202b3e4f2b3e4f5e6b7c67616a2b3d4f2b3c3e2b3e4f5e626f7a68617c637d2b3d4f2b3c3e2b3e4f5d7e6b6d6768676d2b3c3e436b7a7c676d7d2b3c3e406b6b6a6b6a2b3d4f2b3c3e2b3e4f2b3e4f5a666f60652b3c3e77617b2f">
-            <div class="request-type-icon">📊</div>
+            <div class="request-type-action">Send request &#x2192;</div>
+          </div>
+          <div class="request-type-card" onclick="openEmail('report')">
+            <div class="request-type-icon">&#x1F4CA;</div>
             <div class="request-type-title">Request a Report</div>
             <div class="request-type-desc">Need a specific performance report or data export for a particular period or platform?</div>
-            <div class="request-type-action">Send request →</div>
-          </a>
- 
-          <a class="request-type-card" href="/cdn-cgi/l/email-protection#f990979f96b9949c9d909897909793989e8b968c89d79a9694c68a8c9b939c9a8dc4ac8b9e9c978ddccbc9b4988d8d9c8bdf9b969d80c4b190dccbc9b49c9d9098b790979398dccbc9ad9c9894dccbbadcc9b8dcc9b8ad91908adccbc9908adccbc99897dccbc98c8b9e9c978ddccbc994988d8d9c8bdccbc98d91988ddccbc98b9c888c908b9c8adccbc980968c8bdccbc99094949c9d90988d9cdccbc9988d8d9c978d909697d7dcc9b8dcc9b8bd9c8d9890958adccab8dccbc9dcc9b8dcc9b8ad91989792dccbc980968cd8">
-            <div class="request-type-icon">🚨</div>
+            <div class="request-type-action">Send request &#x2192;</div>
+          </div>
+          <div class="request-type-card" onclick="openEmail('urgent')">
+            <div class="request-type-icon">&#x1F6A8;</div>
             <div class="request-type-title">Urgent Matter</div>
             <div class="request-type-desc">Something needs immediate attention? Flag it as urgent and we'll prioritise your message.</div>
-            <div class="request-type-action">Send urgent request →</div>
-          </a>
- 
-          <a class="request-type-card" href="/cdn-cgi/l/email-protection#81e8efe7eec1ece4e5e8e0efe8efebe0e6f3eef4f1afe2eeecbef2f4e3ebe4e2f5bcc6e4efe4f3e0eda4b3b1c7e4e4e5e3e0e2eaa7e3eee5f8bcc9e8a4b3b1cce4e5e8e0cfe8efebe0a4b3b1d5e4e0eca4b3c2a4b1c0a4b1c0c8a4b3b1f6e0eff5e4e5a4b3b1f5eea4b3b1f2e9e0f3e4a4b3b1f2eeece4a4b3b1e7e4e4e5e3e0e2eaa4b2c0a4b1c0a4b1c0dad8eef4f3a4b3b1e7e4e4e5e3e0e2eaa4b3b1e9e4f3e4dca4b1c0a4b1c0d5e9e0efeaa4b3b1f8eef4a0">
-            <div class="request-type-icon">⭐</div>
+            <div class="request-type-action">Send urgent request &#x2192;</div>
+          </div>
+          <div class="request-type-card" onclick="openEmail('feedback')">
+            <div class="request-type-icon">&#x2B50;</div>
             <div class="request-type-title">Share Feedback</div>
             <div class="request-type-desc">Love something we did? Want to share a suggestion? We'd love to hear from you.</div>
-            <div class="request-type-action">Send feedback →</div>
-          </a>
- 
+            <div class="request-type-action">Send feedback &#x2192;</div>
+          </div>
         </div>
       </div>
  
       <!-- WhatsApp -->
-      <a class="whatsapp-card" href="https://wa.me/message/MEDIANINJAGROUP" target="_blank" id="whatsapp-link">
-        <div class="whatsapp-icon">💬</div>
+      <a class="whatsapp-card" href="https://wa.me/message/MEDIANINJAGROUP" target="_blank">
+        <div class="whatsapp-icon">&#x1F4AC;</div>
         <div>
           <div class="whatsapp-title">Chat on WhatsApp</div>
-          <div class="whatsapp-sub">For quick questions, your account manager is available on WhatsApp during business hours (Mon–Fri, 9am–6pm)</div>
+          <div class="whatsapp-sub">For quick questions, your account manager is available on WhatsApp during business hours (Mon&#x2013;Fri, 9am&#x2013;6pm)</div>
         </div>
-        <div class="whatsapp-cta">Open WhatsApp →</div>
+        <div class="whatsapp-cta">Open WhatsApp &#x2192;</div>
       </a>
  
       <!-- Contact info -->
       <div class="section-block">
         <div class="section-block-top">
-          <div class="section-icon">📋</div>
+          <div class="section-icon">&#x1F4CB;</div>
           <div><div class="section-title">Contact Information</div><div class="section-subtitle">All the ways to reach MediaNinja</div></div>
         </div>
         <div class="info-row">
-          <div class="info-tile">
-            <div class="info-tile-label">Email</div>
-            <div class="info-tile-val"><a href="/cdn-cgi/l/email-protection#2d44434b426d404849444c434443474c4a5f42585d034e4240"><span class="__cf_email__" data-cfemail="630a0d050c230e06070a020d0a0d090204110c16134d000c0e">[email&#160;protected]</span></a></div>
-          </div>
-          <div class="info-tile">
-            <div class="info-tile-label">Account Manager</div>
-            <div class="info-tile-val" id="contact-manager-name">Your account manager</div>
-          </div>
-          <div class="info-tile">
-            <div class="info-tile-label">Response Time</div>
-            <div class="info-tile-val">Within 1 business day</div>
-          </div>
-          <div class="info-tile">
-            <div class="info-tile-label">Business Hours</div>
-            <div class="info-tile-val">Mon–Fri, 9am–6pm</div>
-          </div>
-          <div class="info-tile">
-            <div class="info-tile-label">Office Location</div>
-            <div class="info-tile-val">Bangkok, Thailand</div>
-          </div>
-          <div class="info-tile">
-            <div class="info-tile-label">Website</div>
-            <div class="info-tile-val"><a href="https://www.medianinjagroup.com" target="_blank">medianinjagroup.com</a></div>
-          </div>
+          <div class="info-tile"><div class="info-tile-label">Email</div><div class="info-tile-val"><a href="#" onclick="openEmail('general');return false;">info@medianinjagroup.com</a></div></div>
+          <div class="info-tile"><div class="info-tile-label">Account Manager</div><div class="info-tile-val" id="contact-manager-name">Your account manager</div></div>
+          <div class="info-tile"><div class="info-tile-label">Response Time</div><div class="info-tile-val">Within 1 business day</div></div>
+          <div class="info-tile"><div class="info-tile-label">Business Hours</div><div class="info-tile-val">Mon&#x2013;Fri, 9am&#x2013;6pm</div></div>
+          <div class="info-tile"><div class="info-tile-label">Office Location</div><div class="info-tile-val">Bangkok, Thailand</div></div>
+          <div class="info-tile"><div class="info-tile-label">Website</div><div class="info-tile-val"><a href="https://www.medianinjagroup.com" target="_blank">medianinjagroup.com</a></div></div>
         </div>
       </div>
  
@@ -1156,7 +1288,7 @@ body::before{
                 <div class="ef-field"><label class="ef-label">Account Manager</label><input class="ef-input" id="ef-manager"></div>
               </div>
             </div>
-            <div id="etab-plan" style="display:none;">
+            <div id="etab-plan" style="display:block;visibility:hidden;height:0;overflow:hidden;">
               <div class="ef-grid">
                 <div class="ef-field"><label class="ef-label">Plan Type</label><select class="ef-select" id="ef-plan"><option value="starter">Starter</option><option value="growth">Growth</option><option value="pro">Pro</option><option value="basic">Basic (legacy)</option><option value="advance">Advance (legacy)</option><option value="custom">Custom</option></select></div>
                 <div class="ef-field"><label class="ef-label">Plan Display Name</label><input class="ef-input" id="ef-plan-name" placeholder="e.g. Growth Plan"></div>
@@ -1167,12 +1299,12 @@ body::before{
                 <div class="ef-field" style="grid-column:1/-1;"><label class="ef-label">Plan Includes (one per line)</label><textarea class="ef-textarea" id="ef-includes" rows="5"></textarea></div>
               </div>
             </div>
-            <div id="etab-goals" style="display:none;">
+            <div id="etab-goals" style="display:block;visibility:hidden;height:0;overflow:hidden;">
               <div class="ef-field" style="margin-bottom:14px;"><label class="ef-label">Business Goals (one per line)</label><textarea class="ef-textarea" id="ef-goals" rows="5"></textarea></div>
               <div class="ef-field" style="margin-bottom:14px;"><label class="ef-label">Strategy Description</label><textarea class="ef-textarea" id="ef-strategy" rows="4"></textarea></div>
               <div class="ef-field"><label class="ef-label">Current Month Focus (one per line)</label><textarea class="ef-textarea" id="ef-focus" rows="3"></textarea></div>
             </div>
-            <div id="etab-content" style="display:none;">
+            <div id="etab-content" style="display:block;visibility:hidden;height:0;overflow:hidden;">
               <div class="ef-grid" style="margin-bottom:14px;">
                 <div class="ef-field"><label class="ef-label">Month Label</label><input class="ef-input" id="ef-content-month" placeholder="e.g. March 2025"></div>
                 <div class="ef-field"><label class="ef-label">Month Starts On</label><select class="ef-select" id="ef-month-start"><option value="0">Monday</option><option value="1">Tuesday</option><option value="2">Wednesday</option><option value="3">Thursday</option><option value="4">Friday</option><option value="5">Saturday</option><option value="6">Sunday</option></select></div>
@@ -1186,7 +1318,7 @@ body::before{
               </div>
               <div id="content-posts-list"></div>
             </div>
-            <div id="etab-branding" style="display:none;">
+            <div id="etab-branding" style="display:block;visibility:hidden;height:0;overflow:hidden;">
               <div class="brand-editor-grid">
                 <div class="brand-editor-tile"><span class="brand-editor-label">🎨 Brand Colors</span><div id="brand-colors-editor"></div><button class="add-color" onclick="addBrandColor()" style="margin-top:6px;">+ Add Color</button></div>
                 <div class="brand-editor-tile"><span class="brand-editor-label">🔤 Typography</span><textarea class="ef-textarea" id="ef-typography" rows="4" placeholder="Primary Font: Plus Jakarta Sans&#10;Display: Playfair Display"></textarea></div>
@@ -1195,7 +1327,7 @@ body::before{
                 <div class="brand-editor-tile" style="grid-column:1/-1;"><span class="brand-editor-label">📋 Additional Notes</span><textarea class="ef-textarea" id="ef-brand-notes" rows="3" placeholder="Any extra brand guidelines..."></textarea></div>
               </div>
             </div>
-            <div id="etab-looker" style="display:none;">
+            <div id="etab-looker" style="display:block;visibility:hidden;height:0;overflow:hidden;">
               <div class="ef-field">
                 <label class="ef-label">Looker Studio Embed URL</label>
                 <input class="ef-input" id="ef-looker" placeholder="https://lookerstudio.google.com/embed/reporting/...">
@@ -1258,7 +1390,7 @@ body::before{
   </div>
 </div>
  
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ═══ DATA ════════════════════════════════════════════════════════════════
 const ADMIN_CREDS={admin:'ninja2025',sarah:'staff123'};
 let clients={
@@ -1415,10 +1547,10 @@ function loadAdmin(){renderTable();admTab('clients');}
 function renderTable(){
   document.getElementById('client-table-body').innerHTML=Object.entries(clients).map(([k,c])=>`
     <tr class="admin-tr">
-      <td><strong>${x(c.name)}</strong><br><span style="font-size:11px;color:var(--muted);">${x(k)}</span></td>
-      <td><span class="plan-tag ${c.plan}">${c.plan}</span></td>
-      <td><span class="active-dot"></span>Active</td>
-      <td><button class="btn btn-primary btn-sm" onclick="openEdit('${k}')">✏️ Edit</button></td>
+      <td data-label="Client"><strong>${x(c.name)}</strong><br><span style="font-size:11px;color:var(--muted);">${x(k)}</span></td>
+      <td data-label="Plan"><span class="plan-tag ${c.plan}">${c.plan}</span></td>
+      <td data-label="Status"><span class="active-dot"></span>Active</td>
+      <td data-label="Action"><button class="btn btn-primary btn-sm" onclick="openEdit('${k}')">✏️ Edit</button></td>
     </tr>`).join('');
   document.getElementById('total-clients').textContent=Object.keys(clients).length;
   document.getElementById('adm-advance-count').textContent=Object.values(clients).filter(c=>c.plan==='growth'||c.plan==='pro'||c.plan==='advance'||c.plan==='custom').length;
@@ -1444,13 +1576,30 @@ function closeEditPanel(){document.getElementById('edit-panel-wrap').style.displ
  
 const ETABS=['credentials','plan','goals','content','branding','looker'];
 function switchETab(t){
-  ETABS.forEach(tab=>{document.getElementById('etab-'+tab).style.display=tab===t?'block':'none';document.getElementById('etab-btn-'+tab).classList.toggle('active',tab===t);});
+  ETABS.forEach(tab=>{
+    const el=document.getElementById('etab-'+tab);
+    // Use visibility+height instead of display:none so hidden inputs remain readable by JS
+    if(tab===t){
+      el.style.display='block';
+      el.style.visibility='visible';
+      el.style.height='auto';
+      el.style.overflow='visible';
+    } else {
+      el.style.display='block';
+      el.style.visibility='hidden';
+      el.style.height='0';
+      el.style.overflow='hidden';
+    }
+    document.getElementById('etab-btn-'+tab).classList.toggle('active',tab===t);
+  });
 }
  
 function saveClientData(){
   if(!currentEditClient)return;
+  // Always preserve existing password if the field is blank (field may be in a hidden tab)
+  const newPassword = g('ef-password').trim() || clients[currentEditClient].password;
   clients[currentEditClient]={...clients[currentEditClient],
-    name:g('ef-name'),password:g('ef-password'),manager:g('ef-manager'),
+    name:g('ef-name'),password:newPassword,manager:g('ef-manager'),
     plan:g('ef-plan'),planName:g('ef-plan-name'),platforms:g('ef-platforms'),
     posts:g('ef-posts'),ads:g('ef-ads'),renewal:g('ef-renewal'),includes:g('ef-includes'),
     goals:g('ef-goals'),strategy:g('ef-strategy'),focus:g('ef-focus'),
@@ -1513,6 +1662,25 @@ function renderColorsEditor(){
   el.innerHTML=brandColorsEditList.length
     ?brandColorsEditList.map((col,i)=>`<div class="color-row"><input type="color" value="${col.hex}" oninput="brandColorsEditList[${i}].hex=this.value;document.getElementById('chex${i}').value=this.value"><input type="text" id="chex${i}" value="${col.hex}" onchange="brandColorsEditList[${i}].hex=this.value"><input type="text" value="${x(col.label)}" placeholder="Label" onchange="brandColorsEditList[${i}].label=this.value" style="background:transparent;border:none;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;flex:1;outline:none;min-width:60px;"><button class="color-del" onclick="brandColorsEditList.splice(${i},1);renderColorsEditor()">✕</button></div>`).join('')
     :'<div style="font-size:11px;color:var(--muted);">No colors yet.</div>';
+}
+ 
+// ═══ EMAIL HELPER — built in JS so Cloudflare cannot mangle the address ══
+function openEmail(type){
+  const e='info'+'@'+'medianinjagroup'+'.'+'com';
+  const client=currentClientUser&&clients[currentClientUser]?clients[currentClientUser].name:'';
+  const mgr=currentClientUser&&clients[currentClientUser]?clients[currentClientUser].manager||'MediaNinja Team':'MediaNinja Team';
+  const sig=client?'\n\nBest regards,\n'+client:'';
+  const templates={
+    general:{s:'Request from '+client,b:'Hi '+mgr+',\n\nI have the following request:\n\n[Please describe your request here]'+sig},
+    edit:   {s:'Content Edit Request — '+client,b:'Hi '+mgr+',\n\nI would like to request a change to a scheduled post.\n\nPost details:\nDate / Day: \nPlatform: \nRequested change: '+sig},
+    brief:  {s:'New Content Brief — '+client,b:'Hi '+mgr+',\n\nI have a new content brief to share.\n\nTopic / Concept: \nPlatform: \nPreferred Date: \nAdditional Notes: '+sig},
+    ad:     {s:'Ad Campaign Request — '+client,b:'Hi '+mgr+',\n\nI would like to discuss an ad campaign.\n\nCampaign Goal: \nBudget: \nTarget Audience: \nPreferred Start Date: \nNotes: '+sig},
+    report: {s:'Report Request — '+client,b:'Hi '+mgr+',\n\nI would like to request a performance report.\n\nPeriod: \nPlatforms: \nSpecific Metrics Needed: '+sig},
+    urgent: {s:'URGENT — '+client,b:'Hi '+mgr+',\n\nThis is an urgent matter that requires immediate attention.\n\nDetails: '+sig},
+    feedback:{s:'Feedback from '+client,b:'Hi '+mgr+',\n\nI wanted to share some feedback:\n\n[Your feedback here]'+sig},
+  };
+  const t=templates[type]||templates.general;
+  window.location.href='mailto:'+e+'?subject='+encodeURIComponent(t.s)+'&body='+encodeURIComponent(t.b);
 }
  
 // ═══ UTILS ═══════════════════════════════════════════════════════════════
