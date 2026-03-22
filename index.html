@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediaNinja — Client Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy:#0d1829;
+  --navy2:#111f38;
+  --navy3:#162440;
+  --navy4:#1c2d50;
+  --gold:#f0a500;
+  --gold2:#fbbf24;
+  --gold3:#fde68a;
+  --green:#10b981;
+  --red:#ef4444;
+  --blue:#3b82f6;
+  --pink:#ec4899;
+  --text:#f8fafc;
+  --text2:#cbd5e1;
+  --muted:#64748b;
+  --muted2:#334155;
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);
+  --glass:rgba(255,255,255,0.03);
+  --glass2:rgba(255,255,255,0.06);
+  --fb:#1877f2;--ig:#e1306c;--web:#06b6d4;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+ 
+/* ════ NOISE TEXTURE OVERLAY ════ */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:0.4;
+}
+ 
+/* ════ MESH GRADIENT BG ════ */
+.mesh-bg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.mesh-bg::before{
+  content:'';position:absolute;
+  width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(240,165,0,0.08) 0%,transparent 70%);
+  top:-200px;right:-200px;
+}
+.mesh-bg::after{
+  content:'';position:absolute;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(59,130,246,0.05) 0%,transparent 70%);
+  bottom:-100px;left:-100px;
+}
+ 
+/* ════ SCREENS ════ */
+.screen{position:relative;z-index:1;}
+ 
+/* ════════════════════════════════════════════
+   LOGIN
+════════════════════════════════════════════ */
+.login-scene{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  position:relative;overflow:hidden;
+}
+@media(max-width:768px){.login-scene{grid-template-columns:1fr;}}
+ 
+.login-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:60px 56px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#0d1829 0%,#0f2044 60%,#0a1f40 100%);
+}
+.login-left::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 40% 40%,rgba(240,165,0,0.1) 0%,transparent 60%);
+  pointer-events:none;
+}
+.login-left-orb{
+  position:absolute;width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(240,165,0,0.10) 0%,transparent 65%);
+  bottom:-150px;right:-150px;pointer-events:none;overflow:hidden;
+}
+.login-left-content{position:relative;z-index:1;max-width:420px;}
+.login-tagline{
+  font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,52px);font-weight:800;
+  line-height:1.1;letter-spacing:-1px;margin:32px 0 20px;
+  background:linear-gradient(135deg,#ffffff 30%,var(--gold2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.login-sub{font-size:15px;color:var(--text2);line-height:1.7;opacity:0.8;}
+.login-features{margin-top:40px;display:flex;flex-direction:column;gap:14px;}
+.login-feature{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text2);}
+.login-feature-dot{
+  width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;
+  background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.2);
+}
+@media(max-width:768px){.login-left{display:none;}}
+ 
+.login-right{
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 48px;background:var(--navy2);
+  position:relative;
+}
+.login-right::before{
+  content:'';position:absolute;left:0;top:10%;bottom:10%;width:1px;
+  background:linear-gradient(to bottom,transparent,var(--border2),transparent);
+  pointer-events:none;
+}
+@media(max-width:768px){.login-right{padding:32px 24px;background:var(--navy);}}
+.login-form-wrap{width:100%;max-width:400px;position:relative;z-index:2;}
+.login-form-logo{margin-bottom:36px;}
+.login-form-logo img{height:52px;width:auto;}
+.login-heading{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:6px;color:var(--text);}
+.login-subheading{font-size:14px;color:var(--muted);margin-bottom:32px;}
+.portal-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 12px;border-radius:100px;margin-bottom:28px;
+}
+.portal-chip::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;}
+.portal-chip.client{background:rgba(240,165,0,0.1);color:var(--gold);border:1px solid rgba(240,165,0,0.2);}
+.portal-chip.admin{background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.25);}
+.field-wrap{margin-bottom:18px;}
+.field-label{
+  font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;display:block;
+}
+.field-input{
+  width:100%;background:rgba(255,255,255,0.04);
+  border:1px solid var(--border2);border-radius:12px;
+  padding:14px 18px;color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;
+  transition:all 0.2s;
+}
+.field-input:focus{border-color:var(--gold);background:rgba(240,165,0,0.04);box-shadow:0 0 0 4px rgba(240,165,0,0.08);}
+.field-input::placeholder{color:var(--muted2);}
+.login-btn{
+  width:100%;border:none;border-radius:12px;padding:15px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;margin-top:6px;transition:all 0.25s;letter-spacing:0.02em;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.login-btn.client-btn{
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);
+  color:#0d1829;box-shadow:0 8px 32px rgba(240,165,0,0.35);
+}
+.login-btn.client-btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(240,165,0,0.45);}
+.login-btn.admin-btn{
+  background:linear-gradient(135deg,var(--navy4) 0%,#243a6e 100%);
+  color:var(--text);border:1px solid var(--border2);
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+}
+.login-btn.admin-btn:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 14px 32px rgba(0,0,0,0.5);}
+.login-divider{margin:20px 0;display:flex;align-items:center;gap:12px;}
+.login-divider span{font-size:12px;color:var(--muted);white-space:nowrap;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border2);}
+.switch-link{margin-top:20px;text-align:center;font-size:13px;color:var(--muted);}
+.switch-link a{color:var(--gold);cursor:pointer;font-weight:600;}
+.err-msg{color:#f87171;font-size:12px;text-align:center;margin-top:10px;display:none;padding:10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;}
+ 
+/* ════════════════════════════════════════════
+   TOPBAR
+════════════════════════════════════════════ */
+.topbar{
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;
+  background:rgba(13,24,41,0.9);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+}
+.topbar-logo img{height:34px;width:auto;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.live-chip{
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--green);
+}
+.live-pulse{
+  width:7px;height:7px;border-radius:50%;background:var(--green);position:relative;
+}
+.live-pulse::after{
+  content:'';position:absolute;inset:-3px;border-radius:50%;background:var(--green);
+  opacity:0.3;animation:ping 2s infinite;
+}
+@keyframes ping{0%{transform:scale(1);opacity:0.3;}70%{transform:scale(2);opacity:0;}100%{transform:scale(2.2);opacity:0;}}
+.user-badge{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:100px;font-size:12px;font-weight:600;
+  border:1px solid;
+}
+.user-badge.client{background:rgba(240,165,0,0.08);color:var(--gold);border-color:rgba(240,165,0,0.2);}
+.user-badge.admin{background:rgba(148,163,184,0.08);color:#94a3b8;border-color:rgba(148,163,184,0.2);}
+.user-badge-avatar{
+  width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--navy);font-weight:800;
+}
+.signout-btn{
+  background:transparent;border:1px solid var(--border2);border-radius:8px;
+  padding:7px 16px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
+}
+.signout-btn:hover{border-color:rgba(240,165,0,0.4);color:var(--gold);}
+ 
+/* ════════════════════════════════════════════
+   CLIENT TAB NAV
+════════════════════════════════════════════ */
+.tab-bar{
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  background:rgba(13,24,41,0.7);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:64px;z-index:90;padding:0 20px;
+}
+.tab-bar::-webkit-scrollbar{display:none;}
+.tab-btn{
+  flex-shrink:0;display:flex;align-items:center;gap:7px;
+  padding:0 18px;height:50px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;
+  color:var(--muted);cursor:pointer;white-space:nowrap;
+  background:transparent;border:none;border-bottom:2px solid transparent;
+  transition:all 0.2s;
+}
+.tab-btn:hover{color:var(--text2);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-icon{font-size:14px;opacity:0.8;}
+ 
+/* ════════════════════════════════════════════
+   MAIN CONTENT AREA
+════════════════════════════════════════════ */
+.content-area{
+  padding:36px 32px;max-width:1160px;margin:0 auto;
+  animation:fadeUp 0.4s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:600px){.content-area{padding:24px 16px;}}
+ 
+/* ════════════════════════════════════════════
+   PAGE HEADING
+════════════════════════════════════════════ */
+.page-header{margin-bottom:32px;}
+.page-header h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(24px,3vw,34px);font-weight:800;
+  letter-spacing:-0.5px;line-height:1.15;margin-bottom:6px;
+  color:var(--text);
+}
+.page-header h1 em{font-style:normal;color:var(--gold);}
+.page-header p{font-size:14px;color:var(--muted);font-weight:400;}
+ 
+/* ════════════════════════════════════════════
+   GLASS CARDS
+════════════════════════════════════════════ */
+.glass-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:20px;padding:28px;margin-bottom:20px;
+  backdrop-filter:blur(8px);
+  position:relative;overflow:hidden;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.glass-card:hover{border-color:var(--border2);}
+.glass-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(240,165,0,0.15),transparent);
+}
+.card-heading{
+  font-family:'Playfair Display',serif;font-size:17px;font-weight:700;
+  color:var(--text);margin-bottom:4px;
+}
+.card-sub{font-size:12px;color:var(--muted);margin-bottom:20px;}
+ 
+/* ════════════════════════════════════════════
+   SECTION BLOCKS
+════════════════════════════════════════════ */
+.section-block{
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--border);
+  border-radius:20px;padding:28px;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.section-block-top{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:20px;padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+}
+.section-icon{
+  width:40px;height:40px;border-radius:11px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.15);
+}
+.section-title{
+  font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);
+}
+.section-subtitle{font-size:12px;color:var(--muted);margin-top:2px;}
+ 
+.goal-row{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:14px 0;border-bottom:1px solid var(--border);
+}
+.goal-row:last-child{border-bottom:none;padding-bottom:0;}
+.goal-badge{
+  width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:var(--gold);flex-shrink:0;
+  background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.2);
+}
+.goal-text{font-size:14px;line-height:1.65;color:var(--text2);padding-top:3px;}
+ 
+/* ════════════════════════════════════════════
+   CALENDAR
+════════════════════════════════════════════ */
+.cal-grid-wrap{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.cal-head{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center;padding:6px 0;}
+.cal-cell{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border);
+  border-radius:9px;padding:8px 6px;min-height:72px;
+  transition:border-color 0.2s;
+}
+.cal-cell.has-post{border-color:rgba(240,165,0,0.25);background:rgba(240,165,0,0.03);}
+.cal-cell.has-post:hover{border-color:rgba(240,165,0,0.5);}
+.cal-num{font-size:10px;font-weight:700;color:var(--muted2);margin-bottom:5px;}
+.post-chip{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;display:block;margin-bottom:2px;letter-spacing:0.04em;}
+.post-chip.fb{background:rgba(24,119,242,0.15);color:#60a5fa;}
+.post-chip.ig{background:rgba(225,48,108,0.15);color:#f472b6;}
+.post-chip.both{background:rgba(240,165,0,0.15);color:var(--gold);}
+.post-topic{font-size:9px;color:var(--muted);line-height:1.4;margin-top:1px;}
+ 
+/* ════════════════════════════════════════════
+   PLAN PAGE — CURRENT PLAN HERO
+════════════════════════════════════════════ */
+.plan-hero{
+  background:linear-gradient(135deg,rgba(240,165,0,0.06) 0%,rgba(13,24,41,0.0) 60%);
+  border:1px solid rgba(240,165,0,0.15);
+  border-radius:20px;padding:32px;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.plan-hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2),transparent);
+}
+.plan-hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;
+  padding:6px 14px;border-radius:100px;margin-bottom:16px;
+}
+.plan-hero-badge.starter{background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid rgba(148,163,184,0.2);}
+.plan-hero-badge.growth,.plan-hero-badge.advance{background:rgba(240,165,0,0.1);color:var(--gold);border:1px solid rgba(240,165,0,0.25);}
+.plan-hero-badge.pro,.plan-hero-badge.custom,.plan-hero-badge.basic{background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.2);}
+.plan-hero-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;margin-bottom:4px;color:var(--text);}
+.plan-hero-manager{font-size:13px;color:var(--muted);}
+.plan-hero-manager strong{color:var(--gold);font-weight:700;}
+.plan-details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;}
+@media(max-width:700px){.plan-details-grid{grid-template-columns:1fr 1fr;}}
+.plan-detail-tile{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;
+}
+.plan-detail-label{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;margin-bottom:5px;}
+.plan-detail-val{font-size:13px;font-weight:600;color:var(--text);}
+ 
+/* ════════════════════════════════════════════
+   PLAN COMPARISON CARDS
+════════════════════════════════════════════ */
+.plans-compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+@media(max-width:900px){.plans-compare-grid{grid-template-columns:1fr;}}
+.plan-card{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border);
+  border-radius:20px;padding:26px;position:relative;overflow:hidden;
+  transition:all 0.3s;
+}
+.plan-card:hover{transform:translateY(-3px);border-color:var(--border2);}
+.plan-card.is-active{
+  border-color:rgba(240,165,0,0.4);
+  background:rgba(240,165,0,0.03);
+  box-shadow:0 0 40px rgba(240,165,0,0.08);
+}
+.plan-card.is-active::before{
+  content:'YOUR PLAN';position:absolute;top:14px;right:14px;
+  font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--gold);
+  background:rgba(240,165,0,0.1);padding:4px 9px;border-radius:100px;
+  border:1px solid rgba(240,165,0,0.25);
+}
+.plan-card-accent{height:3px;border-radius:10px;margin-bottom:20px;}
+.plan-card-accent.starter{background:linear-gradient(90deg,#64748b,#94a3b8);}
+.plan-card-accent.growth{background:linear-gradient(90deg,var(--gold),var(--gold2));}
+.plan-card-accent.pro{background:linear-gradient(90deg,var(--green),#34d399);}
+.plan-card-name{font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.plan-card-price{
+  font-family:'Playfair Display',serif;font-size:32px;font-weight:800;
+  color:var(--text);line-height:1;margin-bottom:4px;
+}
+.plan-card-price span{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:400;color:var(--muted);}
+.plan-card-lang{font-size:11px;color:var(--muted);margin-bottom:18px;}
+.plan-divider{height:1px;background:var(--border);margin:16px 0;}
+.plan-features{display:flex;flex-direction:column;gap:9px;}
+.plan-feature{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--text2);line-height:1.55;}
+.plan-feature-check{
+  width:16px;height:16px;border-radius:50%;flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;
+}
+.plan-feature-check.starter{background:rgba(148,163,184,0.15);color:#94a3b8;}
+.plan-feature-check.growth{background:rgba(240,165,0,0.15);color:var(--gold);}
+.plan-feature-check.pro{background:rgba(16,185,129,0.15);color:var(--green);}
+ 
+/* ════════════════════════════════════════════
+   TERMS & CONDITIONS
+════════════════════════════════════════════ */
+.tnc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:640px){.tnc-grid{grid-template-columns:1fr;}}
+.tnc-tile{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border);
+  border-radius:14px;padding:20px;
+  transition:border-color 0.2s;
+}
+.tnc-tile:hover{border-color:var(--border2);}
+.tnc-tile-icon{
+  width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;margin-bottom:12px;
+  background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.15);
+}
+.tnc-tile-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;}
+.tnc-tile-body{font-size:13px;color:var(--text2);line-height:1.7;}
+.tnc-tile-body strong{color:var(--gold2);font-weight:700;}
+ 
+/* ════════════════════════════════════════════
+   BRANDING DOCS
+════════════════════════════════════════════ */
+.branding-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:640px){.branding-grid{grid-template-columns:1fr;}}
+.branding-tile{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border);
+  border-radius:14px;padding:20px;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.branding-tile:hover{border-color:var(--border2);transform:translateY(-1px);}
+.branding-icon{font-size:26px;margin-bottom:10px;}
+.branding-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.branding-desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.branding-content{
+  background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:9px;
+  padding:12px;font-size:12px;line-height:1.8;color:var(--text2);white-space:pre-wrap;
+  max-height:160px;overflow-y:auto;
+}
+.color-swatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+.swatch-item{text-align:center;}
+.swatch{width:40px;height:40px;border-radius:9px;border:1px solid var(--border2);}
+.swatch-hex{font-size:9px;color:var(--muted);margin-top:3px;font-family:monospace;}
+.swatch-name{font-size:9px;color:var(--muted2);margin-top:1px;}
+ 
+/* ════════════════════════════════════════════
+   EMPTY STATE
+════════════════════════════════════════════ */
+.empty{text-align:center;padding:48px 20px;color:var(--muted);}
+.empty-icon{font-size:36px;margin-bottom:12px;opacity:0.5;}
+.empty p{font-size:13px;line-height:1.7;}
+ 
+/* ════════════════════════════════════════════
+   ADMIN LAYOUT
+════════════════════════════════════════════ */
+.admin-wrap{display:flex;min-height:calc(100vh - 64px);}
+.sidebar{
+  width:220px;flex-shrink:0;
+  background:rgba(13,24,41,0.8);backdrop-filter:blur(12px);
+  border-right:1px solid var(--border);
+  padding:24px 12px;
+  position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;
+}
+.sidebar-user{
+  padding:12px 14px 18px;margin-bottom:8px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-user-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:3px;}
+.sidebar-user-name{font-size:14px;font-weight:700;color:var(--gold);}
+.nav-group-label{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted2);padding:0 10px;margin:16px 0 6px;}
+.nav-btn{
+  display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;
+  border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all 0.15s;color:var(--muted);margin-bottom:2px;
+  background:transparent;border:none;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;
+}
+.nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btn.active{background:rgba(240,165,0,0.08);color:var(--gold);}
+.nav-btn-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0;}
+ 
+/* ════════════════════════════════════════════
+   ADMIN CONTENT
+════════════════════════════════════════════ */
+.adm-content{flex:1;padding:32px;overflow-y:auto;}
+.adm-page-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  flex-wrap:wrap;gap:14px;margin-bottom:28px;
+}
+.adm-page-header h1{
+  font-family:'Playfair Display',serif;font-size:26px;font-weight:800;
+  color:var(--text);letter-spacing:-0.3px;
+}
+.adm-page-header p{font-size:13px;color:var(--muted);margin-top:3px;}
+ 
+/* Admin table */
+.admin-table{width:100%;border-collapse:separate;border-spacing:0 8px;}
+.admin-table th{
+  font-size:10px;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--muted);font-weight:700;padding:6px 18px;text-align:left;
+}
+.admin-tr{background:rgba(255,255,255,0.03);transition:all 0.15s;}
+.admin-tr:hover{background:rgba(255,255,255,0.05);}
+.admin-tr td{
+  padding:14px 18px;font-size:13px;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.admin-tr td:first-child{border-left:1px solid var(--border);border-radius:12px 0 0 12px;}
+.admin-tr td:last-child{border-right:1px solid var(--border);border-radius:0 12px 12px 0;}
+.plan-tag{font-size:10px;font-weight:800;padding:4px 10px;border-radius:100px;letter-spacing:0.06em;text-transform:uppercase;}
+.plan-tag.starter,.plan-tag.basic{background:rgba(148,163,184,0.1);color:#94a3b8;}
+.plan-tag.growth,.plan-tag.advance{background:rgba(240,165,0,0.1);color:var(--gold);}
+.plan-tag.pro,.plan-tag.custom{background:rgba(16,185,129,0.08);color:var(--green);}
+.active-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;}
+ 
+/* Buttons */
+.btn{
+  border:none;border-radius:9px;padding:8px 16px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;
+}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);box-shadow:0 4px 14px rgba(240,165,0,0.25);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(240,165,0,0.35);}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2);}
+.btn-ghost:hover{border-color:rgba(240,165,0,0.4);color:var(--gold);}
+.btn-sm{padding:6px 13px;font-size:11px;}
+ 
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+@media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+.stat-tile{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:14px;padding:20px;text-align:center;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.stat-tile:hover{border-color:rgba(240,165,0,0.2);transform:translateY(-1px);}
+.stat-val{
+  font-family:'Playfair Display',serif;font-size:32px;font-weight:800;
+  color:var(--gold);line-height:1;
+}
+.stat-label{font-size:11px;color:var(--muted);margin-top:6px;font-weight:500;}
+ 
+/* Edit panel */
+.edit-panel{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border);
+  border-radius:20px;padding:28px;margin-top:18px;
+  border-top:2px solid var(--gold);
+}
+.edit-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto;scrollbar-width:none;}
+.edit-tabs::-webkit-scrollbar{display:none;}
+.etab{
+  background:transparent;border:none;border-bottom:2px solid transparent;
+  padding:10px 16px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;
+  margin-bottom:-1px;transition:all 0.15s;
+}
+.etab:hover{color:var(--text2);}
+.etab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.ef-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:640px){.ef-grid{grid-template-columns:1fr;}}
+.ef-field{display:flex;flex-direction:column;gap:6px;}
+.ef-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.ef-input,.ef-select,.ef-textarea{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border2);
+  border-radius:10px;padding:11px 14px;color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.ef-input:focus,.ef-select:focus,.ef-textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,165,0,0.08);}
+.ef-input::placeholder,.ef-textarea::placeholder{color:var(--muted2);}
+.ef-textarea{resize:vertical;min-height:90px;line-height:1.6;}
+.ef-select option{background:var(--navy2);}
+.save-row{margin-top:22px;display:flex;align-items:center;gap:12px;}
+.saved-chip{font-size:12px;font-weight:700;color:var(--green);display:none;}
+.saved-chip::before{content:'✓ ';}
+ 
+/* Branding editor */
+.brand-editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:640px){.brand-editor-grid{grid-template-columns:1fr;}}
+.brand-editor-tile{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.brand-editor-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:block;}
+.color-row{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:8px;padding:5px 8px;margin-bottom:7px;}
+.color-row input[type=color]{width:24px;height:24px;border:none;background:transparent;cursor:pointer;border-radius:4px;}
+.color-row input[type=text]{background:transparent;border:none;color:var(--text);font-family:monospace;font-size:11px;width:65px;outline:none;}
+.color-del{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px;margin-left:auto;}
+.color-del:hover{color:var(--red);}
+.add-color{background:transparent;border:1px dashed var(--border2);border-radius:8px;padding:5px 11px;color:var(--muted);font-size:11px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:2px;}
+.add-color:hover{border-color:var(--gold);color:var(--gold);}
+ 
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.modal-bg.open{display:flex;}
+.modal{background:var(--navy2);border:1px solid var(--border2);border-radius:22px;padding:36px;width:460px;max-width:94vw;box-shadow:0 40px 80px rgba(0,0,0,0.6);border-top:2px solid var(--gold);}
+.modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;margin-bottom:5px;}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
+.modal-close{float:right;background:transparent;border:none;color:var(--muted);font-size:18px;cursor:pointer;margin-top:-2px;}
+.modal-close:hover{color:var(--text);}
+ 
+/* Content posts admin */
+.post-row{display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:9px;margin-bottom:6px;}
+ 
+/* ════════════════════════════════════════════
+   CONTACT & SUPPORT PAGE
+════════════════════════════════════════════ */
+.contact-hero{
+  background:linear-gradient(135deg,rgba(240,165,0,0.08) 0%,rgba(13,24,41,0) 70%);
+  border:1px solid rgba(240,165,0,0.15);border-radius:20px;
+  padding:40px 36px;margin-bottom:20px;position:relative;overflow:hidden;
+}
+.contact-hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2),transparent);
+}
+.contact-hero-title{
+  font-family:'Playfair Display',serif;font-size:28px;font-weight:800;
+  color:var(--text);margin-bottom:8px;
+}
+.contact-hero-sub{font-size:14px;color:var(--text2);line-height:1.7;max-width:560px;margin-bottom:28px;}
+.contact-hero-email{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:700;color:var(--gold);
+  background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.2);
+  border-radius:10px;padding:10px 18px;margin-bottom:28px;
+  text-decoration:none;transition:all 0.2s;
+}
+.contact-hero-email:hover{background:rgba(240,165,0,0.14);transform:translateY(-1px);}
+.request-btn-row{display:flex;gap:12px;flex-wrap:wrap;}
+.request-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;
+  border:none;border-radius:12px;padding:13px 22px;cursor:pointer;
+  transition:all 0.25s;text-decoration:none;
+}
+.request-btn.primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);
+  box-shadow:0 6px 24px rgba(240,165,0,0.3);
+}
+.request-btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(240,165,0,0.4);}
+.request-btn.secondary{
+  background:rgba(255,255,255,0.04);color:var(--text2);
+  border:1px solid var(--border2);
+}
+.request-btn.secondary:hover{border-color:rgba(240,165,0,0.3);color:var(--gold);}
+.request-types-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px;}
+@media(max-width:640px){.request-types-grid{grid-template-columns:1fr;}}
+.request-type-card{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border);
+  border-radius:16px;padding:22px;cursor:pointer;
+  transition:all 0.2s;text-decoration:none;display:block;
+}
+.request-type-card:hover{border-color:rgba(240,165,0,0.3);background:rgba(240,165,0,0.03);transform:translateY(-2px);}
+.request-type-icon{font-size:28px;margin-bottom:12px;}
+.request-type-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;}
+.request-type-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.request-type-action{
+  display:inline-flex;align-items:center;gap:5px;margin-top:14px;
+  font-size:11px;font-weight:700;color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;
+}
+.whatsapp-card{
+  background:linear-gradient(135deg,rgba(37,211,102,0.08),rgba(37,211,102,0.03));
+  border:1px solid rgba(37,211,102,0.2);border-radius:16px;padding:22px;
+  display:flex;align-items:center;gap:18px;margin-bottom:20px;
+  transition:all 0.2s;text-decoration:none;
+}
+.whatsapp-card:hover{border-color:rgba(37,211,102,0.4);transform:translateY(-1px);}
+.whatsapp-icon{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.25);
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+}
+.whatsapp-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.whatsapp-sub{font-size:12px;color:var(--muted);}
+.whatsapp-cta{
+  margin-left:auto;font-size:11px;font-weight:700;color:#25d366;
+  background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);
+  border-radius:100px;padding:6px 14px;white-space:nowrap;flex-shrink:0;
+}
+.info-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:700px){.info-row{grid-template-columns:1fr;}}
+.info-tile{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border);
+  border-radius:12px;padding:18px;
+}
+.info-tile-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.info-tile-val{font-size:13px;font-weight:600;color:var(--text2);}
+.info-tile-val a{color:var(--gold);text-decoration:none;}
+.info-tile-val a:hover{text-decoration:underline;}
+ 
+/* ════ FOOTER ════ */
+.site-footer{
+  border-top:1px solid var(--border);
+  padding:20px 32px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  background:rgba(13,24,41,0.6);
+}
+.site-footer span{font-size:12px;color:var(--muted);font-weight:500;}
+.site-footer strong{color:var(--text2);font-weight:700;}
+.login-footer{
+  position:absolute;bottom:20px;left:0;right:0;text-align:center;
+  font-size:11px;color:var(--muted2);
+}
+</style>
+</head>
+<body>
+<div class="mesh-bg"></div>
+ 
+<!-- ══════════════════════════════════════════
+     CLIENT LOGIN
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-client-login">
+  <div class="login-scene">
+    <div class="login-left">
+      <div class="login-left-orb"></div>
+      <div class="login-left-content">
+        <img src="./images/logo.png" alt="MediaNinja" style="height:48px;width:auto;filter:brightness(0) invert(1);">
+        <div class="login-tagline">Your results,<br>always visible.</div>
+        <p class="login-sub">Track every campaign, review your content plan, and stay aligned with your marketing strategy — all in one place.</p>
+        <div class="login-features">
+          <div class="login-feature"><div class="login-feature-dot">📊</div>Live dashboard connected to your accounts</div>
+          <div class="login-feature"><div class="login-feature-dot">🎯</div>Goals, strategy and monthly focus</div>
+          <div class="login-feature"><div class="login-feature-dot">📅</div>Content calendar updated in real time</div>
+          <div class="login-feature"><div class="login-feature-dot">🎨</div>Brand guidelines and assets</div>
+        </div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-form-wrap">
+        <div class="login-form-logo">
+          <img src="./images/logo.png" alt="MediaNinja" style="height:44px;width:auto;">
+        </div>
+        <h2 class="login-heading">Welcome back</h2>
+        <p class="login-subheading">Sign in to access your client portal</p>
+        <div class="portal-chip client">Client Access</div>
+        <div class="field-wrap"><label class="field-label">Username</label><input class="field-input" id="cl-user" type="text" placeholder="Your username" autocomplete="username"></div>
+        <div class="field-wrap"><label class="field-label">Password</label><input class="field-input" id="cl-pass" type="password" placeholder="••••••••"></div>
+        <button class="login-btn client-btn" onclick="clientLogin()">Sign In <span style="font-size:16px;">→</span></button>
+        <div class="err-msg" id="cl-err">Incorrect credentials. Please contact your account manager.</div>
+        <div class="switch-link">MediaNinja staff? <a onclick="show('screen-admin-login')">Admin Login →</a></div>
+        <div style="margin-top:32px;text-align:center;font-size:11px;color:var(--muted2);">© <script>document.write(new Date().getFullYear())</script> MediaNinja Group. All rights reserved.</div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     ADMIN LOGIN
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-admin-login" style="display:none;">
+  <div class="login-scene">
+    <div class="login-left">
+      <div class="login-left-orb"></div>
+      <div class="login-left-content">
+        <img src="./images/logo.png" alt="MediaNinja" style="height:48px;width:auto;filter:brightness(0) invert(1);">
+        <div class="login-tagline">Manage your<br>clients, easily.</div>
+        <p class="login-sub">Update client dashboards, content plans, branding docs and goals — all changes reflect instantly in the client portal.</p>
+        <div class="login-features">
+          <div class="login-feature"><div class="login-feature-dot">👥</div>Manage all client portals from one panel</div>
+          <div class="login-feature"><div class="login-feature-dot">✏️</div>Edit goals, strategy and content plans</div>
+          <div class="login-feature"><div class="login-feature-dot">📊</div>Connect Looker Studio dashboards</div>
+          <div class="login-feature"><div class="login-feature-dot">🎨</div>Update client brand guidelines</div>
+        </div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-form-wrap">
+        <div class="login-form-logo">
+          <img src="./images/logo.png" alt="MediaNinja" style="height:44px;width:auto;">
+        </div>
+        <h2 class="login-heading">Admin Panel</h2>
+        <p class="login-subheading">Staff access only</p>
+        <div class="portal-chip admin">Staff Access</div>
+        <div class="field-wrap"><label class="field-label">Username</label><input class="field-input" id="adm-user" type="text" placeholder="Staff username"></div>
+        <div class="field-wrap"><label class="field-label">Password</label><input class="field-input" id="adm-pass" type="password" placeholder="••••••••"></div>
+        <button class="login-btn admin-btn" onclick="adminLogin()">Enter Admin Panel →</button>
+        <div class="err-msg" id="adm-err">Incorrect credentials.</div>
+        <div class="switch-link">Client? <a onclick="show('screen-client-login')">← Client Login</a></div>
+        <div style="margin-top:32px;text-align:center;font-size:11px;color:var(--muted2);">© <script>document.write(new Date().getFullYear())</script> MediaNinja Group. All rights reserved.</div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     CLIENT DASHBOARD
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-client" style="display:none;">
+  <div class="topbar">
+    <div class="topbar-logo"><img src="./images/logo.png" alt="MediaNinja"></div>
+    <div class="topbar-right">
+      <div class="live-chip"><div class="live-pulse"></div>Live</div>
+      <div class="user-badge client">
+        <div class="user-badge-avatar" id="cl-avatar-letter">A</div>
+        <span id="cl-display-name"></span>
+      </div>
+      <button class="signout-btn" onclick="show('screen-client-login')">Sign Out</button>
+    </div>
+  </div>
+ 
+  <div class="tab-bar">
+    <button class="tab-btn" id="cl-tab-overview"  onclick="clTab('overview')"><span class="tab-icon">📊</span> Live Dashboard</button>
+    <button class="tab-btn" id="cl-tab-plan"      onclick="clTab('plan')"><span class="tab-icon">📦</span> My Plan</button>
+    <button class="tab-btn" id="cl-tab-goals"     onclick="clTab('goals')"><span class="tab-icon">🎯</span> Goals & Strategy</button>
+    <button class="tab-btn" id="cl-tab-content"   onclick="clTab('content')"><span class="tab-icon">📅</span> Content Plan</button>
+    <button class="tab-btn" id="cl-tab-branding"  onclick="clTab('branding')"><span class="tab-icon">🎨</span> Brand Docs</button>
+    <button class="tab-btn" id="cl-tab-contact"   onclick="clTab('contact')"><span class="tab-icon">✉️</span> Contact & Support</button>
+  </div>
+ 
+  <div class="content-area">
+ 
+    <!-- LIVE DASHBOARD -->
+    <div id="cl-page-overview" style="display:none;">
+      <div class="page-header">
+        <h1>Welcome back, <em id="cl-welcome-name"></em></h1>
+        <p>Your live marketing dashboard — all platforms in real time</p>
+      </div>
+      <div class="glass-card" style="padding:0;overflow:hidden;">
+        <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.02);">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);"></div>
+            <span style="font-size:13px;font-weight:700;">Live Dashboard</span>
+          </div>
+          <span style="font-size:11px;color:var(--muted);">Facebook · Instagram · All Platforms</span>
+        </div>
+        <div id="cl-looker-container-overview"></div>
+      </div>
+    </div>
+ 
+    <!-- HIDDEN RESULTS PAGE (kept for JS compat) -->
+    <div id="cl-page-results" style="display:none;">
+      <div id="cl-looker-container"></div>
+    </div>
+ 
+    <!-- MY PLAN -->
+    <div id="cl-page-plan" style="display:none;">
+      <div class="page-header"><h1>My Plan</h1><p>Your current package and what MediaNinja offers</p></div>
+ 
+      <div class="plan-hero">
+        <div class="plan-hero-badge" id="cl-plan-badge"></div>
+        <div class="plan-hero-name" id="cl-plan-name"></div>
+        <div class="plan-hero-manager">Managed by <strong id="cl-plan-manager-inline"></strong></div>
+        <div class="plan-details-grid">
+          <div class="plan-detail-tile"><div class="plan-detail-label">Platforms</div><div class="plan-detail-val" id="cl-plan-platforms"></div></div>
+          <div class="plan-detail-tile"><div class="plan-detail-label">Posts / Month</div><div class="plan-detail-val" id="cl-plan-posts"></div></div>
+          <div class="plan-detail-tile"><div class="plan-detail-label">Ad Budget</div><div class="plan-detail-val" id="cl-plan-ads"></div></div>
+          <div class="plan-detail-tile"><div class="plan-detail-label">Reporting</div><div class="plan-detail-val" id="cl-plan-report"></div></div>
+          <div class="plan-detail-tile"><div class="plan-detail-label">Account Manager</div><div class="plan-detail-val" id="cl-plan-manager"></div></div>
+          <div class="plan-detail-tile"><div class="plan-detail-label">Next Renewal</div><div class="plan-detail-val" id="cl-plan-renewal"></div></div>
+        </div>
+      </div>
+ 
+      <div class="section-block">
+        <div class="section-block-top"><div class="section-icon">✅</div><div><div class="section-title">What's Included</div><div class="section-subtitle">Everything in your current plan</div></div></div>
+        <div id="cl-plan-includes"></div>
+      </div>
+ 
+      <!-- Plan comparison -->
+      <div class="section-block">
+        <div class="section-block-top"><div class="section-icon">📋</div><div><div class="section-title">All Available Plans</div><div class="section-subtitle">Compare all MediaNinja packages</div></div></div>
+        <div class="plans-compare-grid">
+ 
+          <div class="plan-card starter" id="plan-card-starter">
+            <div class="plan-card-accent starter"></div>
+            <div class="plan-card-name">Starter</div>
+            <div class="plan-card-price">฿18,000<span> / month</span></div>
+            <div class="plan-card-lang">1 Language — Burmese or Thai</div>
+            <div class="plan-divider"></div>
+            <div class="plan-features">
+              <div class="plan-feature"><div class="plan-feature-check starter">✓</div>8 posts per month</div>
+              <div class="plan-feature"><div class="plan-feature-check starter">✓</div>1 language (Burmese or Thai)</div>
+              <div class="plan-feature"><div class="plan-feature-check starter">✓</div>Content planning</div>
+            </div>
+          </div>
+ 
+          <div class="plan-card growth" id="plan-card-growth">
+            <div class="plan-card-accent growth"></div>
+            <div class="plan-card-name">Growth</div>
+            <div class="plan-card-price">฿27,000<span> / month</span></div>
+            <div class="plan-card-lang">2 Languages — Burmese, Thai or English</div>
+            <div class="plan-divider"></div>
+            <div class="plan-features">
+              <div class="plan-feature"><div class="plan-feature-check growth">✓</div>12 posts per month</div>
+              <div class="plan-feature"><div class="plan-feature-check growth">✓</div>2 languages (Burmese, Thai or English)</div>
+              <div class="plan-feature"><div class="plan-feature-check growth">✓</div>Videography or Photoshoot (3 hrs)</div>
+              <div class="plan-feature"><div class="plan-feature-check growth">✓</div>3 videos (30s–1 min) or 1 video (3–5 min)</div>
+              <div class="plan-feature"><div class="plan-feature-check growth">✓</div>Customized content planning</div>
+              <div class="plan-feature"><div class="plan-feature-check growth">✓</div>Media buying planning (ads not included)</div>
+              <div class="plan-feature"><div class="plan-feature-check growth">✓</div>Monthly performance report</div>
+              <div class="plan-feature"><div class="plan-feature-check growth">✓</div>Marketing consultation</div>
+            </div>
+          </div>
+ 
+          <div class="plan-card pro" id="plan-card-pro">
+            <div class="plan-card-accent pro"></div>
+            <div class="plan-card-name">Pro</div>
+            <div class="plan-card-price">฿42,000<span> / month</span></div>
+            <div class="plan-card-lang">3 Languages — Burmese, Thai &amp; English</div>
+            <div class="plan-divider"></div>
+            <div class="plan-features">
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>16 posts per month</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>3 languages (Burmese, Thai &amp; English)</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>Videography or Photoshoot (3 hrs)</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>3 videos (30s–1 min) or 1 video (3–5 min)</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>Customized content planning</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>Media buying planning (ads not included)</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>Monthly performance report</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>Marketing consultation</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>Strategy planning</div>
+              <div class="plan-feature"><div class="plan-feature-check pro">✓</div>Continuous campaign monitoring &amp; optimization</div>
+            </div>
+          </div>
+ 
+        </div>
+      </div>
+ 
+      <!-- T&Cs -->
+      <div class="section-block">
+        <div class="section-block-top"><div class="section-icon">📄</div><div><div class="section-title">Terms &amp; Conditions</div><div class="section-subtitle">Please review before starting your campaign</div></div></div>
+        <div class="tnc-grid">
+          <div class="tnc-tile"><div class="tnc-tile-icon">📅</div><div class="tnc-tile-title">Campaign Duration</div><div class="tnc-tile-body">Minimum <strong>2-month campaigns</strong>. Pricing based on 2, 3, or 6-month commitments. <strong>5% discount</strong> for commitments over 3 months.</div></div>
+          <div class="tnc-tile"><div class="tnc-tile-icon">📢</div><div class="tnc-tile-title">Media Buying</div><div class="tnc-tile-body">Minimum boosting budget <strong>฿1,500 per content</strong> created by MediaNinja. <strong>+15% agency fee</strong> on top of ad spend. Ad fees not included in plan price.</div></div>
+          <div class="tnc-tile"><div class="tnc-tile-icon">✏️</div><div class="tnc-tile-title">Revisions Policy</div><div class="tnc-tile-body">Revisions limited to <strong>3 times per content</strong>. Additional corrections charged at <strong>฿100 per revision</strong>.</div></div>
+          <div class="tnc-tile"><div class="tnc-tile-icon">🗂️</div><div class="tnc-tile-title">Materials &amp; Brand Book</div><div class="tnc-tile-body">All materials and brand book must be <strong>provided by the client</strong> for graphic design and content creation.</div></div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- GOALS & STRATEGY -->
+    <div id="cl-page-goals" style="display:none;">
+      <div class="page-header"><h1>Goals &amp; Strategy</h1><p>Your agreed marketing direction and execution plan</p></div>
+      <div class="section-block">
+        <div class="section-block-top"><div class="section-icon">🎯</div><div><div class="section-title">Business Goals</div><div class="section-subtitle">What we're working towards together</div></div></div>
+        <div id="cl-goals-list"></div>
+      </div>
+      <div class="section-block">
+        <div class="section-block-top"><div class="section-icon">🗺️</div><div><div class="section-title">Our Strategy</div><div class="section-subtitle">How we plan to achieve your goals</div></div></div>
+        <div id="cl-strategy-text"></div>
+      </div>
+      <div class="section-block">
+        <div class="section-block-top"><div class="section-icon">📋</div><div><div class="section-title">Current Month Focus</div><div class="section-subtitle">This month's priorities</div></div></div>
+        <div id="cl-focus-list"></div>
+      </div>
+    </div>
+ 
+    <!-- CONTENT PLAN -->
+    <div id="cl-page-content" style="display:none;">
+      <div class="page-header"><h1>Content Plan</h1><p id="cl-content-month-label">Your monthly content calendar</p></div>
+      <div class="section-block">
+        <div class="cal-grid-wrap" id="cl-calendar-grid">
+          <div class="cal-head">MON</div><div class="cal-head">TUE</div><div class="cal-head">WED</div>
+          <div class="cal-head">THU</div><div class="cal-head">FRI</div><div class="cal-head">SAT</div><div class="cal-head">SUN</div>
+        </div>
+      </div>
+      <div class="section-block">
+        <div class="section-block-top"><div class="section-icon">📝</div><div><div class="section-title">All Scheduled Posts</div><div class="section-subtitle">Full list of this month's content</div></div></div>
+        <div id="cl-content-list"></div>
+      </div>
+    </div>
+ 
+    <!-- BRAND DOCS -->
+    <div id="cl-page-branding" style="display:none;">
+      <div class="page-header"><h1>Brand Docs</h1><p>Your brand guidelines, assets and identity reference</p></div>
+      <div class="branding-grid" id="cl-branding-grid"></div>
+    </div>
+ 
+    <!-- CONTACT & SUPPORT -->
+    <div id="cl-page-contact" style="display:none;">
+      <div class="page-header">
+        <h1>Contact &amp; Support</h1>
+        <p>Reach your account manager or send a request directly — one click away</p>
+      </div>
+ 
+      <!-- Hero CTA -->
+      <div class="contact-hero">
+        <div class="contact-hero-title">Need something changed?</div>
+        <div class="contact-hero-sub">Whether it's a caption edit, a new brief, a schedule change or a general question — just send us a message and we'll handle it. We typically respond within one business day.</div>
+        <a class="contact-hero-email" href="/cdn-cgi/l/email-protection#c3aaada5ac83aea6a7aaa2adaaada9a2a4b1acb6b3eda0acae">
+          <span>✉️</span> <span class="__cf_email__" data-cfemail="f990979f96b9949c9d909897909793989e8b968c89d79a9694">[email&#160;protected]</span>
+        </a>
+        <div class="request-btn-row">
+          <a class="request-btn primary" id="btn-general-request" href="/cdn-cgi/l/email-protection#cba2a5ada48ba6aeafa2aaa5a2a5a1aaacb9a4bebbe5a8a4a6f4b8bea9a1aea8bff688a7a2aea5bfeef9fb99aebabeaeb8bfeda9a4afb2f683a2eef9fb86aeafa2aa85a2a5a1aaeef9fb9faeaaa6eef988eefb8aeefb8a82eef9fba3aabdaeeef9fbbfa3aeeef9fbada4a7a7a4bca2a5aceef9fbb9aebabeaeb8bfeef88aeefb8aeefb8a909ba7aeaab8aeeef9fbafaeb8a8b9a2a9aeeef9fbb2a4beb9eef9fbb9aebabeaeb8bfeef9fba3aeb9ae96eefb8aeefb8a9fa3aaa5a0eef9fbb2a4beea">
+            ✉️ Send a Request
+          </a>
+          <a class="request-btn secondary" href="/cdn-cgi/l/email-protection#b8d1d6ded7f8d5dddcd1d9d6d1d6d2d9dfcad7cdc896dbd7d587cbcddad2dddbcc85ffddd6ddcad9d49d8a88fdd6c9cdd1cac19edad7dcc185f0d19d8a88f5dddcd1d9f6d1d6d2d99d8a88ecddd9d59d8afb9d88f99d88f9e3e1d7cdca9d8a88d5ddcbcbd9dfdd9d8a88d0ddcadde59d88f99d88f9ecd0d9d6d39d8a88c1d7cd99">
+            💬 General Enquiry
+          </a>
+        </div>
+      </div>
+ 
+      <!-- Quick request type cards -->
+      <div class="section-block">
+        <div class="section-block-top">
+          <div class="section-icon">⚡</div>
+          <div><div class="section-title">Quick Requests</div><div class="section-subtitle">Click any card to open a pre-filled email for that request type</div></div>
+        </div>
+        <div class="request-types-grid">
+ 
+          <a class="request-type-card" href="/cdn-cgi/l/email-protection#4f262129200f222a2b262e212621252e283d203a3f612c2022703c3a2d252a2c3b720c20213b2a213b6a7d7f0c272e21282a6a7d7f1d2a3e3a2a3c3b692d202b367207266a7d7f022a2b262e012621252e6a7d7f1b2a2e226a7d0c6a7f0e6a7f0e066a7d7f38203a232b6a7d7f2326242a6a7d7f3b206a7d7f3d2a3e3a2a3c3b6a7d7f2e6a7d7f2c272e21282a6a7d7f3b206a7d7f2e6a7d7f3c2c272a2b3a232a2b6a7d7f3f203c3b616a7f0e6a7f0e1f203c3b6a7d7f2b2a3b2e26233c6a7c0e6a7f0e0b2e3b2a6a7d090b2e366a7c0e6a7d7f6a7f0e1f232e3b29203d226a7c0e6a7d7f6a7f0e1d2a3e3a2a3c3b2a2b6a7d7f2c272e21282a6a7c0e6a7d7f6a7f0e6a7f0e1b272e21246a7d7f36203a6e">
+            <div class="request-type-icon">✏️</div>
+            <div class="request-type-title">Edit a Post</div>
+            <div class="request-type-desc">Request a caption edit, image change, or update to a scheduled post before it goes live.</div>
+            <div class="request-type-action">Send request →</div>
+          </a>
+ 
+          <a class="request-type-card" href="/cdn-cgi/l/email-protection#3a53545c557a575f5e535b545354505b5d48554f4a1459555705494f58505f594e07745f4d1f080a7955544e5f544e1f080a7848535f5c1c58555e430772531f080a775f5e535b745354505b1f080a6e5f5b571f08791f0a7b1f0a7b731f080a525b4c5f1f080a5b1f080a545f4d1f080a5955544e5f544e1f080a5848535f5c1f080a731f080a4d554f565e1f080a5653515f1f080a4e551f080a49525b485f141f0a7b1f0a7b6e554a53591f087c795554595f4a4e1f097b1f080a1f0a7b6a565b4e5c5548571f097b1f080a1f0a7b6a485f5c5f48485f5e1f080a7e5b4e5f1f097b1f080a1f0a7b7b5e5e534e5355545b561f080a74554e5f491f097b1f080a1f0a7b1f0a7b6e525b54511f080a43554f1b">
+            <div class="request-type-icon">💡</div>
+            <div class="request-type-title">Submit a Content Brief</div>
+            <div class="request-type-desc">Have a new idea or topic you'd like us to create content around? Share it with us here.</div>
+            <div class="request-type-action">Send request →</div>
+          </a>
+ 
+          <a class="request-type-card" href="/cdn-cgi/l/email-protection#acc5c2cac3ecc1c9c8c5cdc2c5c2c6cdcbdec3d9dc82cfc3c193dfd9cec6c9cfd891edc8899e9cefcdc1dccdc5cbc2899e9cfec9ddd9c9dfd88acec3c8d591e4c5899e9ce1c9c8c5cde2c5c2c6cd899e9cf8c9cdc1899eef899ced899cede5899e9cdbc3d9c0c8899e9cc0c5c7c9899e9cd8c3899e9cc8c5dfcfd9dfdf899e9ccdc2899e9ccdc8899e9ccfcdc1dccdc5cbc282899ced899cedefcdc1dccdc5cbc2899e9cebc3cdc0899fed899e9c899cedeed9c8cbc9d8899fed899e9c899cedf8cddecbc9d8899e9cedd9c8c5c9c2cfc9899fed899e9c899cedfcdec9cac9dedec9c8899e9cffd8cdded8899e9ce8cdd8c9899fed899e9c899cededc8c8c5d8c5c3c2cdc0899e9ce2c3d8c9df899fed899e9c899ced899cedf8c4cdc2c7899e9cd5c3d98d">
+            <div class="request-type-icon">📢</div>
+            <div class="request-type-title">Request an Ad Campaign</div>
+            <div class="request-type-desc">Want to boost a post or run a paid campaign? Tell us your goal, budget and timeline.</div>
+            <div class="request-type-action">Send request →</div>
+          </a>
+ 
+          <a class="request-type-card" href="/cdn-cgi/l/email-protection#0e676068614e636b6a676f606760646f697c617b7e206d6163317d7b6c646b6d7a335c6b7e617c7a2b3c3e5c6b7f7b6b7d7a286c616a773346672b3c3e436b6a676f406760646f2b3c3e5a6b6f632b3c4d2b3e4f2b3e4f472b3c3e79617b626a2b3c3e6267656b2b3c3e7a612b3c3e7c6b7f7b6b7d7a2b3c3e6f2b3c3e7e6b7c68617c636f606d6b2b3c3e7c6b7e617c7a202b3e4f2b3e4f5e6b7c67616a2b3d4f2b3c3e2b3e4f5e626f7a68617c637d2b3d4f2b3c3e2b3e4f5d7e6b6d6768676d2b3c3e436b7a7c676d7d2b3c3e406b6b6a6b6a2b3d4f2b3c3e2b3e4f2b3e4f5a666f60652b3c3e77617b2f">
+            <div class="request-type-icon">📊</div>
+            <div class="request-type-title">Request a Report</div>
+            <div class="request-type-desc">Need a specific performance report or data export for a particular period or platform?</div>
+            <div class="request-type-action">Send request →</div>
+          </a>
+ 
+          <a class="request-type-card" href="/cdn-cgi/l/email-protection#f990979f96b9949c9d909897909793989e8b968c89d79a9694c68a8c9b939c9a8dc4ac8b9e9c978ddccbc9b4988d8d9c8bdf9b969d80c4b190dccbc9b49c9d9098b790979398dccbc9ad9c9894dccbbadcc9b8dcc9b8ad91908adccbc9908adccbc99897dccbc98c8b9e9c978ddccbc994988d8d9c8bdccbc98d91988ddccbc98b9c888c908b9c8adccbc980968c8bdccbc99094949c9d90988d9cdccbc9988d8d9c978d909697d7dcc9b8dcc9b8bd9c8d9890958adccab8dccbc9dcc9b8dcc9b8ad91989792dccbc980968cd8">
+            <div class="request-type-icon">🚨</div>
+            <div class="request-type-title">Urgent Matter</div>
+            <div class="request-type-desc">Something needs immediate attention? Flag it as urgent and we'll prioritise your message.</div>
+            <div class="request-type-action">Send urgent request →</div>
+          </a>
+ 
+          <a class="request-type-card" href="/cdn-cgi/l/email-protection#81e8efe7eec1ece4e5e8e0efe8efebe0e6f3eef4f1afe2eeecbef2f4e3ebe4e2f5bcc6e4efe4f3e0eda4b3b1c7e4e4e5e3e0e2eaa7e3eee5f8bcc9e8a4b3b1cce4e5e8e0cfe8efebe0a4b3b1d5e4e0eca4b3c2a4b1c0a4b1c0c8a4b3b1f6e0eff5e4e5a4b3b1f5eea4b3b1f2e9e0f3e4a4b3b1f2eeece4a4b3b1e7e4e4e5e3e0e2eaa4b2c0a4b1c0a4b1c0dad8eef4f3a4b3b1e7e4e4e5e3e0e2eaa4b3b1e9e4f3e4dca4b1c0a4b1c0d5e9e0efeaa4b3b1f8eef4a0">
+            <div class="request-type-icon">⭐</div>
+            <div class="request-type-title">Share Feedback</div>
+            <div class="request-type-desc">Love something we did? Want to share a suggestion? We'd love to hear from you.</div>
+            <div class="request-type-action">Send feedback →</div>
+          </a>
+ 
+        </div>
+      </div>
+ 
+      <!-- WhatsApp -->
+      <a class="whatsapp-card" href="https://wa.me/message/MEDIANINJAGROUP" target="_blank" id="whatsapp-link">
+        <div class="whatsapp-icon">💬</div>
+        <div>
+          <div class="whatsapp-title">Chat on WhatsApp</div>
+          <div class="whatsapp-sub">For quick questions, your account manager is available on WhatsApp during business hours (Mon–Fri, 9am–6pm)</div>
+        </div>
+        <div class="whatsapp-cta">Open WhatsApp →</div>
+      </a>
+ 
+      <!-- Contact info -->
+      <div class="section-block">
+        <div class="section-block-top">
+          <div class="section-icon">📋</div>
+          <div><div class="section-title">Contact Information</div><div class="section-subtitle">All the ways to reach MediaNinja</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-tile">
+            <div class="info-tile-label">Email</div>
+            <div class="info-tile-val"><a href="/cdn-cgi/l/email-protection#2d44434b426d404849444c434443474c4a5f42585d034e4240"><span class="__cf_email__" data-cfemail="630a0d050c230e06070a020d0a0d090204110c16134d000c0e">[email&#160;protected]</span></a></div>
+          </div>
+          <div class="info-tile">
+            <div class="info-tile-label">Account Manager</div>
+            <div class="info-tile-val" id="contact-manager-name">Your account manager</div>
+          </div>
+          <div class="info-tile">
+            <div class="info-tile-label">Response Time</div>
+            <div class="info-tile-val">Within 1 business day</div>
+          </div>
+          <div class="info-tile">
+            <div class="info-tile-label">Business Hours</div>
+            <div class="info-tile-val">Mon–Fri, 9am–6pm</div>
+          </div>
+          <div class="info-tile">
+            <div class="info-tile-label">Office Location</div>
+            <div class="info-tile-val">Bangkok, Thailand</div>
+          </div>
+          <div class="info-tile">
+            <div class="info-tile-label">Website</div>
+            <div class="info-tile-val"><a href="https://www.medianinjagroup.com" target="_blank">medianinjagroup.com</a></div>
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+ 
+  </div>
+  <footer class="site-footer">
+    <span>© <script>document.write(new Date().getFullYear())</script> <strong>MediaNinja Group</strong> · All rights reserved</span>
+  </footer>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     ADMIN DASHBOARD
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-admin" style="display:none;">
+  <div class="topbar">
+    <div class="topbar-logo"><img src="./images/logo.png" alt="MediaNinja"></div>
+    <div class="topbar-right">
+      <div class="user-badge admin">⚙️ <span id="adm-display-name"></span></div>
+      <button class="signout-btn" onclick="show('screen-admin-login')">Sign Out</button>
+    </div>
+  </div>
+  <div class="admin-wrap">
+    <div class="sidebar">
+      <div class="sidebar-user">
+        <div class="sidebar-user-label">Logged in as</div>
+        <div class="sidebar-user-name" id="adm-sidebar-name">Admin</div>
+      </div>
+      <div class="nav-group-label">Management</div>
+      <button class="nav-btn" id="adm-nav-clients" onclick="admTab('clients')"><span class="nav-btn-icon">👥</span>All Clients</button>
+      <button class="nav-btn" id="adm-nav-stats"   onclick="admTab('stats')"><span class="nav-btn-icon">📊</span>Agency Stats</button>
+      <div class="nav-group-label">Settings</div>
+      <button class="nav-btn" id="adm-nav-team"    onclick="admTab('team')"><span class="nav-btn-icon">👤</span>Team Access</button>
+    </div>
+    <div class="adm-content">
+ 
+      <!-- ALL CLIENTS -->
+      <div id="adm-page-clients" style="display:none;">
+        <div class="adm-page-header">
+          <div><h1>All Clients</h1><p>Manage portals, plans, goals, content and branding</p></div>
+          <button class="btn btn-primary" onclick="openAddModal()">+ Add New Client</button>
+        </div>
+        <table class="admin-table">
+          <thead><tr><th>Client</th><th>Plan</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="client-table-body"></tbody>
+        </table>
+ 
+        <div id="edit-panel-wrap" style="display:none;">
+          <div class="edit-panel">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+              <div><div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:800;" id="edit-panel-title"></div><div style="font-size:12px;color:var(--muted);margin-top:3px;">Changes reflect in client portal after saving</div></div>
+              <button class="btn btn-ghost btn-sm" onclick="closeEditPanel()">✕ Close</button>
+            </div>
+            <div class="edit-tabs">
+              <button class="etab active" id="etab-btn-credentials" onclick="switchETab('credentials')">🔑 Login</button>
+              <button class="etab" id="etab-btn-plan"        onclick="switchETab('plan')">📦 Plan</button>
+              <button class="etab" id="etab-btn-goals"       onclick="switchETab('goals')">🎯 Goals</button>
+              <button class="etab" id="etab-btn-content"     onclick="switchETab('content')">📅 Content</button>
+              <button class="etab" id="etab-btn-branding"    onclick="switchETab('branding')">🎨 Branding</button>
+              <button class="etab" id="etab-btn-looker"      onclick="switchETab('looker')">📊 Live Data</button>
+            </div>
+            <div id="etab-credentials">
+              <div class="ef-grid">
+                <div class="ef-field"><label class="ef-label">Company Name</label><input class="ef-input" id="ef-name"></div>
+                <div class="ef-field"><label class="ef-label">Username (read-only)</label><input class="ef-input" id="ef-username" readonly style="opacity:0.5;"></div>
+                <div class="ef-field"><label class="ef-label">Portal Password</label><input class="ef-input" id="ef-password"></div>
+                <div class="ef-field"><label class="ef-label">Account Manager</label><input class="ef-input" id="ef-manager"></div>
+              </div>
+            </div>
+            <div id="etab-plan" style="display:none;">
+              <div class="ef-grid">
+                <div class="ef-field"><label class="ef-label">Plan Type</label><select class="ef-select" id="ef-plan"><option value="starter">Starter</option><option value="growth">Growth</option><option value="pro">Pro</option><option value="basic">Basic (legacy)</option><option value="advance">Advance (legacy)</option><option value="custom">Custom</option></select></div>
+                <div class="ef-field"><label class="ef-label">Plan Display Name</label><input class="ef-input" id="ef-plan-name" placeholder="e.g. Growth Plan"></div>
+                <div class="ef-field"><label class="ef-label">Platforms Managed</label><input class="ef-input" id="ef-platforms"></div>
+                <div class="ef-field"><label class="ef-label">Posts Per Month</label><input class="ef-input" id="ef-posts"></div>
+                <div class="ef-field"><label class="ef-label">Ad Budget</label><input class="ef-input" id="ef-ads"></div>
+                <div class="ef-field"><label class="ef-label">Renewal Date</label><input class="ef-input" id="ef-renewal"></div>
+                <div class="ef-field" style="grid-column:1/-1;"><label class="ef-label">Plan Includes (one per line)</label><textarea class="ef-textarea" id="ef-includes" rows="5"></textarea></div>
+              </div>
+            </div>
+            <div id="etab-goals" style="display:none;">
+              <div class="ef-field" style="margin-bottom:14px;"><label class="ef-label">Business Goals (one per line)</label><textarea class="ef-textarea" id="ef-goals" rows="5"></textarea></div>
+              <div class="ef-field" style="margin-bottom:14px;"><label class="ef-label">Strategy Description</label><textarea class="ef-textarea" id="ef-strategy" rows="4"></textarea></div>
+              <div class="ef-field"><label class="ef-label">Current Month Focus (one per line)</label><textarea class="ef-textarea" id="ef-focus" rows="3"></textarea></div>
+            </div>
+            <div id="etab-content" style="display:none;">
+              <div class="ef-grid" style="margin-bottom:14px;">
+                <div class="ef-field"><label class="ef-label">Month Label</label><input class="ef-input" id="ef-content-month" placeholder="e.g. March 2025"></div>
+                <div class="ef-field"><label class="ef-label">Month Starts On</label><select class="ef-select" id="ef-month-start"><option value="0">Monday</option><option value="1">Tuesday</option><option value="2">Wednesday</option><option value="3">Thursday</option><option value="4">Friday</option><option value="5">Saturday</option><option value="6">Sunday</option></select></div>
+                <div class="ef-field"><label class="ef-label">Days in Month</label><select class="ef-select" id="ef-month-days"><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31" selected>31</option></select></div>
+              </div>
+              <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+                <input class="ef-input" id="ef-post-date" type="number" min="1" max="31" placeholder="Day" style="width:80px;">
+                <select class="ef-select" id="ef-post-platform" style="width:120px;"><option value="fb">Facebook</option><option value="ig">Instagram</option><option value="both">FB + IG</option></select>
+                <input class="ef-input" id="ef-post-topic" placeholder="Post topic / brief" style="flex:1;min-width:160px;">
+                <button class="btn btn-primary btn-sm" onclick="addContentPost()">+ Add</button>
+              </div>
+              <div id="content-posts-list"></div>
+            </div>
+            <div id="etab-branding" style="display:none;">
+              <div class="brand-editor-grid">
+                <div class="brand-editor-tile"><span class="brand-editor-label">🎨 Brand Colors</span><div id="brand-colors-editor"></div><button class="add-color" onclick="addBrandColor()" style="margin-top:6px;">+ Add Color</button></div>
+                <div class="brand-editor-tile"><span class="brand-editor-label">🔤 Typography</span><textarea class="ef-textarea" id="ef-typography" rows="4" placeholder="Primary Font: Plus Jakarta Sans&#10;Display: Playfair Display"></textarea></div>
+                <div class="brand-editor-tile"><span class="brand-editor-label">✍️ Brand Voice &amp; Tone</span><textarea class="ef-textarea" id="ef-brand-voice" rows="4" placeholder="Friendly, approachable&#10;Tone: Warm, confident"></textarea></div>
+                <div class="brand-editor-tile"><span class="brand-editor-label">📐 Logo Usage</span><textarea class="ef-textarea" id="ef-logo-notes" rows="4" placeholder="Dark backgrounds only&#10;Min size: 120px wide"></textarea></div>
+                <div class="brand-editor-tile" style="grid-column:1/-1;"><span class="brand-editor-label">📋 Additional Notes</span><textarea class="ef-textarea" id="ef-brand-notes" rows="3" placeholder="Any extra brand guidelines..."></textarea></div>
+              </div>
+            </div>
+            <div id="etab-looker" style="display:none;">
+              <div class="ef-field">
+                <label class="ef-label">Looker Studio Embed URL</label>
+                <input class="ef-input" id="ef-looker" placeholder="https://lookerstudio.google.com/embed/reporting/...">
+                <div style="font-size:11px;color:var(--muted);margin-top:7px;">Looker Studio → File → Embed Report → copy the src URL</div>
+              </div>
+            </div>
+            <div class="save-row">
+              <button class="btn btn-primary" onclick="saveClientData()">💾 Save Changes</button>
+              <span class="saved-chip" id="saved-msg">Saved!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- AGENCY STATS -->
+      <div id="adm-page-stats" style="display:none;">
+        <div class="adm-page-header"><div><h1>Agency Stats</h1><p>Overview across all clients</p></div></div>
+        <div class="stats-row">
+          <div class="stat-tile"><div class="stat-val" id="total-clients">0</div><div class="stat-label">Total Clients</div></div>
+          <div class="stat-tile"><div class="stat-val" id="adm-advance-count">0</div><div class="stat-label">Growth &amp; Pro Plans</div></div>
+          <div class="stat-tile"><div class="stat-val" id="adm-basic-count">0</div><div class="stat-label">Starter Plans</div></div>
+          <div class="stat-tile"><div class="stat-val">100%</div><div class="stat-label">Active</div></div>
+        </div>
+        <div class="glass-card"><div class="card-heading">Plan Distribution</div><div class="card-sub">All active clients</div><canvas id="adm-plan-chart" height="80"></canvas></div>
+      </div>
+ 
+      <!-- TEAM -->
+      <div id="adm-page-team" style="display:none;">
+        <div class="adm-page-header"><div><h1>Team Access</h1><p>Manage who can access the admin panel</p></div></div>
+        <div class="glass-card">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;"><div><div style="font-weight:700;font-size:13px;">admin</div><div style="font-size:11px;color:var(--muted);">Owner · Full access</div></div><span class="plan-tag growth">Owner</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;"><div><div style="font-weight:700;font-size:13px;">sarah</div><div style="font-size:11px;color:var(--muted);">Account Manager</div></div><span class="plan-tag starter">Staff</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;"><div><div style="font-weight:700;font-size:13px;">razif</div><div style="font-size:11px;color:var(--muted);">Content Creator</div></div><span class="plan-tag starter">Staff</span></div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:16px;">+ Add Team Member</button>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+  <footer class="site-footer">
+    <span>© <script>document.write(new Date().getFullYear())</script> <strong>MediaNinja Group</strong> · All rights reserved</span>
+  </footer>
+</div>
+ 
+<!-- ADD CLIENT MODAL -->
+<div class="modal-bg" id="add-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAddModal()">✕</button>
+    <div class="modal-title">Add New Client</div>
+    <div class="modal-sub">Create portal access for a new client</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="ef-field"><label class="ef-label">Company Name</label><input class="ef-input" id="new-name" placeholder="e.g. Bright Media Co."></div>
+      <div class="ef-field"><label class="ef-label">Portal Username</label><input class="ef-input" id="new-username" placeholder="e.g. brightmedia (no spaces)"></div>
+      <div class="ef-field"><label class="ef-label">Portal Password</label><input class="ef-input" id="new-password" placeholder="Set a password"></div>
+      <div class="ef-field"><label class="ef-label">Plan</label><select class="ef-select" id="new-plan"><option value="starter">Starter</option><option value="growth">Growth</option><option value="pro">Pro</option><option value="custom">Custom</option></select></div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;margin-top:20px;padding:14px;" onclick="addNewClient()">Create Client Portal</button>
+  </div>
+</div>
+ 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ═══ DATA ════════════════════════════════════════════════════════════════
+const ADMIN_CREDS={admin:'ninja2025',sarah:'staff123'};
+let clients={
+  acmecorp:{password:'client123',name:'Acme Corp',plan:'starter',planName:'Starter Plan',platforms:'Facebook + Instagram',posts:'8 posts/month',ads:'Min. ฿1,500/post + 15% agency fee',renewal:'April 1, 2026',manager:'Sarah',report:'Monthly report',includes:'8 posts per month\n1 language (Burmese or Thai)\nContent planning',goals:'Grow Instagram following from 5,700 to 15,000 by end of 2025\nIncrease website monthly traffic to 50,000 unique visitors\nGenerate minimum 100 qualified leads per month\nEstablish brand authority in the local F&B space',strategy:'We are focusing on a content-first approach — building brand trust through consistent, high-quality visual content before scaling paid ads. From Q2 onwards we are scaling Facebook and Instagram ads targeting your core demographic (ages 25–40 in KL/Selangor). Monthly themed content campaigns will align with local events and holidays to maximise organic reach and engagement.',focus:'Ramadan campaign — 8 posts themed around the season\nRetargeting ad campaign for website visitors (pixel-based)\nInstagram Reels push — 4 reels this month',contentMonth:'March 2025',monthStart:5,monthDays:31,contentPosts:[{day:2,platform:'ig',topic:'Brand intro reel'},{day:4,platform:'fb',topic:'Promo offer'},{day:6,platform:'both',topic:'Weekend special'},{day:9,platform:'ig',topic:'Behind the scenes'},{day:11,platform:'both',topic:'Testimonial post'},{day:13,platform:'ig',topic:'Product showcase reel'},{day:16,platform:'fb',topic:'Educational tip'},{day:18,platform:'both',topic:'Mid-month promo'},{day:20,platform:'ig',topic:'Trending audio reel'},{day:23,platform:'fb',topic:'Customer feature'},{day:25,platform:'both',topic:'End month push'},{day:27,platform:'ig',topic:'Poll / engagement story'},{day:30,platform:'both',topic:'Month recap'}],looker:'',brandColors:[{hex:'#1e2a4a',label:'Navy'},{hex:'#f0a500',label:'Gold'},{hex:'#f7c048',label:'Light Gold'},{hex:'#ffffff',label:'White'}],typography:'Primary Font: Plus Jakarta Sans\nDisplay Font: Playfair Display\nNotes: Navy for headings, gold for accents',brandVoice:'Friendly, approachable, professional\nAvoid jargon and overly formal language\nUse "you" to speak directly to the audience\nTone: Warm, confident, helpful',logoNotes:'Primary logo on dark and light backgrounds\nMinimum size: 120px wide\nClear space: 1x logo height on all sides\nNever stretch or rotate the logo',brandNotes:''},
+  brightmedia:{password:'bright456',name:'Bright Media',plan:'growth',planName:'Growth Plan',platforms:'Facebook + Instagram',posts:'12 posts/month',ads:'Min. ฿1,500/post + 15% agency fee',renewal:'May 1, 2026',manager:'Razif',report:'Monthly report',includes:'12 posts per month\n2 languages\nVideography or photoshoot (3 hrs)\nCustomized content planning\nMedia buying planning\nMonthly performance report\nMarketing consultation',goals:'Grow Facebook page likes to 5,000\nIncrease post reach by 50%',strategy:'Focus on organic growth and consistent posting schedule to build a loyal local audience.',focus:'Establish posting rhythm — 3 posts per week\nOptimise page profile and bio',contentMonth:'March 2025',monthStart:5,monthDays:31,contentPosts:[],looker:'',brandColors:[],typography:'',brandVoice:'',logoNotes:'',brandNotes:''},
+  techsolutions:{password:'tech789',name:'Tech Solutions MY',plan:'pro',planName:'Pro Plan',platforms:'Facebook + Instagram + Google Ads',posts:'16 posts/month',ads:'Min. ฿1,500/post + 15% agency fee',renewal:'December 31, 2026',manager:'Sarah',report:'Monthly + Marketing Consultation',includes:'16 posts per month\n3 languages (Burmese, Thai & English)\nVideography or photoshoot (3 hrs)\nCustomized content planning\nMedia buying planning\nMonthly performance report\nMarketing consultation\nStrategy planning\nContinuous monitoring & optimization',goals:'Achieve 50,000 monthly website visitors\nGenerate 500 leads per month\nBecome top 3 in Google search for target keywords',strategy:'Full funnel approach: awareness via social, conversion via Google Search ads, retargeting via display network.',focus:'Google Ads campaign launch for primary keywords\nLinkedIn content strategy for B2B leads',contentMonth:'March 2025',monthStart:5,monthDays:31,contentPosts:[],looker:'',brandColors:[],typography:'',brandVoice:'',logoNotes:'',brandNotes:''}
+};
+let currentEditClient=null,currentClientUser=null,brandColorsEditList=[];
+ 
+// ═══ SCREEN / TAB SYSTEM ════════════════════════════════════════════════
+const SCREENS=['screen-client-login','screen-admin-login','screen-client','screen-admin'];
+function show(id){SCREENS.forEach(s=>document.getElementById(s).style.display='none');document.getElementById(id).style.display='block';}
+ 
+const CL_TABS=['overview','results','plan','goals','content','branding','contact'];
+function clTab(t){
+  CL_TABS.forEach(p=>{
+    document.getElementById('cl-page-'+p).style.display='none';
+    const b=document.getElementById('cl-tab-'+p);if(b)b.classList.remove('active');
+  });
+  document.getElementById('cl-page-'+t).style.display='block';
+  const ab=document.getElementById('cl-tab-'+t);if(ab)ab.classList.add('active');
+}
+ 
+const ADM_TABS=['clients','stats','team'];
+function admTab(t){
+  ADM_TABS.forEach(p=>{document.getElementById('adm-page-'+p).style.display='none';document.getElementById('adm-nav-'+p).classList.remove('active');});
+  document.getElementById('adm-page-'+t).style.display='block';
+  document.getElementById('adm-nav-'+t).classList.add('active');
+  if(t==='stats')setTimeout(initAdminCharts,100);
+}
+ 
+// ═══ AUTH ═══════════════════════════════════════════════════════════════
+function clientLogin(){
+  const u=document.getElementById('cl-user').value.trim().toLowerCase();
+  const p=document.getElementById('cl-pass').value;
+  if(clients[u]&&clients[u].password===p){currentClientUser=u;show('screen-client');loadClient(u);}
+  else showErr('cl-err');
+}
+function adminLogin(){
+  const u=document.getElementById('adm-user').value.trim().toLowerCase();
+  const p=document.getElementById('adm-pass').value;
+  if(ADMIN_CREDS[u]&&ADMIN_CREDS[u]===p){
+    document.getElementById('adm-display-name').textContent=u[0].toUpperCase()+u.slice(1);
+    document.getElementById('adm-sidebar-name').textContent=u[0].toUpperCase()+u.slice(1);
+    show('screen-admin');loadAdmin();
+  }else showErr('adm-err');
+}
+function showErr(id){const e=document.getElementById(id);e.style.display='block';setTimeout(()=>e.style.display='none',3500);}
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  if(document.getElementById('screen-client-login').style.display!=='none')clientLogin();
+  else if(document.getElementById('screen-admin-login').style.display!=='none')adminLogin();
+});
+ 
+// ═══ CLIENT DASHBOARD ═══════════════════════════════════════════════════
+function loadClient(u){
+  const c=clients[u];
+  document.getElementById('cl-display-name').textContent=c.name;
+  document.getElementById('cl-welcome-name').textContent=c.name;
+  const av=document.getElementById('cl-avatar-letter');
+  if(av)av.textContent=c.name[0].toUpperCase();
+ 
+  // Plan hero
+  const badge=document.getElementById('cl-plan-badge');
+  badge.className='plan-hero-badge '+(c.plan||'starter');
+  badge.textContent=c.plan[0].toUpperCase()+c.plan.slice(1)+' Plan';
+  s('cl-plan-name',c.planName);s('cl-plan-platforms',c.platforms);s('cl-plan-posts',c.posts);
+  s('cl-plan-ads',c.ads);s('cl-plan-renewal',c.renewal);s('cl-plan-manager',c.manager);
+  s('cl-plan-manager-inline',c.manager);s('cl-plan-report',c.report);
+ 
+  // Highlight plan comparison card
+  ['starter','growth','pro','basic','advance','custom'].forEach(p=>{
+    const card=document.getElementById('plan-card-'+p);
+    if(card)card.classList.remove('is-active');
+  });
+  const ac=document.getElementById('plan-card-'+c.plan);
+  if(ac)ac.classList.add('is-active');
+ 
+  // What's included
+  const inc=(c.includes||'').split('\n').filter(Boolean);
+  h('cl-plan-includes',inc.length?inc.map(l=>`<div class="goal-row"><div class="goal-badge">✓</div><div class="goal-text">${x(l)}</div></div>`).join(''):emp('📦','Plan details coming soon.'));
+ 
+  // Goals
+  const goals=(c.goals||'').split('\n').filter(Boolean);
+  h('cl-goals-list',goals.length?goals.map((g,i)=>`<div class="goal-row"><div class="goal-badge">${i+1}</div><div class="goal-text">${x(g)}</div></div>`).join(''):emp('🎯',"Goals haven't been set yet."));
+  h('cl-strategy-text',c.strategy?`<p style="font-size:14px;line-height:1.85;color:var(--text2);padding:4px 0;">${x(c.strategy).replace(/\n/g,'<br>')}</p>`:emp('🗺️','Strategy description coming soon.'));
+  const foc=(c.focus||'').split('\n').filter(Boolean);
+  h('cl-focus-list',foc.length?foc.map(f=>`<div class="goal-row"><div class="goal-badge">→</div><div class="goal-text">${x(f)}</div></div>`).join(''):emp('📋','Focus items coming soon.'));
+ 
+  renderCalendar(c);
+  renderBranding(c);
+ 
+  // Contact page — set manager name and personalise email subjects
+  const cm=document.getElementById('contact-manager-name');
+  if(cm)cm.textContent=c.manager||'Your account manager';
+  const gr=document.getElementById('btn-general-request');
+  if(gr){
+    const subj=encodeURIComponent(`Request from ${c.name}`);
+    const body=encodeURIComponent(`Hi ${c.manager||'MediaNinja Team'},\n\nI have the following request:\n\n[Please describe your request here]\n\nThank you!\n${c.name}`);
+    gr.href=`mailto:info@medianinjagroup.com?subject=${subj}&body=${body}`;
+  }
+ 
+  // Looker embed — same content in both containers
+  const noLooker=`<div style="min-height:440px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:rgba(0,0,0,0.2);">
+    <img src="./images/logo.png" alt="MediaNinja" style="height:52px;width:auto;opacity:0.25;">
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--text);">Live Dashboard</div>
+    <div style="font-size:13px;color:var(--muted);text-align:center;max-width:300px;line-height:1.7;">Your Looker Studio dashboard will appear here once your account manager connects it.</div>
+    <div style="font-size:11px;padding:8px 18px;background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.18);border-radius:100px;color:var(--gold);font-weight:700;">Awaiting connection</div>
+  </div>`;
+  const lookerHTML=c.looker?`<iframe src="${x(c.looker)}" style="width:100%;height:520px;border:none;" allowfullscreen></iframe>`:noLooker;
+  h('cl-looker-container-overview',lookerHTML);
+  h('cl-looker-container',lookerHTML);
+ 
+  clTab('overview');
+}
+ 
+function renderCalendar(c){
+  s('cl-content-month-label',c.contentMonth?`Your monthly content calendar — ${c.contentMonth}`:'Your monthly content calendar');
+  const grid=document.getElementById('cl-calendar-grid');
+  const heads=Array.from(grid.children).filter(el=>el.classList.contains('cal-head'));
+  grid.innerHTML='';heads.forEach(h2=>grid.appendChild(h2));
+  const pbd={};
+  (c.contentPosts||[]).forEach(p=>{(pbd[p.day]||(pbd[p.day]=[])).push(p);});
+  for(let i=0;i<(c.monthStart||0);i++){const b=document.createElement('div');b.className='cal-cell';b.style.opacity='0.12';grid.appendChild(b);}
+  for(let d=1;d<=(c.monthDays||31);d++){
+    const posts=pbd[d]||[];
+    const cell=document.createElement('div');
+    cell.className='cal-cell'+(posts.length?' has-post':'');
+    let htm=`<div class="cal-num">${d}</div>`;
+    posts.forEach(p=>{const l=p.platform==='both'?'FB+IG':p.platform.toUpperCase();htm+=`<span class="post-chip ${p.platform}">${l}</span><div class="post-topic">${x(p.topic)}</div>`;});
+    cell.innerHTML=htm;grid.appendChild(cell);
+  }
+  const sorted=(c.contentPosts||[]).slice().sort((a,b)=>a.day-b.day);
+  h('cl-content-list',sorted.length?sorted.map(p=>{const l=p.platform==='both'?'FB+IG':p.platform.toUpperCase();return `<div class="goal-row"><div class="goal-badge" style="background:transparent;border-color:var(--border2);">📅</div><div class="goal-text" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;color:var(--muted);font-size:12px;min-width:46px;">Day ${p.day}</span><span class="post-chip ${p.platform}" style="display:inline-block;">${l}</span><span>${x(p.topic)}</span></div></div>`;}).join(''):emp('📅','No content scheduled yet.'));
+}
+ 
+function renderBranding(c){
+  const grid=document.getElementById('cl-branding-grid');
+  const has=(c.brandColors||[]).length||c.typography||c.brandVoice||c.logoNotes||c.brandNotes;
+  if(!has){grid.innerHTML=`<div style="grid-column:1/-1;">${emp('🎨',"Brand docs haven't been added yet.")}</div>`;return;}
+  let htm=`<div class="branding-tile"><div class="branding-icon">🎨</div><div class="branding-title">Brand Colors</div><div class="branding-desc">Your official brand palette</div>`;
+  if((c.brandColors||[]).length)htm+=`<div class="color-swatches">${c.brandColors.map(col=>`<div class="swatch-item"><div class="swatch" style="background:${x(col.hex)};"></div><div class="swatch-hex">${x(col.hex)}</div><div class="swatch-name">${x(col.label)}</div></div>`).join('')}</div>`;
+  else htm+=`<div style="color:var(--muted);font-size:12px;font-style:italic;">No colors yet.</div>`;
+  htm+=`</div>`;
+  if(c.typography)htm+=bdt('🔤','Typography','Fonts used across your brand',c.typography);
+  if(c.brandVoice)htm+=bdt('✍️','Brand Voice & Tone','How we speak on your behalf',c.brandVoice);
+  if(c.logoNotes)htm+=bdt('📐','Logo Usage','Rules for using your logo',c.logoNotes);
+  if(c.brandNotes)htm+=bdt('📋','Additional Notes','Extra brand guidelines',c.brandNotes);
+  grid.innerHTML=htm;
+}
+function bdt(icon,title,desc,content){return `<div class="branding-tile"><div class="branding-icon">${icon}</div><div class="branding-title">${title}</div><div class="branding-desc">${desc}</div><div class="branding-content">${x(content)}</div></div>`;}
+ 
+// ═══ ADMIN ═══════════════════════════════════════════════════════════════
+function loadAdmin(){renderTable();admTab('clients');}
+function renderTable(){
+  document.getElementById('client-table-body').innerHTML=Object.entries(clients).map(([k,c])=>`
+    <tr class="admin-tr">
+      <td><strong>${x(c.name)}</strong><br><span style="font-size:11px;color:var(--muted);">${x(k)}</span></td>
+      <td><span class="plan-tag ${c.plan}">${c.plan}</span></td>
+      <td><span class="active-dot"></span>Active</td>
+      <td><button class="btn btn-primary btn-sm" onclick="openEdit('${k}')">✏️ Edit</button></td>
+    </tr>`).join('');
+  document.getElementById('total-clients').textContent=Object.keys(clients).length;
+  document.getElementById('adm-advance-count').textContent=Object.values(clients).filter(c=>c.plan==='growth'||c.plan==='pro'||c.plan==='advance'||c.plan==='custom').length;
+  document.getElementById('adm-basic-count').textContent=Object.values(clients).filter(c=>c.plan==='starter'||c.plan==='basic').length;
+}
+ 
+function openEdit(k){
+  currentEditClient=k;const c=clients[k];
+  document.getElementById('edit-panel-title').textContent='Editing: '+c.name;
+  v('ef-name',c.name);v('ef-username',k);v('ef-password',c.password);v('ef-manager',c.manager||'');
+  v('ef-plan',c.plan);v('ef-plan-name',c.planName||'');v('ef-platforms',c.platforms||'');
+  v('ef-posts',c.posts||'');v('ef-ads',c.ads||'');v('ef-renewal',c.renewal||'');v('ef-includes',c.includes||'');
+  v('ef-goals',c.goals||'');v('ef-strategy',c.strategy||'');v('ef-focus',c.focus||'');
+  v('ef-content-month',c.contentMonth||'');v('ef-month-start',c.monthStart||0);v('ef-month-days',c.monthDays||31);
+  v('ef-looker',c.looker||'');v('ef-typography',c.typography||'');v('ef-brand-voice',c.brandVoice||'');
+  v('ef-logo-notes',c.logoNotes||'');v('ef-brand-notes',c.brandNotes||'');
+  brandColorsEditList=(c.brandColors||[]).map(z=>({...z}));
+  renderColorsEditor();renderAdminPosts();switchETab('credentials');
+  document.getElementById('edit-panel-wrap').style.display='block';
+  document.getElementById('edit-panel-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeEditPanel(){document.getElementById('edit-panel-wrap').style.display='none';currentEditClient=null;}
+ 
+const ETABS=['credentials','plan','goals','content','branding','looker'];
+function switchETab(t){
+  ETABS.forEach(tab=>{document.getElementById('etab-'+tab).style.display=tab===t?'block':'none';document.getElementById('etab-btn-'+tab).classList.toggle('active',tab===t);});
+}
+ 
+function saveClientData(){
+  if(!currentEditClient)return;
+  clients[currentEditClient]={...clients[currentEditClient],
+    name:g('ef-name'),password:g('ef-password'),manager:g('ef-manager'),
+    plan:g('ef-plan'),planName:g('ef-plan-name'),platforms:g('ef-platforms'),
+    posts:g('ef-posts'),ads:g('ef-ads'),renewal:g('ef-renewal'),includes:g('ef-includes'),
+    goals:g('ef-goals'),strategy:g('ef-strategy'),focus:g('ef-focus'),
+    contentMonth:g('ef-content-month'),monthStart:parseInt(g('ef-month-start'))||0,monthDays:parseInt(g('ef-month-days'))||31,
+    looker:g('ef-looker'),typography:g('ef-typography'),brandVoice:g('ef-brand-voice'),
+    logoNotes:g('ef-logo-notes'),brandNotes:g('ef-brand-notes'),
+    brandColors:brandColorsEditList.map(z=>({...z}))
+  };
+  renderTable();
+  if(currentClientUser===currentEditClient)loadClient(currentEditClient);
+  const m=document.getElementById('saved-msg');m.style.display='inline';setTimeout(()=>m.style.display='none',2500);
+}
+ 
+function initAdminCharts(){
+  const el=document.getElementById('adm-plan-chart');if(!el)return;
+  if(el._ch)el._ch.destroy();
+  const planColor=c=>c.plan==='pro'||c.plan==='custom'?'#10b981':c.plan==='growth'||c.plan==='advance'?'#f0a500':'#64748b';
+  el._ch=new Chart(el,{type:'bar',data:{
+    labels:Object.values(clients).map(c=>c.name),
+    datasets:[{data:Object.values(clients).map(c=>c.plan==='pro'||c.plan==='custom'?3:c.plan==='growth'||c.plan==='advance'?2:1),backgroundColor:Object.values(clients).map(planColor),borderRadius:8,borderSkipped:false}]
+  },options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#111f38',bodyColor:'#64748b',borderColor:'rgba(255,255,255,0.07)',borderWidth:1}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#334155',font:{size:11}}},y:{display:false}}}});
+}
+ 
+function openAddModal(){document.getElementById('add-modal').classList.add('open');}
+function closeAddModal(){document.getElementById('add-modal').classList.remove('open');}
+function addNewClient(){
+  const name=document.getElementById('new-name').value.trim();
+  const user=document.getElementById('new-username').value.trim().toLowerCase().replace(/\s+/g,'');
+  const pass=document.getElementById('new-password').value;
+  const plan=document.getElementById('new-plan').value;
+  if(!name||!user||!pass){alert('Please fill all fields');return;}
+  if(clients[user]){alert('Username already exists');return;}
+  clients[user]={password:pass,name,plan,planName:'',platforms:'',posts:'',ads:'',renewal:'',manager:'',report:'',includes:'',goals:'',strategy:'',focus:'',contentMonth:'',monthStart:0,monthDays:31,contentPosts:[],looker:'',brandColors:[],typography:'',brandVoice:'',logoNotes:'',brandNotes:''};
+  renderTable();closeAddModal();['new-name','new-username','new-password'].forEach(id=>document.getElementById(id).value='');
+}
+ 
+function addContentPost(){
+  if(!currentEditClient)return;
+  const day=parseInt(document.getElementById('ef-post-date').value);
+  const platform=document.getElementById('ef-post-platform').value;
+  const topic=document.getElementById('ef-post-topic').value.trim();
+  if(!day||!topic)return;
+  clients[currentEditClient].contentPosts.push({day,platform,topic});
+  clients[currentEditClient].contentPosts.sort((a,b)=>a.day-b.day);
+  renderAdminPosts();
+  document.getElementById('ef-post-date').value='';document.getElementById('ef-post-topic').value='';
+}
+function removePost(i){if(!currentEditClient)return;clients[currentEditClient].contentPosts.splice(i,1);renderAdminPosts();}
+function renderAdminPosts(){
+  if(!currentEditClient)return;
+  const posts=clients[currentEditClient].contentPosts||[];
+  document.getElementById('content-posts-list').innerHTML=posts.length
+    ?posts.map((p,i)=>{const l=p.platform==='both'?'FB+IG':p.platform.toUpperCase();return `<div class="post-row"><div style="font-size:11px;font-weight:700;color:var(--muted);width:40px;flex-shrink:0;">Day ${p.day}</div><span class="post-chip ${p.platform}" style="flex-shrink:0;">${l}</span><div style="flex:1;font-size:12px;color:var(--text2);">${x(p.topic)}</div><button onclick="removePost(${i})" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;">✕</button></div>`;}).join('')
+    :'<div style="font-size:12px;color:var(--muted);padding:8px 0;">No posts added yet.</div>';
+}
+ 
+function addBrandColor(){brandColorsEditList.push({hex:'#f0a500',label:'New Color'});renderColorsEditor();}
+function renderColorsEditor(){
+  const el=document.getElementById('brand-colors-editor');
+  el.innerHTML=brandColorsEditList.length
+    ?brandColorsEditList.map((col,i)=>`<div class="color-row"><input type="color" value="${col.hex}" oninput="brandColorsEditList[${i}].hex=this.value;document.getElementById('chex${i}').value=this.value"><input type="text" id="chex${i}" value="${col.hex}" onchange="brandColorsEditList[${i}].hex=this.value"><input type="text" value="${x(col.label)}" placeholder="Label" onchange="brandColorsEditList[${i}].label=this.value" style="background:transparent;border:none;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;flex:1;outline:none;min-width:60px;"><button class="color-del" onclick="brandColorsEditList.splice(${i},1);renderColorsEditor()">✕</button></div>`).join('')
+    :'<div style="font-size:11px;color:var(--muted);">No colors yet.</div>';
+}
+ 
+// ═══ UTILS ═══════════════════════════════════════════════════════════════
+function x(t){if(!t)return'';return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function emp(icon,msg){return `<div class="empty"><div class="empty-icon">${icon}</div><p>${msg}</p></div>`;}
+function s(id,val){const e=document.getElementById(id);if(e)e.textContent=val||'';}
+function h(id,html){const e=document.getElementById(id);if(e)e.innerHTML=html;}
+function v(id,val){const e=document.getElementById(id);if(e)e.value=val;}
+function g(id){const e=document.getElementById(id);return e?e.value:'';}
+</script>
+</body>
+</html>
+ 
