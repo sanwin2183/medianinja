@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediaNinja — Client Portal</title>
+<!-- Firebase SDK (compat version) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -32,14 +35,14 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
- 
+
 /* ════ NOISE TEXTURE OVERLAY ════ */
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   opacity:0.4;
 }
- 
+
 /* ════ MESH GRADIENT BG ════ */
 .mesh-bg{
   position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
@@ -56,10 +59,10 @@ body::before{
   background:radial-gradient(circle,rgba(59,130,246,0.05) 0%,transparent 70%);
   bottom:-100px;left:-100px;
 }
- 
+
 /* ════ SCREENS ════ */
 .screen{position:relative;z-index:1;}
- 
+
 /* ════════════════════════════════════════════
    LOGIN
 ════════════════════════════════════════════ */
@@ -67,7 +70,7 @@ body::before{
   min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
   position:relative;overflow:hidden;
 }
- 
+
 .login-left{
   display:flex;flex-direction:column;justify-content:center;
   padding:60px 56px;position:relative;overflow:hidden;
@@ -98,7 +101,7 @@ body::before{
   font-size:15px;flex-shrink:0;
   background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.2);
 }
- 
+
 .login-right{
   display:flex;align-items:center;justify-content:center;
   padding:40px 48px;background:var(--navy2);
@@ -159,7 +162,7 @@ body::before{
 .switch-link{margin-top:20px;text-align:center;font-size:13px;color:var(--muted);}
 .switch-link a{color:var(--gold);cursor:pointer;font-weight:600;}
 .err-msg{color:#f87171;font-size:12px;text-align:center;margin-top:10px;display:none;padding:10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;}
- 
+
 /* ════════════════════════════════════════════
    TOPBAR
 ════════════════════════════════════════════ */
@@ -203,7 +206,7 @@ body::before{
   font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
 }
 .signout-btn:hover{border-color:rgba(240,165,0,0.4);color:var(--gold);}
- 
+
 /* ════════════════════════════════════════════
    CLIENT TAB NAV
 ════════════════════════════════════════════ */
@@ -225,7 +228,7 @@ body::before{
 .tab-btn:hover{color:var(--text2);}
 .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
 .tab-icon{font-size:14px;opacity:0.8;}
- 
+
 /* ════════════════════════════════════════════
    MAIN CONTENT AREA
 ════════════════════════════════════════════ */
@@ -234,7 +237,7 @@ body::before{
   animation:fadeUp 0.4s ease both;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
- 
+
 /* ════════════════════════════════════════════
    PAGE HEADING
 ════════════════════════════════════════════ */
@@ -247,7 +250,7 @@ body::before{
 }
 .page-header h1 em{font-style:normal;color:var(--gold);}
 .page-header p{font-size:14px;color:var(--muted);font-weight:400;}
- 
+
 /* ════════════════════════════════════════════
    GLASS CARDS
 ════════════════════════════════════════════ */
@@ -269,7 +272,7 @@ body::before{
   color:var(--text);margin-bottom:4px;
 }
 .card-sub{font-size:12px;color:var(--muted);margin-bottom:20px;}
- 
+
 /* ════════════════════════════════════════════
    SECTION BLOCKS
 ════════════════════════════════════════════ */
@@ -293,7 +296,7 @@ body::before{
   font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);
 }
 .section-subtitle{font-size:12px;color:var(--muted);margin-top:2px;}
- 
+
 .goal-row{
   display:flex;gap:14px;align-items:flex-start;
   padding:14px 0;border-bottom:1px solid var(--border);
@@ -305,7 +308,7 @@ body::before{
   background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.2);
 }
 .goal-text{font-size:14px;line-height:1.65;color:var(--text2);padding-top:3px;}
- 
+
 /* ════════════════════════════════════════════
    CALENDAR
 ════════════════════════════════════════════ */
@@ -324,7 +327,7 @@ body::before{
 .post-chip.ig{background:rgba(225,48,108,0.15);color:#f472b6;}
 .post-chip.both{background:rgba(240,165,0,0.15);color:var(--gold);}
 .post-topic{font-size:9px;color:var(--muted);line-height:1.4;margin-top:1px;}
- 
+
 /* ════════════════════════════════════════════
    PLAN PAGE — CURRENT PLAN HERO
 ════════════════════════════════════════════ */
@@ -356,7 +359,7 @@ body::before{
 }
 .plan-detail-label{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;margin-bottom:5px;}
 .plan-detail-val{font-size:13px;font-weight:600;color:var(--text);}
- 
+
 /* ════════════════════════════════════════════
    PLAN COMPARISON CARDS
 ════════════════════════════════════════════ */
@@ -400,7 +403,7 @@ body::before{
 .plan-feature-check.starter{background:rgba(148,163,184,0.15);color:#94a3b8;}
 .plan-feature-check.growth{background:rgba(240,165,0,0.15);color:var(--gold);}
 .plan-feature-check.pro{background:rgba(16,185,129,0.15);color:var(--green);}
- 
+
 /* ════════════════════════════════════════════
    TERMS & CONDITIONS
 ════════════════════════════════════════════ */
@@ -419,7 +422,7 @@ body::before{
 .tnc-tile-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;}
 .tnc-tile-body{font-size:13px;color:var(--text2);line-height:1.7;}
 .tnc-tile-body strong{color:var(--gold2);font-weight:700;}
- 
+
 /* ════════════════════════════════════════════
    BRANDING DOCS
 ════════════════════════════════════════════ */
@@ -443,14 +446,14 @@ body::before{
 .swatch{width:40px;height:40px;border-radius:9px;border:1px solid var(--border2);}
 .swatch-hex{font-size:9px;color:var(--muted);margin-top:3px;font-family:monospace;}
 .swatch-name{font-size:9px;color:var(--muted2);margin-top:1px;}
- 
+
 /* ════════════════════════════════════════════
    EMPTY STATE
 ════════════════════════════════════════════ */
 .empty{text-align:center;padding:48px 20px;color:var(--muted);}
 .empty-icon{font-size:36px;margin-bottom:12px;opacity:0.5;}
 .empty p{font-size:13px;line-height:1.7;}
- 
+
 /* ════════════════════════════════════════════
    ADMIN LAYOUT
 ════════════════════════════════════════════ */
@@ -478,7 +481,7 @@ body::before{
 .nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
 .nav-btn.active{background:rgba(240,165,0,0.08);color:var(--gold);}
 .nav-btn-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0;}
- 
+
 /* ════════════════════════════════════════════
    ADMIN CONTENT
 ════════════════════════════════════════════ */
@@ -492,7 +495,7 @@ body::before{
   color:var(--text);letter-spacing:-0.3px;
 }
 .adm-page-header p{font-size:13px;color:var(--muted);margin-top:3px;}
- 
+
 /* Admin table */
 .admin-table{width:100%;border-collapse:separate;border-spacing:0 8px;}
 .admin-table th{
@@ -512,7 +515,7 @@ body::before{
 .plan-tag.growth,.plan-tag.advance{background:rgba(240,165,0,0.1);color:var(--gold);}
 .plan-tag.pro,.plan-tag.custom{background:rgba(16,185,129,0.08);color:var(--green);}
 .active-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;}
- 
+
 /* Buttons */
 .btn{
   border:none;border-radius:9px;padding:8px 16px;
@@ -524,7 +527,7 @@ body::before{
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2);}
 .btn-ghost:hover{border-color:rgba(240,165,0,0.4);color:var(--gold);}
 .btn-sm{padding:6px 13px;font-size:11px;}
- 
+
 /* Stats */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
 .stat-tile{
@@ -538,7 +541,7 @@ body::before{
   color:var(--gold);line-height:1;
 }
 .stat-label{font-size:11px;color:var(--muted);margin-top:6px;font-weight:500;}
- 
+
 /* Edit panel */
 .edit-panel{
   background:rgba(255,255,255,0.02);border:1px solid var(--border);
@@ -571,7 +574,7 @@ body::before{
 .save-row{margin-top:22px;display:flex;align-items:center;gap:12px;}
 .saved-chip{font-size:12px;font-weight:700;color:var(--green);display:none;}
 .saved-chip::before{content:'✓ ';}
- 
+
 /* Branding editor */
 .brand-editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .brand-editor-tile{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px;}
@@ -583,7 +586,7 @@ body::before{
 .color-del:hover{color:var(--red);}
 .add-color{background:transparent;border:1px dashed var(--border2);border-radius:8px;padding:5px 11px;color:var(--muted);font-size:11px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:2px;}
 .add-color:hover{border-color:var(--gold);color:var(--gold);}
- 
+
 /* Modal */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
 .modal-bg.open{display:flex;}
@@ -592,10 +595,10 @@ body::before{
 .modal-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
 .modal-close{float:right;background:transparent;border:none;color:var(--muted);font-size:18px;cursor:pointer;margin-top:-2px;}
 .modal-close:hover{color:var(--text);}
- 
+
 /* Content posts admin */
 .post-row{display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:9px;margin-bottom:6px;}
- 
+
 /* ════════════════════════════════════════════
    CONTACT & SUPPORT PAGE
 ════════════════════════════════════════════ */
@@ -680,7 +683,7 @@ body::before{
 .info-tile-val{font-size:13px;font-weight:600;color:var(--text2);}
 .info-tile-val a{color:var(--gold);text-decoration:none;}
 .info-tile-val a:hover{text-decoration:underline;}
- 
+
 /* ════ FOOTER ════ */
 .site-footer{
   border-top:1px solid var(--border);
@@ -694,12 +697,12 @@ body::before{
   position:absolute;bottom:20px;left:0;right:0;text-align:center;
   font-size:11px;color:var(--muted2);
 }
- 
+
 /* ════════════════════════════════════════════
    MOBILE — COMPREHENSIVE RESPONSIVE STYLES
 ════════════════════════════════════════════ */
 @media(max-width:768px){
- 
+
   /* ── Login ── */
   .login-scene{grid-template-columns:1fr;}
   .login-left{display:none;}
@@ -715,7 +718,7 @@ body::before{
   .field-wrap{margin-bottom:14px;}
   .field-input{padding:12px 14px;font-size:14px;}
   .login-btn{padding:14px;font-size:14px;}
- 
+
   /* ── Topbar ── */
   .topbar{padding:0 14px;height:56px;}
   .topbar-logo img{height:26px;}
@@ -723,18 +726,18 @@ body::before{
   .user-badge{padding:5px 10px;font-size:11px;gap:5px;}
   .user-badge-avatar{width:18px;height:18px;font-size:9px;}
   .signout-btn{padding:5px 10px;font-size:11px;}
- 
+
   /* ── Tab bar ── */
   .tab-bar{top:56px;padding:0 4px;}
   .tab-btn{padding:0 10px;height:42px;font-size:11px;gap:4px;}
   .tab-icon{font-size:13px;}
- 
+
   /* ── Content area ── */
   .content-area{padding:18px 14px;}
   .page-header{margin-bottom:18px;}
   .page-header h1{font-size:20px;letter-spacing:-0.3px;}
   .page-header p{font-size:12px;}
- 
+
   /* ── Cards & blocks ── */
   .glass-card{padding:16px;border-radius:14px;margin-bottom:14px;}
   .section-block{padding:16px;border-radius:14px;margin-bottom:14px;}
@@ -745,7 +748,7 @@ body::before{
   .goal-row{padding:10px 0;gap:10px;}
   .goal-badge{width:24px;height:24px;font-size:10px;}
   .goal-text{font-size:13px;}
- 
+
   /* ── Plan hero ── */
   .plan-hero{padding:20px 16px;margin-bottom:14px;}
   .plan-hero-name{font-size:18px;}
@@ -754,19 +757,19 @@ body::before{
   .plan-detail-tile{padding:10px 12px;}
   .plan-detail-label{font-size:9px;}
   .plan-detail-val{font-size:12px;}
- 
+
   /* ── Plan comparison ── */
   .plans-compare-grid{grid-template-columns:1fr;gap:12px;}
   .plan-card{padding:18px;}
   .plan-card-price{font-size:26px;}
   .plan-card-lang{font-size:10px;}
   .plan-feature{font-size:11px;gap:7px;}
- 
+
   /* ── T&C ── */
   .tnc-grid{grid-template-columns:1fr;gap:10px;}
   .tnc-tile{padding:16px;}
   .tnc-tile-body{font-size:12px;}
- 
+
   /* ── Calendar ── */
   .cal-grid-wrap{gap:2px;}
   .cal-cell{min-height:52px;padding:5px 3px;}
@@ -774,11 +777,11 @@ body::before{
   .cal-num{font-size:9px;}
   .post-chip{font-size:8px;padding:1px 3px;letter-spacing:0;}
   .post-topic{display:none;}
- 
+
   /* ── Branding ── */
   .branding-grid{grid-template-columns:1fr;gap:10px;}
   .branding-tile{padding:16px;}
- 
+
   /* ── Contact ── */
   .contact-hero{padding:20px 16px;}
   .contact-hero-title{font-size:20px;}
@@ -791,7 +794,7 @@ body::before{
   .whatsapp-card{padding:16px;gap:12px;}
   .whatsapp-cta{margin-left:0;width:100%;text-align:center;padding:8px 0;display:block;}
   .info-row{grid-template-columns:1fr 1fr;gap:10px;}
- 
+
   /* ── Admin sidebar → horizontal top nav ── */
   .admin-wrap{flex-direction:column;}
   .sidebar{
@@ -807,13 +810,13 @@ body::before{
     flex-shrink:0;padding:7px 14px;border-radius:20px;
     font-size:12px;white-space:nowrap;width:auto;text-align:center;
   }
- 
+
   /* ── Admin content ── */
   .adm-content{padding:18px 14px;}
   .adm-page-header{gap:10px;margin-bottom:18px;}
   .adm-page-header h1{font-size:20px;}
   .adm-page-header p{font-size:12px;}
- 
+
   /* ── Admin table → stacked cards ── */
   .admin-table{border-spacing:0 8px;}
   .admin-table thead{display:none;}
@@ -827,41 +830,41 @@ body::before{
   .admin-tr td:nth-child(1){grid-column:1/-1;border-top:none;}
   .admin-tr td:nth-child(1){border-left:none;border-radius:12px 12px 0 0;}
   .admin-tr td:last-child{grid-column:1/-1;border-bottom:none;border-right:none;border-radius:0 0 12px 12px;}
- 
+
   /* ── Stats ── */
   .stats-row{grid-template-columns:1fr 1fr;gap:10px;}
   .stat-tile{padding:16px;}
   .stat-val{font-size:26px;}
- 
+
   /* ── Edit panel ── */
   .edit-panel{padding:16px;border-radius:14px;}
   .edit-tabs{margin-bottom:18px;}
   .etab{padding:8px 12px;font-size:11px;}
   .ef-grid{grid-template-columns:1fr;gap:10px;}
   .brand-editor-grid{grid-template-columns:1fr;}
- 
+
   /* ── Footer ── */
   .site-footer{padding:14px 16px;}
   .site-footer span{font-size:11px;}
 }
- 
+
 @media(max-width:480px){
   /* Hide tab text, show icons only */
   .tab-btn{padding:0 10px;font-size:10px;}
   .tab-label{display:none;}
   .tab-icon{display:block;font-size:17px;opacity:1;}
- 
+
   /* Plan details single column */
   .plan-details-grid{grid-template-columns:1fr;}
   .info-row{grid-template-columns:1fr;}
- 
+
   /* Tighter login */
   .login-right{padding:28px 18px;}
   .login-heading{font-size:20px;}
- 
+
   /* Calendar — show numbers only */
   .cal-cell{min-height:44px;}
- 
+
   /* Content area tighter */
   .content-area{padding:14px 12px;}
   .adm-content{padding:14px 12px;}
@@ -870,7 +873,7 @@ body::before{
 </head>
 <body>
 <div class="mesh-bg"></div>
- 
+
 <!-- ══════════════════════════════════════════
      CLIENT LOGIN
 ══════════════════════════════════════════ -->
@@ -908,7 +911,7 @@ body::before{
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      ADMIN LOGIN
 ══════════════════════════════════════════ -->
@@ -946,7 +949,7 @@ body::before{
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      CLIENT DASHBOARD
 ══════════════════════════════════════════ -->
@@ -962,7 +965,7 @@ body::before{
       <button class="signout-btn" onclick="show('screen-client-login')">Sign Out</button>
     </div>
   </div>
- 
+
   <div class="tab-bar">
     <button class="tab-btn" id="cl-tab-overview"  onclick="clTab('overview')"><span class="tab-icon">📊</span><span class="tab-label"> Live Dashboard</span></button>
     <button class="tab-btn" id="cl-tab-plan"      onclick="clTab('plan')"><span class="tab-icon">📦</span><span class="tab-label"> My Plan</span></button>
@@ -971,9 +974,9 @@ body::before{
     <button class="tab-btn" id="cl-tab-branding"  onclick="clTab('branding')"><span class="tab-icon">🎨</span><span class="tab-label"> Brand Docs</span></button>
     <button class="tab-btn" id="cl-tab-contact"   onclick="clTab('contact')"><span class="tab-icon">✉️</span><span class="tab-label"> Contact</span></button>
   </div>
- 
+
   <div class="content-area">
- 
+
     <!-- LIVE DASHBOARD -->
     <div id="cl-page-overview" style="display:none;">
       <div class="page-header">
@@ -991,16 +994,16 @@ body::before{
         <div id="cl-looker-container-overview"></div>
       </div>
     </div>
- 
+
     <!-- HIDDEN RESULTS PAGE (kept for JS compat) -->
     <div id="cl-page-results" style="display:none;">
       <div id="cl-looker-container"></div>
     </div>
- 
+
     <!-- MY PLAN -->
     <div id="cl-page-plan" style="display:none;">
       <div class="page-header"><h1>My Plan</h1><p>Your current package and what MediaNinja offers</p></div>
- 
+
       <div class="plan-hero">
         <div class="plan-hero-badge" id="cl-plan-badge"></div>
         <div class="plan-hero-name" id="cl-plan-name"></div>
@@ -1014,17 +1017,17 @@ body::before{
           <div class="plan-detail-tile"><div class="plan-detail-label">Next Renewal</div><div class="plan-detail-val" id="cl-plan-renewal"></div></div>
         </div>
       </div>
- 
+
       <div class="section-block">
         <div class="section-block-top"><div class="section-icon">✅</div><div><div class="section-title">What's Included</div><div class="section-subtitle">Everything in your current plan</div></div></div>
         <div id="cl-plan-includes"></div>
       </div>
- 
+
       <!-- Plan comparison -->
       <div class="section-block">
         <div class="section-block-top"><div class="section-icon">📋</div><div><div class="section-title">All Available Plans</div><div class="section-subtitle">Compare all MediaNinja packages</div></div></div>
         <div class="plans-compare-grid">
- 
+
           <div class="plan-card starter" id="plan-card-starter">
             <div class="plan-card-your-plan">YOUR PLAN</div>
             <div class="plan-card-accent starter"></div>
@@ -1038,7 +1041,7 @@ body::before{
               <div class="plan-feature"><div class="plan-feature-check starter">✓</div>Content planning</div>
             </div>
           </div>
- 
+
           <div class="plan-card growth" id="plan-card-growth">
             <div class="plan-card-your-plan">YOUR PLAN</div>
             <div class="plan-card-accent growth"></div>
@@ -1057,7 +1060,7 @@ body::before{
               <div class="plan-feature"><div class="plan-feature-check growth">✓</div>Marketing consultation</div>
             </div>
           </div>
- 
+
           <div class="plan-card pro" id="plan-card-pro">
             <div class="plan-card-your-plan">YOUR PLAN</div>
             <div class="plan-card-accent pro"></div>
@@ -1078,10 +1081,10 @@ body::before{
               <div class="plan-feature"><div class="plan-feature-check pro">✓</div>Continuous campaign monitoring &amp; optimization</div>
             </div>
           </div>
- 
+
         </div>
       </div>
- 
+
       <!-- T&Cs -->
       <div class="section-block">
         <div class="section-block-top"><div class="section-icon">📄</div><div><div class="section-title">Terms &amp; Conditions</div><div class="section-subtitle">Please review before starting your campaign</div></div></div>
@@ -1093,7 +1096,7 @@ body::before{
         </div>
       </div>
     </div>
- 
+
     <!-- GOALS & STRATEGY -->
     <div id="cl-page-goals" style="display:none;">
       <div class="page-header"><h1>Goals &amp; Strategy</h1><p>Your agreed marketing direction and execution plan</p></div>
@@ -1110,7 +1113,7 @@ body::before{
         <div id="cl-focus-list"></div>
       </div>
     </div>
- 
+
     <!-- CONTENT PLAN -->
     <div id="cl-page-content" style="display:none;">
       <div class="page-header"><h1>Content Plan</h1><p id="cl-content-month-label">Your monthly content calendar</p></div>
@@ -1125,31 +1128,31 @@ body::before{
         <div id="cl-content-list"></div>
       </div>
     </div>
- 
+
     <!-- BRAND DOCS -->
     <div id="cl-page-branding" style="display:none;">
       <div class="page-header"><h1>Brand Docs</h1><p>Your brand guidelines, assets and identity reference</p></div>
       <div class="branding-grid" id="cl-branding-grid"></div>
     </div>
- 
+
     <!-- CONTACT & SUPPORT -->
     <div id="cl-page-contact" style="display:none;">
       <div class="page-header">
         <h1>Contact &amp; Support</h1>
         <p>Reach your account manager or send a request directly — one click away</p>
       </div>
- 
+
       <!-- Hero CTA — single email button only -->
       <div class="contact-hero">
         <div class="contact-hero-title">Need something changed?</div>
         <div class="contact-hero-sub">Whether it's a caption edit, a new brief, a schedule change or a general question — just send us a message and we'll handle it. We typically respond within one business day.</div>
         <div style="margin-bottom:10px;font-size:13px;color:var(--muted);">Our email:</div>
-        <div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:28px;">info@medianinjagroup.com</div>
+        <div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:28px;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="543d3a323b143931303d353a3d3a3e3533263b21247a373b39">[email&#160;protected]</a></div>
         <button class="request-btn primary" id="btn-general-request" onclick="openEmail('general')">
           &#x2709;&#xFE0F; &nbsp;Send Us an Email
         </button>
       </div>
- 
+
       <!-- Quick request type cards -->
       <div class="section-block">
         <div class="section-block-top">
@@ -1195,7 +1198,7 @@ body::before{
           </div>
         </div>
       </div>
- 
+
       <!-- WhatsApp -->
       <a class="whatsapp-card" href="https://wa.me/message/MEDIANINJAGROUP" target="_blank">
         <div class="whatsapp-icon">&#x1F4AC;</div>
@@ -1205,7 +1208,7 @@ body::before{
         </div>
         <div class="whatsapp-cta">Open WhatsApp &#x2192;</div>
       </a>
- 
+
       <!-- Contact info -->
       <div class="section-block">
         <div class="section-block-top">
@@ -1213,7 +1216,7 @@ body::before{
           <div><div class="section-title">Contact Information</div><div class="section-subtitle">All the ways to reach MediaNinja</div></div>
         </div>
         <div class="info-row">
-          <div class="info-tile"><div class="info-tile-label">Email</div><div class="info-tile-val"><a href="#" onclick="openEmail('general');return false;">info@medianinjagroup.com</a></div></div>
+          <div class="info-tile"><div class="info-tile-label">Email</div><div class="info-tile-val"><a href="#" onclick="openEmail('general');return false;"><span class="__cf_email__" data-cfemail="1a73747c755a777f7e737b747374707b7d68756f6a34797577">[email&#160;protected]</span></a></div></div>
           <div class="info-tile"><div class="info-tile-label">Account Manager</div><div class="info-tile-val" id="contact-manager-name">Your account manager</div></div>
           <div class="info-tile"><div class="info-tile-label">Response Time</div><div class="info-tile-val">Within 1 business day</div></div>
           <div class="info-tile"><div class="info-tile-label">Business Hours</div><div class="info-tile-val">Mon&#x2013;Fri, 9am&#x2013;6pm</div></div>
@@ -1221,15 +1224,15 @@ body::before{
           <div class="info-tile"><div class="info-tile-label">Website</div><div class="info-tile-val"><a href="https://www.medianinjagroup.com" target="_blank">medianinjagroup.com</a></div></div>
         </div>
       </div>
- 
+
     </div>
- 
+
   </div>
   <footer class="site-footer">
-    <span>© <script>document.write(new Date().getFullYear())</script> <strong>MediaNinja Group</strong> · All rights reserved</span>
+    <span>© <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear())</script> <strong>MediaNinja Group</strong> · All rights reserved</span>
   </footer>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      ADMIN DASHBOARD
 ══════════════════════════════════════════ -->
@@ -1254,7 +1257,7 @@ body::before{
       <button class="nav-btn" id="adm-nav-team"    onclick="admTab('team')"><span class="nav-btn-icon">👤</span>Team Access</button>
     </div>
     <div class="adm-content">
- 
+
       <!-- ALL CLIENTS -->
       <div id="adm-page-clients" style="display:none;">
         <div class="adm-page-header">
@@ -1265,7 +1268,7 @@ body::before{
           <thead><tr><th>Client</th><th>Plan</th><th>Status</th><th>Action</th></tr></thead>
           <tbody id="client-table-body"></tbody>
         </table>
- 
+
         <div id="edit-panel-wrap" style="display:none;">
           <div class="edit-panel">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -1341,7 +1344,7 @@ body::before{
           </div>
         </div>
       </div>
- 
+
       <!-- AGENCY STATS -->
       <div id="adm-page-stats" style="display:none;">
         <div class="adm-page-header"><div><h1>Agency Stats</h1><p>Overview across all clients</p></div></div>
@@ -1353,7 +1356,7 @@ body::before{
         </div>
         <div class="glass-card"><div class="card-heading">Plan Distribution</div><div class="card-sub">All active clients</div><canvas id="adm-plan-chart" height="80"></canvas></div>
       </div>
- 
+
       <!-- TEAM -->
       <div id="adm-page-team" style="display:none;">
         <div class="adm-page-header"><div><h1>Team Access</h1><p>Manage who can access the admin panel</p></div></div>
@@ -1366,14 +1369,14 @@ body::before{
           <button class="btn btn-primary" style="margin-top:16px;">+ Add Team Member</button>
         </div>
       </div>
- 
+
     </div>
   </div>
   <footer class="site-footer">
     <span>© <script>document.write(new Date().getFullYear())</script> <strong>MediaNinja Group</strong> · All rights reserved</span>
   </footer>
 </div>
- 
+
 <!-- ADD CLIENT MODAL -->
 <div class="modal-bg" id="add-modal">
   <div class="modal">
@@ -1389,308 +1392,517 @@ body::before{
     <button class="btn btn-primary" style="width:100%;margin-top:20px;padding:14px;" onclick="addNewClient()">Create Client Portal</button>
   </div>
 </div>
- 
+
 <script>
-// ═══ DATA ════════════════════════════════════════════════════════════════
-const ADMIN_CREDS={admin:'ninja2025',sarah:'staff123'};
-let clients={
-  theloft:{password:'loft2025',name:'The Loft Burmese Eatery',plan:'starter',planName:'Starter Plan',platforms:'Facebook + Instagram',posts:'8 posts/month',ads:'Min. ฿1,500/post + 15% agency fee',renewal:'',manager:'',report:'Monthly report',includes:'8 posts per month\n1 language (Burmese or Thai)\nContent planning',goals:'',strategy:'',focus:'',contentMonth:'',monthStart:0,monthDays:31,contentPosts:[],looker:'',brandColors:[],typography:'',brandVoice:'',logoNotes:'',brandNotes:''},
-  mfxasia:{password:'mfx2025',name:'MFX Asia / ProstageFX',plan:'starter',planName:'Starter Plan',platforms:'Facebook + Instagram',posts:'8 posts/month',ads:'Min. ฿1,500/post + 15% agency fee',renewal:'',manager:'',report:'Monthly report',includes:'8 posts per month\n1 language (Burmese or Thai)\nContent planning',goals:'',strategy:'',focus:'',contentMonth:'',monthStart:0,monthDays:31,contentPosts:[],looker:'',brandColors:[],typography:'',brandVoice:'',logoNotes:'',brandNotes:''}
+// ═══════════════════════════════════════════════════════════════════════════
+// FIREBASE CONFIG — paste your config here when ready
+// Get this from: Firebase Console → Project Settings → Your Apps → Web
+// ═══════════════════════════════════════════════════════════════════════════
+const FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyBefvQGb_NkM0TLw0fz4boxStGn8JZ6wdg",
+  authDomain:        "medianinja-portal.firebaseapp.com",
+  databaseURL:       "https://medianinja-portal-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:         "medianinja-portal",
+  storageBucket:     "medianinja-portal.firebasestorage.app",
+  messagingSenderId: "1068995964734",
+  appId:             "1:1068995964734:web:a51bf7ec5081ddad5b066f",
+  measurementId:     "G-7L9WWR0D99"
 };
-let currentEditClient=null,currentClientUser=null,brandColorsEditList=[];
- 
+
+// ═══ FIREBASE INIT ═══════════════════════════════════════════════════════
+// Firebase SDK loaded from CDN (loaded in <head> above via compat scripts)
+let db = null;
+let firebaseReady = false;
+
+function initFirebase() {
+  try {
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.database();
+    firebaseReady = true;
+    console.log("✅ Firebase connected");
+    return true;
+  } catch(e) {
+    console.warn("⚠️ Firebase init failed — running in offline mode:", e.message);
+    firebaseReady = false;
+    return false;
+  }
+}
+
+// Read all clients from Firebase
+function dbReadClients(callback) {
+  if (!firebaseReady || !db) { callback(clients); return; }
+  db.ref("clients").once("value")
+    .then(snap => {
+      const data = snap.val();
+      if (data) {
+        // Merge: Firebase is source of truth, but keep local defaults for new keys
+        Object.keys(data).forEach(k => {
+          clients[k] = Object.assign({}, clientDefaults(), data[k]);
+          if (!clients[k].contentPosts) clients[k].contentPosts = [];
+          if (!clients[k].brandColors)  clients[k].brandColors  = [];
+        });
+      }
+      callback(clients);
+    })
+    .catch(e => { console.warn("Firebase read error:", e); callback(clients); });
+}
+
+// Write a single client to Firebase
+function dbWriteClient(key, data) {
+  if (!firebaseReady || !db) return;
+  // Firebase can't store undefined — sanitise
+  const clean = JSON.parse(JSON.stringify(data));
+  db.ref("clients/" + key).set(clean)
+    .then(() => console.log("✅ Saved to Firebase:", key))
+    .catch(e => console.warn("Firebase write error:", e));
+}
+
+// Delete a client from Firebase
+function dbDeleteClient(key) {
+  if (!firebaseReady || !db) return;
+  db.ref("clients/" + key).remove()
+    .catch(e => console.warn("Firebase delete error:", e));
+}
+
+// Listen for real-time changes (keeps admin panel live across tabs/devices)
+function dbListen() {
+  if (!firebaseReady || !db) return;
+  db.ref("clients").on("value", snap => {
+    const data = snap.val();
+    if (!data) return;
+    Object.keys(data).forEach(k => {
+      clients[k] = Object.assign({}, clientDefaults(), data[k]);
+      if (!clients[k].contentPosts) clients[k].contentPosts = [];
+      if (!clients[k].brandColors)  clients[k].brandColors  = [];
+    });
+    // If admin is viewing the clients table, refresh it
+    if (document.getElementById("adm-page-clients").style.display !== "none") {
+      renderTable();
+    }
+  });
+}
+
+// ═══ ADMIN CREDENTIALS (kept local — never exposed to clients) ══════════
+const ADMIN_CREDS = { admin:"ninja2025", sarah:"staff123" };
+
+// ═══ DEFAULT CLIENT SHAPE ════════════════════════════════════════════════
+function clientDefaults() {
+  return {
+    password:"", name:"", plan:"starter", planName:"Starter Plan",
+    platforms:"Facebook + Instagram", posts:"8 posts/month",
+    ads:"Min. ฿1,500/post + 15% agency fee", renewal:"",
+    manager:"", report:"Monthly report",
+    includes:"8 posts per month\n1 language (Burmese or Thai)\nContent planning",
+    goals:"", strategy:"", focus:"",
+    contentMonth:"", monthStart:0, monthDays:31,
+    contentPosts:[], looker:"", brandColors:[],
+    typography:"", brandVoice:"", logoNotes:"", brandNotes:""
+  };
+}
+
+// ═══ LOCAL FALLBACK DATA (used if Firebase is not yet configured) ════════
+let clients = {
+  theloft: Object.assign(clientDefaults(), {
+    password:"loft2025", name:"The Loft Burmese Eatery"
+  }),
+  mfxasia: Object.assign(clientDefaults(), {
+    password:"mfx2025", name:"MFX Asia / ProstageFX"
+  })
+};
+let currentEditClient = null, currentClientUser = null, brandColorsEditList = [];
+
 // ═══ SCREEN / TAB SYSTEM ════════════════════════════════════════════════
-const SCREENS=['screen-client-login','screen-admin-login','screen-client','screen-admin'];
-function show(id){SCREENS.forEach(s=>document.getElementById(s).style.display='none');document.getElementById(id).style.display='block';}
- 
-const CL_TABS=['overview','results','plan','goals','content','branding','contact'];
-function clTab(t){
-  CL_TABS.forEach(p=>{
-    document.getElementById('cl-page-'+p).style.display='none';
-    const b=document.getElementById('cl-tab-'+p);if(b)b.classList.remove('active');
+const SCREENS = ["screen-client-login","screen-admin-login","screen-client","screen-admin"];
+function show(id) {
+  SCREENS.forEach(s => document.getElementById(s).style.display = "none");
+  document.getElementById(id).style.display = "block";
+}
+
+const CL_TABS = ["overview","results","plan","goals","content","branding","contact"];
+function clTab(t) {
+  CL_TABS.forEach(p => {
+    document.getElementById("cl-page-"+p).style.display = "none";
+    const b = document.getElementById("cl-tab-"+p); if(b) b.classList.remove("active");
   });
-  document.getElementById('cl-page-'+t).style.display='block';
-  const ab=document.getElementById('cl-tab-'+t);if(ab)ab.classList.add('active');
+  document.getElementById("cl-page-"+t).style.display = "block";
+  const ab = document.getElementById("cl-tab-"+t); if(ab) ab.classList.add("active");
 }
- 
-const ADM_TABS=['clients','stats','team'];
-function admTab(t){
-  ADM_TABS.forEach(p=>{document.getElementById('adm-page-'+p).style.display='none';document.getElementById('adm-nav-'+p).classList.remove('active');});
-  document.getElementById('adm-page-'+t).style.display='block';
-  document.getElementById('adm-nav-'+t).classList.add('active');
-  if(t==='stats')setTimeout(initAdminCharts,100);
+
+const ADM_TABS = ["clients","stats","team"];
+function admTab(t) {
+  ADM_TABS.forEach(p => {
+    document.getElementById("adm-page-"+p).style.display = "none";
+    document.getElementById("adm-nav-"+p).classList.remove("active");
+  });
+  document.getElementById("adm-page-"+t).style.display = "block";
+  document.getElementById("adm-nav-"+t).classList.add("active");
+  if(t === "stats") setTimeout(initAdminCharts, 100);
 }
- 
-// ═══ AUTH ═══════════════════════════════════════════════════════════════
-function clientLogin(){
-  const u=document.getElementById('cl-user').value.trim().toLowerCase();
-  const p=document.getElementById('cl-pass').value;
-  if(clients[u]&&clients[u].password===p){currentClientUser=u;show('screen-client');loadClient(u);}
-  else showErr('cl-err');
+
+// ═══ AUTH ════════════════════════════════════════════════════════════════
+function clientLogin() {
+  const u = document.getElementById("cl-user").value.trim().toLowerCase();
+  const p = document.getElementById("cl-pass").value;
+  showLoading("cl-err", "Checking credentials…");
+  dbReadClients(() => {
+    hideLoading("cl-err");
+    if (clients[u] && clients[u].password === p) {
+      currentClientUser = u;
+      show("screen-client");
+      loadClient(u);
+    } else {
+      showErr("cl-err");
+    }
+  });
 }
-function adminLogin(){
-  const u=document.getElementById('adm-user').value.trim().toLowerCase();
-  const p=document.getElementById('adm-pass').value;
-  if(ADMIN_CREDS[u]&&ADMIN_CREDS[u]===p){
-    document.getElementById('adm-display-name').textContent=u[0].toUpperCase()+u.slice(1);
-    document.getElementById('adm-sidebar-name').textContent=u[0].toUpperCase()+u.slice(1);
-    show('screen-admin');loadAdmin();
-  }else showErr('adm-err');
+
+function adminLogin() {
+  const u = document.getElementById("adm-user").value.trim().toLowerCase();
+  const p = document.getElementById("adm-pass").value;
+  if (ADMIN_CREDS[u] && ADMIN_CREDS[u] === p) {
+    document.getElementById("adm-display-name").textContent = u[0].toUpperCase()+u.slice(1);
+    document.getElementById("adm-sidebar-name").textContent = u[0].toUpperCase()+u.slice(1);
+    // Load fresh data from Firebase then show admin
+    dbReadClients(() => {
+      show("screen-admin");
+      loadAdmin();
+      dbListen(); // start real-time sync
+    });
+  } else {
+    showErr("adm-err");
+  }
 }
-function showErr(id){const e=document.getElementById(id);e.style.display='block';setTimeout(()=>e.style.display='none',3500);}
-document.addEventListener('keydown',e=>{
-  if(e.key!=='Enter')return;
-  if(document.getElementById('screen-client-login').style.display!=='none')clientLogin();
-  else if(document.getElementById('screen-admin-login').style.display!=='none')adminLogin();
+
+function showErr(id) {
+  const e = document.getElementById(id);
+  e.textContent = id === "cl-err"
+    ? "Incorrect credentials. Please contact your account manager."
+    : "Incorrect admin credentials.";
+  e.style.display = "block";
+  setTimeout(() => e.style.display = "none", 3500);
+}
+function showLoading(id, msg) {
+  const e = document.getElementById(id);
+  e.textContent = msg; e.style.display = "block";
+}
+function hideLoading(id) {
+  const e = document.getElementById(id);
+  e.style.display = "none";
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  if (document.getElementById("screen-client-login").style.display !== "none") clientLogin();
+  else if (document.getElementById("screen-admin-login").style.display !== "none") adminLogin();
 });
- 
-// ═══ CLIENT DASHBOARD ═══════════════════════════════════════════════════
-function loadClient(u){
-  const c=clients[u];
-  document.getElementById('cl-display-name').textContent=c.name;
-  document.getElementById('cl-welcome-name').textContent=c.name;
-  const av=document.getElementById('cl-avatar-letter');
-  if(av)av.textContent=c.name[0].toUpperCase();
- 
-  // Plan hero
-  const badge=document.getElementById('cl-plan-badge');
-  badge.className='plan-hero-badge '+(c.plan||'starter');
-  badge.textContent=c.plan[0].toUpperCase()+c.plan.slice(1)+' Plan';
-  s('cl-plan-name',c.planName);s('cl-plan-platforms',c.platforms);s('cl-plan-posts',c.posts);
-  s('cl-plan-ads',c.ads);s('cl-plan-renewal',c.renewal);s('cl-plan-manager',c.manager);
-  s('cl-plan-manager-inline',c.manager);s('cl-plan-report',c.report);
- 
-  // Highlight plan comparison card
-  ['starter','growth','pro','basic','advance','custom'].forEach(p=>{
-    const card=document.getElementById('plan-card-'+p);
-    if(card)card.classList.remove('is-active');
+
+// ═══ CLIENT DASHBOARD ════════════════════════════════════════════════════
+function loadClient(u) {
+  const c = clients[u];
+  document.getElementById("cl-display-name").textContent = c.name;
+  document.getElementById("cl-welcome-name").textContent = c.name;
+  const av = document.getElementById("cl-avatar-letter");
+  if(av) av.textContent = c.name[0].toUpperCase();
+
+  const badge = document.getElementById("cl-plan-badge");
+  badge.className = "plan-hero-badge "+(c.plan||"starter");
+  badge.textContent = c.plan[0].toUpperCase()+c.plan.slice(1)+" Plan";
+  s("cl-plan-name",c.planName); s("cl-plan-platforms",c.platforms); s("cl-plan-posts",c.posts);
+  s("cl-plan-ads",c.ads); s("cl-plan-renewal",c.renewal); s("cl-plan-manager",c.manager);
+  s("cl-plan-manager-inline",c.manager); s("cl-plan-report",c.report);
+
+  ["starter","growth","pro","basic","advance","custom"].forEach(p => {
+    const card = document.getElementById("plan-card-"+p);
+    if(card) card.classList.remove("is-active");
   });
-  const ac=document.getElementById('plan-card-'+c.plan);
-  if(ac)ac.classList.add('is-active');
- 
-  // What's included
-  const inc=(c.includes||'').split('\n').filter(Boolean);
-  h('cl-plan-includes',inc.length?inc.map(l=>`<div class="goal-row"><div class="goal-badge">✓</div><div class="goal-text">${x(l)}</div></div>`).join(''):emp('📦','Plan details coming soon.'));
- 
-  // Goals
-  const goals=(c.goals||'').split('\n').filter(Boolean);
-  h('cl-goals-list',goals.length?goals.map((g,i)=>`<div class="goal-row"><div class="goal-badge">${i+1}</div><div class="goal-text">${x(g)}</div></div>`).join(''):emp('🎯',"Goals haven't been set yet."));
-  h('cl-strategy-text',c.strategy?`<p style="font-size:14px;line-height:1.85;color:var(--text2);padding:4px 0;">${x(c.strategy).replace(/\n/g,'<br>')}</p>`:emp('🗺️','Strategy description coming soon.'));
-  const foc=(c.focus||'').split('\n').filter(Boolean);
-  h('cl-focus-list',foc.length?foc.map(f=>`<div class="goal-row"><div class="goal-badge">→</div><div class="goal-text">${x(f)}</div></div>`).join(''):emp('📋','Focus items coming soon.'));
- 
+  const ac = document.getElementById("plan-card-"+c.plan);
+  if(ac) ac.classList.add("is-active");
+
+  const inc = (c.includes||"").split("\n").filter(Boolean);
+  h("cl-plan-includes", inc.length
+    ? inc.map(l=>`<div class="goal-row"><div class="goal-badge">✓</div><div class="goal-text">${x(l)}</div></div>`).join("")
+    : emp("📦","Plan details coming soon."));
+
+  const goals = (c.goals||"").split("\n").filter(Boolean);
+  h("cl-goals-list", goals.length
+    ? goals.map((g2,i)=>`<div class="goal-row"><div class="goal-badge">${i+1}</div><div class="goal-text">${x(g2)}</div></div>`).join("")
+    : emp("🎯","Goals haven't been set yet."));
+  h("cl-strategy-text", c.strategy
+    ? `<p style="font-size:14px;line-height:1.85;color:var(--text2);padding:4px 0;">${x(c.strategy).replace(/\n/g,"<br>")}</p>`
+    : emp("🗺️","Strategy coming soon."));
+  const foc = (c.focus||"").split("\n").filter(Boolean);
+  h("cl-focus-list", foc.length
+    ? foc.map(f=>`<div class="goal-row"><div class="goal-badge">→</div><div class="goal-text">${x(f)}</div></div>`).join("")
+    : emp("📋","Focus items coming soon."));
+
   renderCalendar(c);
   renderBranding(c);
- 
-  // Contact page — set manager name and personalise email subjects
-  const cm=document.getElementById('contact-manager-name');
-  if(cm)cm.textContent=c.manager||'Your account manager';
-  const gr=document.getElementById('btn-general-request');
-  if(gr){
-    const subj=encodeURIComponent(`Request from ${c.name}`);
-    const body=encodeURIComponent(`Hi ${c.manager||'MediaNinja Team'},\n\nI have the following request:\n\n[Please describe your request here]\n\nThank you!\n${c.name}`);
-    gr.href=`mailto:info@medianinjagroup.com?subject=${subj}&body=${body}`;
-  }
- 
-  // Looker embed — same content in both containers
-  const noLooker=`<div style="min-height:440px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:rgba(0,0,0,0.2);">
+
+  const noLooker = `<div style="min-height:440px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:rgba(0,0,0,0.2);">
     <img src="./images/logo.png" alt="MediaNinja" style="height:52px;width:auto;opacity:0.25;">
     <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--text);">Live Dashboard</div>
-    <div style="font-size:13px;color:var(--muted);text-align:center;max-width:300px;line-height:1.7;">Your Looker Studio dashboard will appear here once your account manager connects it.</div>
+    <div style="font-size:13px;color:var(--muted);text-align:center;max-width:300px;line-height:1.7;">Your Looker Studio dashboard will appear here once connected.</div>
     <div style="font-size:11px;padding:8px 18px;background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.18);border-radius:100px;color:var(--gold);font-weight:700;">Awaiting connection</div>
   </div>`;
-  const lookerHTML=c.looker?`<iframe src="${x(c.looker)}" style="width:100%;height:520px;border:none;" allowfullscreen></iframe>`:noLooker;
-  h('cl-looker-container-overview',lookerHTML);
-  h('cl-looker-container',lookerHTML);
- 
-  clTab('overview');
-}
- 
-function renderCalendar(c){
-  s('cl-content-month-label',c.contentMonth?`Your monthly content calendar — ${c.contentMonth}`:'Your monthly content calendar');
-  const grid=document.getElementById('cl-calendar-grid');
-  const heads=Array.from(grid.children).filter(el=>el.classList.contains('cal-head'));
-  grid.innerHTML='';heads.forEach(h2=>grid.appendChild(h2));
-  const pbd={};
-  (c.contentPosts||[]).forEach(p=>{(pbd[p.day]||(pbd[p.day]=[])).push(p);});
-  for(let i=0;i<(c.monthStart||0);i++){const b=document.createElement('div');b.className='cal-cell';b.style.opacity='0.12';grid.appendChild(b);}
-  for(let d=1;d<=(c.monthDays||31);d++){
-    const posts=pbd[d]||[];
-    const cell=document.createElement('div');
-    cell.className='cal-cell'+(posts.length?' has-post':'');
-    let htm=`<div class="cal-num">${d}</div>`;
-    posts.forEach(p=>{const l=p.platform==='both'?'FB+IG':p.platform.toUpperCase();htm+=`<span class="post-chip ${p.platform}">${l}</span><div class="post-topic">${x(p.topic)}</div>`;});
-    cell.innerHTML=htm;grid.appendChild(cell);
+  const lookerHTML = c.looker
+    ? `<iframe src="${x(c.looker)}" style="width:100%;height:520px;border:none;" allowfullscreen></iframe>`
+    : noLooker;
+  h("cl-looker-container-overview", lookerHTML);
+  h("cl-looker-container", lookerHTML);
+
+  const cm = document.getElementById("contact-manager-name");
+  if(cm) cm.textContent = c.manager || "Your account manager";
+  const gr = document.getElementById("btn-general-request");
+  if(gr) {
+    gr.onclick = () => openEmail("general");
   }
-  const sorted=(c.contentPosts||[]).slice().sort((a,b)=>a.day-b.day);
-  h('cl-content-list',sorted.length?sorted.map(p=>{const l=p.platform==='both'?'FB+IG':p.platform.toUpperCase();return `<div class="goal-row"><div class="goal-badge" style="background:transparent;border-color:var(--border2);">📅</div><div class="goal-text" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;color:var(--muted);font-size:12px;min-width:46px;">Day ${p.day}</span><span class="post-chip ${p.platform}" style="display:inline-block;">${l}</span><span>${x(p.topic)}</span></div></div>`;}).join(''):emp('📅','No content scheduled yet.'));
+
+  clTab("overview");
 }
- 
-function renderBranding(c){
-  const grid=document.getElementById('cl-branding-grid');
-  const has=(c.brandColors||[]).length||c.typography||c.brandVoice||c.logoNotes||c.brandNotes;
-  if(!has){grid.innerHTML=`<div style="grid-column:1/-1;">${emp('🎨',"Brand docs haven't been added yet.")}</div>`;return;}
-  let htm=`<div class="branding-tile"><div class="branding-icon">🎨</div><div class="branding-title">Brand Colors</div><div class="branding-desc">Your official brand palette</div>`;
-  if((c.brandColors||[]).length)htm+=`<div class="color-swatches">${c.brandColors.map(col=>`<div class="swatch-item"><div class="swatch" style="background:${x(col.hex)};"></div><div class="swatch-hex">${x(col.hex)}</div><div class="swatch-name">${x(col.label)}</div></div>`).join('')}</div>`;
-  else htm+=`<div style="color:var(--muted);font-size:12px;font-style:italic;">No colors yet.</div>`;
-  htm+=`</div>`;
-  if(c.typography)htm+=bdt('🔤','Typography','Fonts used across your brand',c.typography);
-  if(c.brandVoice)htm+=bdt('✍️','Brand Voice & Tone','How we speak on your behalf',c.brandVoice);
-  if(c.logoNotes)htm+=bdt('📐','Logo Usage','Rules for using your logo',c.logoNotes);
-  if(c.brandNotes)htm+=bdt('📋','Additional Notes','Extra brand guidelines',c.brandNotes);
-  grid.innerHTML=htm;
+
+function renderCalendar(c) {
+  s("cl-content-month-label", c.contentMonth
+    ? `Your monthly content calendar — ${c.contentMonth}`
+    : "Your monthly content calendar");
+  const grid = document.getElementById("cl-calendar-grid");
+  const heads = Array.from(grid.children).filter(el => el.classList.contains("cal-head"));
+  grid.innerHTML = ""; heads.forEach(hd => grid.appendChild(hd));
+  const pbd = {};
+  (c.contentPosts||[]).forEach(p => { (pbd[p.day]||(pbd[p.day]=[])).push(p); });
+  for(let i=0; i<(c.monthStart||0); i++) {
+    const b = document.createElement("div"); b.className = "cal-cell"; b.style.opacity = "0.15"; grid.appendChild(b);
+  }
+  for(let d=1; d<=(c.monthDays||31); d++) {
+    const posts = pbd[d]||[];
+    const cell = document.createElement("div");
+    cell.className = "cal-cell"+(posts.length?" has-post":"");
+    let htm = `<div class="cal-num">${d}</div>`;
+    posts.forEach(p => {
+      const l = p.platform==="both"?"FB+IG":p.platform.toUpperCase();
+      htm += `<span class="post-chip ${p.platform}">${l}</span><div class="post-topic">${x(p.topic)}</div>`;
+    });
+    cell.innerHTML = htm; grid.appendChild(cell);
+  }
+  const sorted = (c.contentPosts||[]).slice().sort((a,b) => a.day-b.day);
+  h("cl-content-list", sorted.length
+    ? sorted.map(p => {
+        const l = p.platform==="both"?"FB+IG":p.platform.toUpperCase();
+        return `<div class="goal-row"><div class="goal-badge" style="background:transparent;border-color:var(--border2);">📅</div><div class="goal-text" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;color:var(--muted);font-size:12px;min-width:46px;">Day ${p.day}</span><span class="post-chip ${p.platform}" style="display:inline-block;">${l}</span><span>${x(p.topic)}</span></div></div>`;
+      }).join("")
+    : emp("📅","No content scheduled yet."));
 }
-function bdt(icon,title,desc,content){return `<div class="branding-tile"><div class="branding-icon">${icon}</div><div class="branding-title">${title}</div><div class="branding-desc">${desc}</div><div class="branding-content">${x(content)}</div></div>`;}
- 
-// ═══ ADMIN ═══════════════════════════════════════════════════════════════
-function loadAdmin(){renderTable();admTab('clients');}
-function renderTable(){
-  document.getElementById('client-table-body').innerHTML=Object.entries(clients).map(([k,c])=>`
+
+function renderBranding(c) {
+  const grid = document.getElementById("cl-branding-grid");
+  const has = (c.brandColors||[]).length||c.typography||c.brandVoice||c.logoNotes||c.brandNotes;
+  if(!has) { grid.innerHTML = `<div style="grid-column:1/-1;">${emp("🎨","Brand docs haven't been added yet.")}</div>`; return; }
+  let htm = `<div class="branding-tile"><div class="branding-icon">🎨</div><div class="branding-title">Brand Colors</div><div class="branding-desc">Your official brand palette</div>`;
+  if((c.brandColors||[]).length)
+    htm += `<div class="color-swatches">${c.brandColors.map(col=>`<div class="swatch-item"><div class="swatch" style="background:${x(col.hex)};"></div><div class="swatch-hex">${x(col.hex)}</div><div class="swatch-name">${x(col.label)}</div></div>`).join("")}</div>`;
+  else htm += `<div style="color:var(--muted);font-size:12px;font-style:italic;">No colors yet.</div>`;
+  htm += `</div>`;
+  if(c.typography) htm += bdt("🔤","Typography","Fonts used across your brand",c.typography);
+  if(c.brandVoice) htm += bdt("✍️","Brand Voice & Tone","How we speak on your behalf",c.brandVoice);
+  if(c.logoNotes)  htm += bdt("📐","Logo Usage","Rules for using your logo",c.logoNotes);
+  if(c.brandNotes) htm += bdt("📋","Additional Notes","Extra brand guidelines",c.brandNotes);
+  grid.innerHTML = htm;
+}
+function bdt(icon,title,desc,content){
+  return `<div class="branding-tile"><div class="branding-icon">${icon}</div><div class="branding-title">${title}</div><div class="branding-desc">${desc}</div><div class="branding-content">${x(content)}</div></div>`;
+}
+
+// ═══ ADMIN ════════════════════════════════════════════════════════════════
+function loadAdmin() { renderTable(); admTab("clients"); }
+
+function renderTable() {
+  document.getElementById("client-table-body").innerHTML = Object.entries(clients).map(([k,c]) => `
     <tr class="admin-tr">
       <td data-label="Client"><strong>${x(c.name)}</strong><br><span style="font-size:11px;color:var(--muted);">${x(k)}</span></td>
       <td data-label="Plan"><span class="plan-tag ${c.plan}">${c.plan}</span></td>
       <td data-label="Status"><span class="active-dot"></span>Active</td>
       <td data-label="Action"><button class="btn btn-primary btn-sm" onclick="openEdit('${k}')">✏️ Edit</button></td>
-    </tr>`).join('');
-  document.getElementById('total-clients').textContent=Object.keys(clients).length;
-  document.getElementById('adm-advance-count').textContent=Object.values(clients).filter(c=>c.plan==='growth'||c.plan==='pro'||c.plan==='advance'||c.plan==='custom').length;
-  document.getElementById('adm-basic-count').textContent=Object.values(clients).filter(c=>c.plan==='starter'||c.plan==='basic').length;
+    </tr>`).join("");
+  document.getElementById("total-clients").textContent = Object.keys(clients).length;
+  document.getElementById("adm-advance-count").textContent = Object.values(clients).filter(c=>["growth","pro","advance","custom"].includes(c.plan)).length;
+  document.getElementById("adm-basic-count").textContent  = Object.values(clients).filter(c=>["starter","basic"].includes(c.plan)).length;
 }
- 
-function openEdit(k){
-  currentEditClient=k;const c=clients[k];
-  document.getElementById('edit-panel-title').textContent='Editing: '+c.name;
-  v('ef-name',c.name);v('ef-username',k);v('ef-password',c.password);v('ef-manager',c.manager||'');
-  v('ef-plan',c.plan);v('ef-plan-name',c.planName||'');v('ef-platforms',c.platforms||'');
-  v('ef-posts',c.posts||'');v('ef-ads',c.ads||'');v('ef-renewal',c.renewal||'');v('ef-includes',c.includes||'');
-  v('ef-goals',c.goals||'');v('ef-strategy',c.strategy||'');v('ef-focus',c.focus||'');
-  v('ef-content-month',c.contentMonth||'');v('ef-month-start',c.monthStart||0);v('ef-month-days',c.monthDays||31);
-  v('ef-looker',c.looker||'');v('ef-typography',c.typography||'');v('ef-brand-voice',c.brandVoice||'');
-  v('ef-logo-notes',c.logoNotes||'');v('ef-brand-notes',c.brandNotes||'');
-  brandColorsEditList=(c.brandColors||[]).map(z=>({...z}));
-  renderColorsEditor();renderAdminPosts();switchETab('credentials');
-  document.getElementById('edit-panel-wrap').style.display='block';
-  document.getElementById('edit-panel-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+
+function openEdit(k) {
+  currentEditClient = k;
+  const c = clients[k];
+  document.getElementById("edit-panel-title").textContent = "Editing: "+c.name;
+  v("ef-name",c.name); v("ef-username",k); v("ef-password",c.password); v("ef-manager",c.manager||"");
+  v("ef-plan",c.plan); v("ef-plan-name",c.planName||""); v("ef-platforms",c.platforms||"");
+  v("ef-posts",c.posts||""); v("ef-ads",c.ads||""); v("ef-renewal",c.renewal||""); v("ef-includes",c.includes||"");
+  v("ef-goals",c.goals||""); v("ef-strategy",c.strategy||""); v("ef-focus",c.focus||"");
+  v("ef-content-month",c.contentMonth||""); v("ef-month-start",c.monthStart||0); v("ef-month-days",c.monthDays||31);
+  v("ef-looker",c.looker||""); v("ef-typography",c.typography||""); v("ef-brand-voice",c.brandVoice||"");
+  v("ef-logo-notes",c.logoNotes||""); v("ef-brand-notes",c.brandNotes||"");
+  brandColorsEditList = (c.brandColors||[]).map(z=>({...z}));
+  renderColorsEditor(); renderAdminPosts(); switchETab("credentials");
+  document.getElementById("edit-panel-wrap").style.display = "block";
+  document.getElementById("edit-panel-wrap").scrollIntoView({behavior:"smooth",block:"start"});
 }
-function closeEditPanel(){document.getElementById('edit-panel-wrap').style.display='none';currentEditClient=null;}
- 
-const ETABS=['credentials','plan','goals','content','branding','looker'];
-function switchETab(t){
-  ETABS.forEach(tab=>{
-    const el=document.getElementById('etab-'+tab);
-    // Use visibility+height instead of display:none so hidden inputs remain readable by JS
-    if(tab===t){
-      el.style.display='block';
-      el.style.visibility='visible';
-      el.style.height='auto';
-      el.style.overflow='visible';
-    } else {
-      el.style.display='block';
-      el.style.visibility='hidden';
-      el.style.height='0';
-      el.style.overflow='hidden';
-    }
-    document.getElementById('etab-btn-'+tab).classList.toggle('active',tab===t);
+function closeEditPanel() {
+  document.getElementById("edit-panel-wrap").style.display = "none";
+  currentEditClient = null;
+}
+
+const ETABS = ["credentials","plan","goals","content","branding","looker"];
+function switchETab(t) {
+  ETABS.forEach(tab => {
+    const el = document.getElementById("etab-"+tab);
+    if(tab===t){ el.style.display="block"; el.style.visibility="visible"; el.style.height="auto"; el.style.overflow="visible"; }
+    else       { el.style.display="block"; el.style.visibility="hidden";  el.style.height="0";    el.style.overflow="hidden"; }
+    document.getElementById("etab-btn-"+tab).classList.toggle("active", tab===t);
   });
 }
- 
-function saveClientData(){
-  if(!currentEditClient)return;
-  // Always preserve existing password if the field is blank (field may be in a hidden tab)
-  const newPassword = g('ef-password').trim() || clients[currentEditClient].password;
-  clients[currentEditClient]={...clients[currentEditClient],
-    name:g('ef-name'),password:newPassword,manager:g('ef-manager'),
-    plan:g('ef-plan'),planName:g('ef-plan-name'),platforms:g('ef-platforms'),
-    posts:g('ef-posts'),ads:g('ef-ads'),renewal:g('ef-renewal'),includes:g('ef-includes'),
-    goals:g('ef-goals'),strategy:g('ef-strategy'),focus:g('ef-focus'),
-    contentMonth:g('ef-content-month'),monthStart:parseInt(g('ef-month-start'))||0,monthDays:parseInt(g('ef-month-days'))||31,
-    looker:g('ef-looker'),typography:g('ef-typography'),brandVoice:g('ef-brand-voice'),
-    logoNotes:g('ef-logo-notes'),brandNotes:g('ef-brand-notes'),
+
+function saveClientData() {
+  if(!currentEditClient) return;
+  const newPassword = g("ef-password").trim() || clients[currentEditClient].password;
+  const updated = {
+    ...clients[currentEditClient],
+    name:g("ef-name"), password:newPassword, manager:g("ef-manager"),
+    plan:g("ef-plan"), planName:g("ef-plan-name"), platforms:g("ef-platforms"),
+    posts:g("ef-posts"), ads:g("ef-ads"), renewal:g("ef-renewal"), includes:g("ef-includes"),
+    goals:g("ef-goals"), strategy:g("ef-strategy"), focus:g("ef-focus"),
+    contentMonth:g("ef-content-month"),
+    monthStart:parseInt(g("ef-month-start"))||0,
+    monthDays:parseInt(g("ef-month-days"))||31,
+    looker:g("ef-looker"), typography:g("ef-typography"), brandVoice:g("ef-brand-voice"),
+    logoNotes:g("ef-logo-notes"), brandNotes:g("ef-brand-notes"),
     brandColors:brandColorsEditList.map(z=>({...z}))
   };
+  clients[currentEditClient] = updated;
+
+  // ✅ Write to Firebase — syncs to ALL devices immediately
+  dbWriteClient(currentEditClient, updated);
+
   renderTable();
-  if(currentClientUser===currentEditClient)loadClient(currentEditClient);
-  const m=document.getElementById('saved-msg');m.style.display='inline';setTimeout(()=>m.style.display='none',2500);
+  if(currentClientUser === currentEditClient) loadClient(currentEditClient);
+  const m = document.getElementById("saved-msg");
+  m.style.display = "inline";
+  setTimeout(() => m.style.display = "none", 2500);
 }
- 
-function initAdminCharts(){
-  const el=document.getElementById('adm-plan-chart');if(!el)return;
-  if(el._ch)el._ch.destroy();
-  const planColor=c=>c.plan==='pro'||c.plan==='custom'?'#10b981':c.plan==='growth'||c.plan==='advance'?'#f0a500':'#64748b';
-  el._ch=new Chart(el,{type:'bar',data:{
-    labels:Object.values(clients).map(c=>c.name),
-    datasets:[{data:Object.values(clients).map(c=>c.plan==='pro'||c.plan==='custom'?3:c.plan==='growth'||c.plan==='advance'?2:1),backgroundColor:Object.values(clients).map(planColor),borderRadius:8,borderSkipped:false}]
-  },options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#111f38',bodyColor:'#64748b',borderColor:'rgba(255,255,255,0.07)',borderWidth:1}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#334155',font:{size:11}}},y:{display:false}}}});
+
+function initAdminCharts() {
+  const el = document.getElementById("adm-plan-chart"); if(!el) return;
+  if(el._ch) el._ch.destroy();
+  const planColor = c => ["pro","custom"].includes(c.plan)?"#10b981":["growth","advance"].includes(c.plan)?"#f0a500":"#64748b";
+  el._ch = new Chart(el, {
+    type:"bar",
+    data:{
+      labels:Object.values(clients).map(c=>c.name),
+      datasets:[{
+        data:Object.values(clients).map(c=>["pro","custom"].includes(c.plan)?3:["growth","advance"].includes(c.plan)?2:1),
+        backgroundColor:Object.values(clients).map(planColor),
+        borderRadius:8, borderSkipped:false
+      }]
+    },
+    options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:"#111f38",bodyColor:"#64748b",borderColor:"rgba(255,255,255,0.07)",borderWidth:1}},scales:{x:{grid:{color:"rgba(255,255,255,0.04)"},ticks:{color:"#334155",font:{size:11}}},y:{display:false}}}
+  });
 }
- 
-function openAddModal(){document.getElementById('add-modal').classList.add('open');}
-function closeAddModal(){document.getElementById('add-modal').classList.remove('open');}
-function addNewClient(){
-  const name=document.getElementById('new-name').value.trim();
-  const user=document.getElementById('new-username').value.trim().toLowerCase().replace(/\s+/g,'');
-  const pass=document.getElementById('new-password').value;
-  const plan=document.getElementById('new-plan').value;
-  if(!name||!user||!pass){alert('Please fill all fields');return;}
-  if(clients[user]){alert('Username already exists');return;}
-  clients[user]={password:pass,name,plan,planName:'',platforms:'',posts:'',ads:'',renewal:'',manager:'',report:'',includes:'',goals:'',strategy:'',focus:'',contentMonth:'',monthStart:0,monthDays:31,contentPosts:[],looker:'',brandColors:[],typography:'',brandVoice:'',logoNotes:'',brandNotes:''};
-  renderTable();closeAddModal();['new-name','new-username','new-password'].forEach(id=>document.getElementById(id).value='');
+
+function openAddModal()  { document.getElementById("add-modal").classList.add("open"); }
+function closeAddModal() { document.getElementById("add-modal").classList.remove("open"); }
+
+function addNewClient() {
+  const name = document.getElementById("new-name").value.trim();
+  const user = document.getElementById("new-username").value.trim().toLowerCase().replace(/\s+/g,"");
+  const pass = document.getElementById("new-password").value;
+  const plan = document.getElementById("new-plan").value;
+  if(!name||!user||!pass) { alert("Please fill all fields"); return; }
+  if(clients[user]) { alert("Username already exists"); return; }
+  const newClient = Object.assign(clientDefaults(), { password:pass, name, plan, planName:plan.charAt(0).toUpperCase()+plan.slice(1)+" Plan" });
+  clients[user] = newClient;
+
+  // ✅ Write to Firebase
+  dbWriteClient(user, newClient);
+
+  renderTable();
+  closeAddModal();
+  ["new-name","new-username","new-password"].forEach(id => document.getElementById(id).value = "");
 }
- 
-function addContentPost(){
-  if(!currentEditClient)return;
-  const day=parseInt(document.getElementById('ef-post-date').value);
-  const platform=document.getElementById('ef-post-platform').value;
-  const topic=document.getElementById('ef-post-topic').value.trim();
-  if(!day||!topic)return;
+
+function addContentPost() {
+  if(!currentEditClient) return;
+  const day      = parseInt(document.getElementById("ef-post-date").value);
+  const platform = document.getElementById("ef-post-platform").value;
+  const topic    = document.getElementById("ef-post-topic").value.trim();
+  if(!day||!topic) return;
   clients[currentEditClient].contentPosts.push({day,platform,topic});
-  clients[currentEditClient].contentPosts.sort((a,b)=>a.day-b.day);
+  clients[currentEditClient].contentPosts.sort((a,b) => a.day-b.day);
   renderAdminPosts();
-  document.getElementById('ef-post-date').value='';document.getElementById('ef-post-topic').value='';
+  document.getElementById("ef-post-date").value = "";
+  document.getElementById("ef-post-topic").value = "";
 }
-function removePost(i){if(!currentEditClient)return;clients[currentEditClient].contentPosts.splice(i,1);renderAdminPosts();}
-function renderAdminPosts(){
-  if(!currentEditClient)return;
-  const posts=clients[currentEditClient].contentPosts||[];
-  document.getElementById('content-posts-list').innerHTML=posts.length
-    ?posts.map((p,i)=>{const l=p.platform==='both'?'FB+IG':p.platform.toUpperCase();return `<div class="post-row"><div style="font-size:11px;font-weight:700;color:var(--muted);width:40px;flex-shrink:0;">Day ${p.day}</div><span class="post-chip ${p.platform}" style="flex-shrink:0;">${l}</span><div style="flex:1;font-size:12px;color:var(--text2);">${x(p.topic)}</div><button onclick="removePost(${i})" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;">✕</button></div>`;}).join('')
-    :'<div style="font-size:12px;color:var(--muted);padding:8px 0;">No posts added yet.</div>';
+function removePost(i) {
+  if(!currentEditClient) return;
+  clients[currentEditClient].contentPosts.splice(i,1);
+  renderAdminPosts();
 }
- 
-function addBrandColor(){brandColorsEditList.push({hex:'#f0a500',label:'New Color'});renderColorsEditor();}
-function renderColorsEditor(){
-  const el=document.getElementById('brand-colors-editor');
-  el.innerHTML=brandColorsEditList.length
-    ?brandColorsEditList.map((col,i)=>`<div class="color-row"><input type="color" value="${col.hex}" oninput="brandColorsEditList[${i}].hex=this.value;document.getElementById('chex${i}').value=this.value"><input type="text" id="chex${i}" value="${col.hex}" onchange="brandColorsEditList[${i}].hex=this.value"><input type="text" value="${x(col.label)}" placeholder="Label" onchange="brandColorsEditList[${i}].label=this.value" style="background:transparent;border:none;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;flex:1;outline:none;min-width:60px;"><button class="color-del" onclick="brandColorsEditList.splice(${i},1);renderColorsEditor()">✕</button></div>`).join('')
-    :'<div style="font-size:11px;color:var(--muted);">No colors yet.</div>';
+function renderAdminPosts() {
+  if(!currentEditClient) return;
+  const posts = clients[currentEditClient].contentPosts||[];
+  document.getElementById("content-posts-list").innerHTML = posts.length
+    ? posts.map((p,i) => {
+        const l = p.platform==="both"?"FB+IG":p.platform.toUpperCase();
+        return `<div class="post-row"><div style="font-size:11px;font-weight:700;color:var(--muted);width:40px;flex-shrink:0;">Day ${p.day}</div><span class="post-chip ${p.platform}" style="flex-shrink:0;">${l}</span><div style="flex:1;font-size:12px;color:var(--text2);">${x(p.topic)}</div><button onclick="removePost(${i})" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;">✕</button></div>`;
+      }).join("")
+    : `<div style="font-size:12px;color:var(--muted);padding:8px 0;">No posts added yet.</div>`;
 }
- 
-// ═══ EMAIL HELPER — built in JS so Cloudflare cannot mangle the address ══
-function openEmail(type){
-  const e='info'+'@'+'medianinjagroup'+'.'+'com';
-  const client=currentClientUser&&clients[currentClientUser]?clients[currentClientUser].name:'';
-  const mgr=currentClientUser&&clients[currentClientUser]?clients[currentClientUser].manager||'MediaNinja Team':'MediaNinja Team';
-  const sig=client?'\n\nBest regards,\n'+client:'';
-  const templates={
-    general:{s:'Request from '+client,b:'Hi '+mgr+',\n\nI have the following request:\n\n[Please describe your request here]'+sig},
-    edit:   {s:'Content Edit Request — '+client,b:'Hi '+mgr+',\n\nI would like to request a change to a scheduled post.\n\nPost details:\nDate / Day: \nPlatform: \nRequested change: '+sig},
-    brief:  {s:'New Content Brief — '+client,b:'Hi '+mgr+',\n\nI have a new content brief to share.\n\nTopic / Concept: \nPlatform: \nPreferred Date: \nAdditional Notes: '+sig},
-    ad:     {s:'Ad Campaign Request — '+client,b:'Hi '+mgr+',\n\nI would like to discuss an ad campaign.\n\nCampaign Goal: \nBudget: \nTarget Audience: \nPreferred Start Date: \nNotes: '+sig},
-    report: {s:'Report Request — '+client,b:'Hi '+mgr+',\n\nI would like to request a performance report.\n\nPeriod: \nPlatforms: \nSpecific Metrics Needed: '+sig},
-    urgent: {s:'URGENT — '+client,b:'Hi '+mgr+',\n\nThis is an urgent matter that requires immediate attention.\n\nDetails: '+sig},
-    feedback:{s:'Feedback from '+client,b:'Hi '+mgr+',\n\nI wanted to share some feedback:\n\n[Your feedback here]'+sig},
+
+function addBrandColor() { brandColorsEditList.push({hex:"#f0a500",label:"New Color"}); renderColorsEditor(); }
+function renderColorsEditor() {
+  const el = document.getElementById("brand-colors-editor");
+  el.innerHTML = brandColorsEditList.length
+    ? brandColorsEditList.map((col,i) => `<div class="color-row"><input type="color" value="${col.hex}" oninput="brandColorsEditList[${i}].hex=this.value;document.getElementById('chex${i}').value=this.value"><input type="text" id="chex${i}" value="${col.hex}" onchange="brandColorsEditList[${i}].hex=this.value"><input type="text" value="${x(col.label)}" placeholder="Label" onchange="brandColorsEditList[${i}].label=this.value" style="background:transparent;border:none;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;flex:1;outline:none;min-width:60px;"><button class="color-del" onclick="brandColorsEditList.splice(${i},1);renderColorsEditor()">✕</button></div>`).join("")
+    : `<div style="font-size:11px;color:var(--muted);">No colors yet.</div>`;
+}
+
+// ═══ EMAIL HELPER ════════════════════════════════════════════════════════
+function openEmail(type) {
+  const e = "info"+"@"+"medianinjagroup"+"."+"com";
+  const client = currentClientUser&&clients[currentClientUser] ? clients[currentClientUser].name : "";
+  const mgr    = currentClientUser&&clients[currentClientUser] ? (clients[currentClientUser].manager||"MediaNinja Team") : "MediaNinja Team";
+  const sig    = client ? "\n\nBest regards,\n"+client : "";
+  const templates = {
+    general:  {s:"Request from "+client,          b:"Hi "+mgr+",\n\nI have the following request:\n\n[Please describe your request here]"+sig},
+    edit:     {s:"Content Edit Request — "+client, b:"Hi "+mgr+",\n\nI would like to request a change to a scheduled post.\n\nPost details:\nDate / Day: \nPlatform: \nRequested change: "+sig},
+    brief:    {s:"New Content Brief — "+client,    b:"Hi "+mgr+",\n\nI have a new content brief to share.\n\nTopic / Concept: \nPlatform: \nPreferred Date: \nAdditional Notes: "+sig},
+    ad:       {s:"Ad Campaign Request — "+client,  b:"Hi "+mgr+",\n\nI would like to discuss an ad campaign.\n\nCampaign Goal: \nBudget: \nTarget Audience: \nPreferred Start Date: \nNotes: "+sig},
+    report:   {s:"Report Request — "+client,       b:"Hi "+mgr+",\n\nI would like to request a performance report.\n\nPeriod: \nPlatforms: \nSpecific Metrics Needed: "+sig},
+    urgent:   {s:"URGENT — "+client,               b:"Hi "+mgr+",\n\nThis is an urgent matter that requires immediate attention.\n\nDetails: "+sig},
+    feedback: {s:"Feedback from "+client,          b:"Hi "+mgr+",\n\nI wanted to share some feedback:\n\n[Your feedback here]"+sig},
   };
-  const t=templates[type]||templates.general;
-  window.location.href='mailto:'+e+'?subject='+encodeURIComponent(t.s)+'&body='+encodeURIComponent(t.b);
+  const t = templates[type]||templates.general;
+  window.location.href = "mailto:"+e+"?subject="+encodeURIComponent(t.s)+"&body="+encodeURIComponent(t.b);
 }
- 
+
 // ═══ UTILS ═══════════════════════════════════════════════════════════════
-function x(t){if(!t)return'';return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function x(t){if(!t)return"";return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function emp(icon,msg){return `<div class="empty"><div class="empty-icon">${icon}</div><p>${msg}</p></div>`;}
-function s(id,val){const e=document.getElementById(id);if(e)e.textContent=val||'';}
+function s(id,val){const e=document.getElementById(id);if(e)e.textContent=val||"";}
 function h(id,html){const e=document.getElementById(id);if(e)e.innerHTML=html;}
 function v(id,val){const e=document.getElementById(id);if(e)e.value=val;}
-function g(id){const e=document.getElementById(id);return e?e.value:'';}
+function g(id){const e=document.getElementById(id);return e?e.value:"";}
+
+// ═══ BOOT ════════════════════════════════════════════════════════════════
+window.addEventListener("DOMContentLoaded", () => {
+  initFirebase();
+  // Load from Firebase; if empty, seed the two default clients
+  dbReadClients(data => {
+    if (Object.keys(data).length === 0 || !firebaseReady) return;
+    // If Firebase has no clients yet, write the local defaults up
+    db.ref("clients").once("value").then(snap => {
+      if (!snap.val()) {
+        Object.entries(clients).forEach(([k, c]) => dbWriteClient(k, c));
+        console.log("✅ Seeded initial clients to Firebase");
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>
- 
