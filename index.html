@@ -448,6 +448,77 @@ body::before{
 .swatch-name{font-size:9px;color:var(--muted2);margin-top:1px;}
 
 /* ════════════════════════════════════════════
+   CANVA SLIDES
+════════════════════════════════════════════ */
+.slides-embed-wrap{
+  border-radius:16px;overflow:hidden;border:1px solid var(--border);
+  background:rgba(0,0,0,0.25);margin-bottom:20px;
+}
+.slides-embed-wrap iframe{display:block;width:100%;height:520px;border:none;}
+.slides-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+.slides-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 22px;border-radius:11px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;border:none;text-decoration:none;
+  transition:all 0.2s;
+}
+.slides-btn.primary{
+  background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;
+  box-shadow:0 6px 24px rgba(124,58,237,0.35);
+}
+.slides-btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,0.45);}
+.slides-btn.secondary{
+  background:rgba(255,255,255,0.05);color:var(--text2);
+  border:1px solid var(--border2);
+}
+.slides-btn.secondary:hover{border-color:rgba(124,58,237,0.5);color:#a78bfa;}
+.slides-import-guide{
+  background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);
+  border-radius:16px;padding:24px;margin-bottom:20px;
+}
+.slides-import-guide-title{
+  font-size:14px;font-weight:700;color:#a78bfa;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.slides-import-steps{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.slides-import-step{
+  display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--text2);line-height:1.6;
+}
+.slides-step-num{
+  width:22px;height:22px;border-radius:50%;background:rgba(124,58,237,0.25);
+  border:1px solid rgba(124,58,237,0.4);color:#a78bfa;font-size:11px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.slides-no-design{
+  min-height:360px;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:16px;background:rgba(0,0,0,0.2);
+  border:1px solid var(--border);border-radius:16px;margin-bottom:20px;
+}
+.slides-no-design-icon{font-size:40px;opacity:0.35;}
+.slides-no-design-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--text);}
+.slides-no-design-sub{font-size:13px;color:var(--muted);text-align:center;max-width:300px;line-height:1.7;}
+.slides-no-design-chip{
+  font-size:11px;padding:7px 18px;background:rgba(124,58,237,0.08);
+  border:1px solid rgba(124,58,237,0.2);border-radius:100px;color:#a78bfa;font-weight:700;
+}
+.slides-upload-section{
+  background:rgba(255,255,255,0.02);border:1px dashed rgba(124,58,237,0.3);
+  border-radius:14px;padding:24px;text-align:center;cursor:pointer;
+  transition:border-color 0.2s,background 0.2s;margin-bottom:20px;
+}
+.slides-upload-section:hover{border-color:rgba(124,58,237,0.6);background:rgba(124,58,237,0.04);}
+.slides-upload-icon{font-size:28px;margin-bottom:8px;opacity:0.6;}
+.slides-upload-label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px;}
+.slides-upload-sub{font-size:11px;color:var(--muted);}
+#slides-file-input{display:none;}
+.slides-file-chosen{
+  display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+  font-size:12px;color:#a78bfa;font-weight:600;
+  background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);
+  border-radius:8px;padding:6px 14px;
+}
+
+/* ════════════════════════════════════════════
    EMPTY STATE
 ════════════════════════════════════════════ */
 .empty{text-align:center;padding:48px 20px;color:var(--muted);}
@@ -972,6 +1043,7 @@ body::before{
     <button class="tab-btn" id="cl-tab-goals"     onclick="clTab('goals')"><span class="tab-icon">🎯</span><span class="tab-label"> Goals & Strategy</span></button>
     <button class="tab-btn" id="cl-tab-content"   onclick="clTab('content')"><span class="tab-icon">📅</span><span class="tab-label"> Content Plan</span></button>
     <button class="tab-btn" id="cl-tab-branding"  onclick="clTab('branding')"><span class="tab-icon">🎨</span><span class="tab-label"> Brand Docs</span></button>
+    <button class="tab-btn" id="cl-tab-slides"    onclick="clTab('slides')"><span class="tab-icon">🖥️</span><span class="tab-label"> Slides</span></button>
     <button class="tab-btn" id="cl-tab-contact"   onclick="clTab('contact')"><span class="tab-icon">✉️</span><span class="tab-label"> Contact</span></button>
   </div>
 
@@ -1135,6 +1207,36 @@ body::before{
       <div class="branding-grid" id="cl-branding-grid"></div>
     </div>
 
+    <!-- CANVA SLIDES -->
+    <div id="cl-page-slides" style="display:none;">
+      <div class="page-header"><h1>Slides</h1><p>Your Canva presentations — view, edit, or import from PowerPoint</p></div>
+      <div id="cl-slides-embed"></div>
+      <div id="cl-slides-actions" style="display:none;" class="slides-actions">
+        <a id="cl-slides-edit-btn" href="#" target="_blank" rel="noopener" class="slides-btn primary">🖊️ Open &amp; Edit in Canva</a>
+        <a id="cl-slides-canva-btn" href="https://www.canva.com/presentations/" target="_blank" rel="noopener" class="slides-btn secondary">📂 Go to My Canva Designs</a>
+      </div>
+
+      <!-- PowerPoint Import Guide -->
+      <div class="slides-import-guide">
+        <div class="slides-import-guide-title">📥 How to import your PowerPoint into Canva</div>
+        <ol class="slides-import-steps">
+          <li class="slides-import-step"><div class="slides-step-num">1</div><div>Go to <strong style="color:#a78bfa;">canva.com</strong> and log in (or create a free account)</div></li>
+          <li class="slides-import-step"><div class="slides-step-num">2</div><div>Click <strong>Create a design</strong> → then select <strong>Import file</strong></div></li>
+          <li class="slides-import-step"><div class="slides-step-num">3</div><div>Upload your <strong>.pptx</strong> file — Canva will convert each slide automatically</div></li>
+          <li class="slides-import-step"><div class="slides-step-num">4</div><div>Edit your slides in Canva, then share the edit link with your account manager so it can be pinned here</div></li>
+        </ol>
+      </div>
+
+      <!-- Upload helper (client-side only — opens Canva import page) -->
+      <div class="slides-upload-section" onclick="document.getElementById('slides-file-input').click()">
+        <input type="file" id="slides-file-input" accept=".pptx,.ppt,.pdf" onchange="handleSlidesFile(this)">
+        <div class="slides-upload-icon">📎</div>
+        <div class="slides-upload-label">Select your PowerPoint file</div>
+        <div class="slides-upload-sub">.pptx · .ppt · .pdf — file is not uploaded anywhere; this just helps you locate it before importing to Canva</div>
+        <div id="slides-file-chosen" class="slides-file-chosen" style="display:none;"></div>
+      </div>
+    </div>
+
     <!-- CONTACT & SUPPORT -->
     <div id="cl-page-contact" style="display:none;">
       <div class="page-header">
@@ -1282,6 +1384,7 @@ body::before{
               <button class="etab" id="etab-btn-content"     onclick="switchETab('content')">📅 Content</button>
               <button class="etab" id="etab-btn-branding"    onclick="switchETab('branding')">🎨 Branding</button>
               <button class="etab" id="etab-btn-looker"      onclick="switchETab('looker')">📊 Live Data</button>
+              <button class="etab" id="etab-btn-slides"     onclick="switchETab('slides')">🖥️ Slides</button>
             </div>
             <div id="etab-credentials">
               <div class="ef-grid">
@@ -1335,6 +1438,22 @@ body::before{
                 <label class="ef-label">Looker Studio Embed URL</label>
                 <input class="ef-input" id="ef-looker" placeholder="https://lookerstudio.google.com/embed/reporting/...">
                 <div style="font-size:11px;color:var(--muted);margin-top:7px;">Looker Studio → File → Embed Report → copy the src URL</div>
+              </div>
+            </div>
+            <div id="etab-slides" style="display:block;visibility:hidden;height:0;overflow:hidden;">
+              <div class="ef-field">
+                <label class="ef-label">Canva Presentation Title</label>
+                <input class="ef-input" id="ef-canva-title" placeholder="e.g. MBA Midterm Project Q1 2026">
+              </div>
+              <div class="ef-field">
+                <label class="ef-label">Canva Embed URL (View)</label>
+                <input class="ef-input" id="ef-canva-url" placeholder="https://www.canva.com/design/XXXXX/view?embed">
+                <div style="font-size:11px;color:var(--muted);margin-top:7px;">Canva → Share → Embed → copy the src URL inside the &lt;iframe&gt; tag</div>
+              </div>
+              <div class="ef-field">
+                <label class="ef-label">Canva Edit URL (for client)</label>
+                <input class="ef-input" id="ef-canva-edit-url" placeholder="https://www.canva.com/design/XXXXX/edit">
+                <div style="font-size:11px;color:var(--muted);margin-top:7px;">Canva → Share → Copy link — this lets the client open and edit the design</div>
               </div>
             </div>
             <div class="save-row">
@@ -1496,7 +1615,8 @@ function clientDefaults() {
     goals:"", strategy:"", focus:"",
     contentMonth:"", monthStart:0, monthDays:31,
     contentPosts:[], looker:"", brandColors:[],
-    typography:"", brandVoice:"", logoNotes:"", brandNotes:""
+    typography:"", brandVoice:"", logoNotes:"", brandNotes:"",
+    canvaTitle:"", canvaUrl:"", canvaEditUrl:""
   };
 }
 
@@ -1518,7 +1638,7 @@ function show(id) {
   document.getElementById(id).style.display = "block";
 }
 
-const CL_TABS = ["overview","results","plan","goals","content","branding","contact"];
+const CL_TABS = ["overview","results","plan","goals","content","branding","slides","contact"];
 function clTab(t) {
   CL_TABS.forEach(p => {
     document.getElementById("cl-page-"+p).style.display = "none";
@@ -1637,6 +1757,7 @@ function loadClient(u) {
 
   renderCalendar(c);
   renderBranding(c);
+  renderSlides(c);
 
   const noLooker = `<div style="min-height:440px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:rgba(0,0,0,0.2);">
     <img src="./images/logo.png" alt="MediaNinja" style="height:52px;width:auto;opacity:0.25;">
@@ -1711,6 +1832,37 @@ function bdt(icon,title,desc,content){
   return `<div class="branding-tile"><div class="branding-icon">${icon}</div><div class="branding-title">${title}</div><div class="branding-desc">${desc}</div><div class="branding-content">${x(content)}</div></div>`;
 }
 
+function renderSlides(c) {
+  const embedWrap = document.getElementById("cl-slides-embed");
+  const actionsWrap = document.getElementById("cl-slides-actions");
+  const editBtn = document.getElementById("cl-slides-edit-btn");
+  if(c.canvaUrl) {
+    embedWrap.innerHTML = `<div class="slides-embed-wrap"><iframe src="${x(c.canvaUrl)}" allowfullscreen loading="lazy"></iframe></div>`;
+    if(c.canvaTitle) {
+      const titleEl = document.createElement("div");
+      titleEl.style.cssText="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;margin-bottom:16px;color:var(--text);";
+      titleEl.textContent = c.canvaTitle;
+      embedWrap.prepend(titleEl);
+    }
+  } else {
+    embedWrap.innerHTML = `<div class="slides-no-design"><div class="slides-no-design-icon">🖥️</div><div class="slides-no-design-title">No presentation linked yet</div><div class="slides-no-design-sub">Your account manager will pin your Canva presentation here once it\'s ready.</div><div class="slides-no-design-chip">Awaiting design</div></div>`;
+  }
+  if(c.canvaEditUrl) {
+    editBtn.href = c.canvaEditUrl;
+    actionsWrap.style.display = "flex";
+  } else {
+    actionsWrap.style.display = c.canvaUrl ? "flex" : "none";
+    editBtn.style.display = c.canvaEditUrl ? "" : "none";
+  }
+}
+
+function handleSlidesFile(input) {
+  const f = input.files[0]; if(!f) return;
+  const el = document.getElementById("slides-file-chosen");
+  el.textContent = "📄 " + f.name;
+  el.style.display = "inline-flex";
+}
+
 // ═══ ADMIN ════════════════════════════════════════════════════════════════
 function loadAdmin() { renderTable(); admTab("clients"); }
 
@@ -1736,7 +1888,8 @@ function openEdit(k) {
   v("ef-posts",c.posts||""); v("ef-ads",c.ads||""); v("ef-renewal",c.renewal||""); v("ef-includes",c.includes||"");
   v("ef-goals",c.goals||""); v("ef-strategy",c.strategy||""); v("ef-focus",c.focus||"");
   v("ef-content-month",c.contentMonth||""); v("ef-month-start",c.monthStart||0); v("ef-month-days",c.monthDays||31);
-  v("ef-looker",c.looker||""); v("ef-typography",c.typography||""); v("ef-brand-voice",c.brandVoice||"");
+  v("ef-looker",c.looker||""); v("ef-canva-title",c.canvaTitle||""); v("ef-canva-url",c.canvaUrl||""); v("ef-canva-edit-url",c.canvaEditUrl||"");
+  v("ef-typography",c.typography||""); v("ef-brand-voice",c.brandVoice||"");
   v("ef-logo-notes",c.logoNotes||""); v("ef-brand-notes",c.brandNotes||"");
   brandColorsEditList = (c.brandColors||[]).map(z=>({...z}));
   renderColorsEditor(); renderAdminPosts(); switchETab("credentials");
@@ -1748,7 +1901,7 @@ function closeEditPanel() {
   currentEditClient = null;
 }
 
-const ETABS = ["credentials","plan","goals","content","branding","looker"];
+const ETABS = ["credentials","plan","goals","content","branding","looker","slides"];
 function switchETab(t) {
   ETABS.forEach(tab => {
     const el = document.getElementById("etab-"+tab);
@@ -1770,7 +1923,8 @@ function saveClientData() {
     contentMonth:g("ef-content-month"),
     monthStart:parseInt(g("ef-month-start"))||0,
     monthDays:parseInt(g("ef-month-days"))||31,
-    looker:g("ef-looker"), typography:g("ef-typography"), brandVoice:g("ef-brand-voice"),
+    looker:g("ef-looker"), canvaTitle:g("ef-canva-title"), canvaUrl:g("ef-canva-url"), canvaEditUrl:g("ef-canva-edit-url"),
+    typography:g("ef-typography"), brandVoice:g("ef-brand-voice"),
     logoNotes:g("ef-logo-notes"), brandNotes:g("ef-brand-notes"),
     brandColors:brandColorsEditList.map(z=>({...z}))
   };
