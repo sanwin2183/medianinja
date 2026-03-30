@@ -738,6 +738,55 @@ body::before{
 .mbn-btn.active svg{transform:translateY(-1px);}
 .mbn-btn-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:54px;}
 
+/* ════ LOOKER STUDIO EMBED ════ */
+.looker-wrap{
+  position:relative;width:100%;overflow:hidden;
+  background:var(--navy);
+  border-radius:0 0 20px 20px;
+}
+.looker-iframe{
+  width:100%;
+  height:clamp(480px, calc(100vh - 280px), 720px);
+  border:none;display:block;
+  /* Fade in once loaded */
+  opacity:0;transition:opacity 0.35s ease;
+}
+.looker-iframe.ready{opacity:1;}
+.looker-loading{
+  position:absolute;inset:0;z-index:10;
+  background:var(--navy2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  transition:opacity 0.4s ease;
+  border-radius:0 0 20px 20px;
+}
+.looker-loading.done{opacity:0;pointer-events:none;}
+.looker-spinner{
+  width:36px;height:36px;border-radius:50%;
+  border:3px solid rgba(240,165,0,0.12);
+  border-top-color:var(--gold);
+  animation:lspin 0.75s linear infinite;
+}
+@keyframes lspin{to{transform:rotate(360deg);}}
+/* Bottom fade — visually softens the Looker Studio footer bar */
+.looker-wrap::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:32px;pointer-events:none;z-index:6;
+  background:linear-gradient(to bottom,transparent,rgba(13,24,41,0.85));
+  border-radius:0 0 20px 20px;
+}
+
+/* Mobile — full-bleed, viewport-height iframe */
+@media(max-width:768px){
+  .looker-iframe{
+    height:calc(100svh - 172px);
+    min-height:400px;
+  }
+  .looker-wrap,.looker-loading{border-radius:0 0 14px 14px;}
+  /* Hide welcome text on dashboard — topbar already shows name */
+  #cl-page-overview .page-header{display:none;}
+  #cl-page-overview .glass-card{margin-bottom:0;}
+}
+
 /* ════ FOOTER ════ */
 .site-footer{
   border-top:1px solid var(--border);
@@ -1769,9 +1818,25 @@ function loadClient(u) {
     <div style="font-size:13px;color:var(--muted);text-align:center;max-width:300px;line-height:1.7;">Your Looker Studio dashboard will appear here once connected.</div>
     <div style="font-size:11px;padding:8px 18px;background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.18);border-radius:100px;color:var(--gold);font-weight:700;">Awaiting connection</div>
   </div>`;
-  const lookerHTML = c.looker
-    ? `<iframe src="${x(c.looker)}" style="width:100%;height:520px;border:none;" allowfullscreen></iframe>`
-    : noLooker;
+  function makeLooker(src) {
+    // Append ?rm=minimal to reduce Looker Studio chrome (hides top nav bar)
+    const url = src + (src.includes('?') ? '&' : '?') + 'rm=minimal';
+    return `<div class="looker-wrap">
+      <div class="looker-loading" id="ll-${Date.now()}">
+        <img src="./images/logo.png" style="height:36px;opacity:0.18;filter:brightness(0) invert(1);" alt="">
+        <div class="looker-spinner"></div>
+        <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">Loading dashboard…</span>
+      </div>
+      <iframe
+        src="${x(url)}"
+        class="looker-iframe"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+        allow="fullscreen"
+        onload="var w=this.closest('.looker-wrap'),l=w&&w.querySelector('.looker-loading');this.classList.add('ready');if(l){l.classList.add('done');setTimeout(()=>l.remove(),450);}"
+      ></iframe>
+    </div>`;
+  }
+  const lookerHTML = c.looker ? makeLooker(c.looker) : noLooker;
   h("cl-looker-container-overview", lookerHTML);
   h("cl-looker-container", lookerHTML);
 
