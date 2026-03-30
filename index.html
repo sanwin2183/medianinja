@@ -743,12 +743,15 @@ body::before{
   position:relative;width:100%;overflow:hidden;
   background:var(--navy);
   border-radius:0 0 20px 20px;
+  /* Fixed height so iframe can overflow and clip the Looker footer bar */
+  height:clamp(480px, calc(100vh - 280px), 720px);
 }
 .looker-iframe{
   width:100%;
-  height:clamp(480px, calc(100vh - 280px), 720px);
+  /* 52px taller than container — Looker's "Privacy | Looker Studio" footer
+     and navigation arrow overflow past the clip boundary and disappear */
+  height:calc(100% + 52px);
   border:none;display:block;
-  /* Fade in once loaded */
   opacity:0;transition:opacity 0.35s ease;
 }
 .looker-iframe.ready{opacity:1;}
@@ -777,10 +780,12 @@ body::before{
 
 /* Mobile — full-bleed, viewport-height iframe */
 @media(max-width:768px){
-  .looker-iframe{
+  .looker-wrap{
     height:calc(100svh - 172px);
     min-height:400px;
   }
+  /* iframe still overflows by 52px to clip the footer */
+  .looker-iframe{height:calc(100% + 52px);}
   .looker-wrap,.looker-loading{border-radius:0 0 14px 14px;}
   /* Hide welcome text on dashboard — topbar already shows name */
   #cl-page-overview .page-header{display:none;}
