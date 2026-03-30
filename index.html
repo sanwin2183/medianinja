@@ -98,9 +98,11 @@ body::before{
 .login-feature{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text2);}
 .login-feature-dot{
   width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-  font-size:15px;flex-shrink:0;
+  flex-shrink:0;
   background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.2);
+  color:var(--gold);
 }
+.login-feature-dot svg{width:15px;height:15px;}
 
 .login-right{
   display:flex;align-items:center;justify-content:center;
@@ -227,7 +229,8 @@ body::before{
 }
 .tab-btn:hover{color:var(--text2);}
 .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
-.tab-icon{font-size:14px;opacity:0.8;}
+.tab-icon{opacity:0.8;display:flex;align-items:center;}
+.tab-icon svg{width:16px;height:16px;}
 
 /* ════════════════════════════════════════════
    MAIN CONTENT AREA
@@ -288,10 +291,12 @@ body::before{
   border-bottom:1px solid var(--border);
 }
 .section-icon{
-  width:40px;height:40px;border-radius:11px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.15);
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.2);
+  color:var(--gold);
 }
+.section-icon svg{width:20px;height:20px;}
 .section-title{
   font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);
 }
@@ -415,10 +420,12 @@ body::before{
 }
 .tnc-tile:hover{border-color:var(--border2);}
 .tnc-tile-icon{
-  width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;
-  font-size:16px;margin-bottom:12px;
+  width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:12px;
   background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.15);
+  color:var(--gold);
 }
+.tnc-tile-icon svg{width:18px;height:18px;}
 .tnc-tile-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;}
 .tnc-tile-body{font-size:13px;color:var(--text2);line-height:1.7;}
 .tnc-tile-body strong{color:var(--gold2);font-weight:700;}
@@ -433,7 +440,14 @@ body::before{
   transition:border-color 0.2s,transform 0.2s;
 }
 .branding-tile:hover{border-color:var(--border2);transform:translateY(-1px);}
-.branding-icon{font-size:26px;margin-bottom:10px;}
+.branding-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:12px;
+  background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.12);
+  color:var(--gold);
+}
+.branding-icon svg{width:22px;height:22px;}
 .branding-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
 .branding-desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
 .branding-content{
@@ -451,7 +465,6 @@ body::before{
    EMPTY STATE
 ════════════════════════════════════════════ */
 .empty{text-align:center;padding:48px 20px;color:var(--muted);}
-.empty-icon{font-size:36px;margin-bottom:12px;opacity:0.5;}
 .empty p{font-size:13px;line-height:1.7;}
 
 /* ════════════════════════════════════════════
@@ -480,7 +493,8 @@ body::before{
 }
 .nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
 .nav-btn.active{background:rgba(240,165,0,0.08);color:var(--gold);}
-.nav-btn-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0;}
+.nav-btn-icon{width:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.nav-btn-icon svg{width:16px;height:16px;}
 
 /* ════════════════════════════════════════════
    ADMIN CONTENT
@@ -648,7 +662,14 @@ body::before{
   transition:all 0.2s;text-decoration:none;display:block;
 }
 .request-type-card:hover{border-color:rgba(240,165,0,0.3);background:rgba(240,165,0,0.03);transform:translateY(-2px);}
-.request-type-icon{font-size:28px;margin-bottom:12px;}
+.request-type-icon{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+  background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.12);
+  color:var(--gold);
+}
+.request-type-icon svg{width:24px;height:24px;}
 .request-type-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;}
 .request-type-desc{font-size:12px;color:var(--muted);line-height:1.6;}
 .request-type-action{
@@ -665,8 +686,10 @@ body::before{
 .whatsapp-icon{
   width:52px;height:52px;border-radius:14px;flex-shrink:0;
   background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.25);
-  display:flex;align-items:center;justify-content:center;font-size:26px;
+  display:flex;align-items:center;justify-content:center;
+  color:#25d366;
 }
+.whatsapp-icon svg{width:26px;height:26px;}
 .whatsapp-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
 .whatsapp-sub{font-size:12px;color:var(--muted);}
 .whatsapp-cta{
@@ -683,6 +706,37 @@ body::before{
 .info-tile-val{font-size:13px;font-weight:600;color:var(--text2);}
 .info-tile-val a{color:var(--gold);text-decoration:none;}
 .info-tile-val a:hover{text-decoration:underline;}
+
+/* ════ ETAB SVG ICONS ════ */
+.etab svg{width:13px;height:13px;margin-right:5px;vertical-align:-2px;flex-shrink:0;}
+
+/* ════ EMPTY STATE SVG ════ */
+.empty-icon{font-size:36px;margin-bottom:16px;opacity:0.5;}
+.empty-icon svg{width:40px;height:40px;color:var(--muted);}
+
+/* ════ MOBILE BOTTOM NAV ════ */
+.mobile-bottom-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:95;
+  background:rgba(10,18,33,0.97);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:1px solid rgba(255,255,255,0.1);
+}
+.mbn-inner{
+  display:flex;height:62px;
+  padding:0 2px;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.mbn-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;background:transparent;border:none;
+  color:var(--muted);cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;font-weight:700;
+  padding:4px 2px;transition:color 0.2s;min-width:0;letter-spacing:0.03em;text-transform:uppercase;
+}
+.mbn-btn svg{width:20px;height:20px;flex-shrink:0;transition:transform 0.15s;}
+.mbn-btn.active{color:var(--gold);}
+.mbn-btn.active svg{transform:translateY(-1px);}
+.mbn-btn-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:54px;}
 
 /* ════ FOOTER ════ */
 .site-footer{
@@ -727,10 +781,10 @@ body::before{
   .user-badge-avatar{width:18px;height:18px;font-size:9px;}
   .signout-btn{padding:5px 10px;font-size:11px;}
 
-  /* ── Tab bar ── */
-  .tab-bar{top:56px;padding:0 4px;}
-  .tab-btn{padding:0 10px;height:42px;font-size:11px;gap:4px;}
-  .tab-icon{font-size:13px;}
+  /* ── Tab bar → hidden on mobile, replaced by bottom nav ── */
+  .tab-bar{display:none;}
+  .mobile-bottom-nav{display:block;}
+  .content-area{padding-bottom:84px;}
 
   /* ── Content area ── */
   .content-area{padding:18px 14px;}
@@ -742,7 +796,8 @@ body::before{
   .glass-card{padding:16px;border-radius:14px;margin-bottom:14px;}
   .section-block{padding:16px;border-radius:14px;margin-bottom:14px;}
   .section-block-top{gap:10px;margin-bottom:12px;padding-bottom:12px;}
-  .section-icon{width:32px;height:32px;font-size:15px;flex-shrink:0;}
+  .section-icon{width:36px;height:36px;}
+  .section-icon svg{width:17px;height:17px;}
   .section-title{font-size:14px;}
   .section-subtitle{font-size:11px;}
   .goal-row{padding:10px 0;gap:10px;}
@@ -872,6 +927,43 @@ body::before{
 </style>
 </head>
 <body>
+<!-- ══ SVG ICON SPRITE ══ -->
+<svg style="display:none;position:absolute" aria-hidden="true">
+  <symbol id="ic-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
+  <symbol id="ic-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></symbol>
+  <symbol id="ic-goals" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="ic-branding" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></symbol>
+  <symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="ic-stats" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+  <symbol id="ic-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  <symbol id="ic-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></symbol>
+  <symbol id="ic-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+  <symbol id="ic-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></symbol>
+  <symbol id="ic-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></symbol>
+  <symbol id="ic-file-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22h6a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v10"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4 5.4-5.4z"/></symbol>
+  <symbol id="ic-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="ic-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="ic-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+  <symbol id="ic-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></symbol>
+  <symbol id="ic-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+  <symbol id="ic-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="ic-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></symbol>
+  <symbol id="ic-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></symbol>
+  <symbol id="ic-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></symbol>
+  <symbol id="ic-lightbulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></symbol>
+  <symbol id="ic-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></symbol>
+  <symbol id="ic-bar-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></symbol>
+  <symbol id="ic-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="ic-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="ic-type" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></symbol>
+  <symbol id="ic-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></symbol>
+  <symbol id="ic-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></symbol>
+  <symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+</svg>
 <div class="mesh-bg"></div>
 
 <!-- ══════════════════════════════════════════
@@ -886,10 +978,10 @@ body::before{
         <div class="login-tagline">Your results,<br>always visible.</div>
         <p class="login-sub">Track every campaign, review your content plan, and stay aligned with your marketing strategy — all in one place.</p>
         <div class="login-features">
-          <div class="login-feature"><div class="login-feature-dot">📊</div>Live dashboard connected to your accounts</div>
-          <div class="login-feature"><div class="login-feature-dot">🎯</div>Goals, strategy and monthly focus</div>
-          <div class="login-feature"><div class="login-feature-dot">📅</div>Content calendar updated in real time</div>
-          <div class="login-feature"><div class="login-feature-dot">🎨</div>Brand guidelines and assets</div>
+          <div class="login-feature"><div class="login-feature-dot"><svg width="15" height="15"><use href="#ic-dashboard"/></svg></div>Live dashboard connected to your accounts</div>
+          <div class="login-feature"><div class="login-feature-dot"><svg width="15" height="15"><use href="#ic-goals"/></svg></div>Goals, strategy and monthly focus</div>
+          <div class="login-feature"><div class="login-feature-dot"><svg width="15" height="15"><use href="#ic-calendar"/></svg></div>Content calendar updated in real time</div>
+          <div class="login-feature"><div class="login-feature-dot"><svg width="15" height="15"><use href="#ic-branding"/></svg></div>Brand guidelines and assets</div>
         </div>
       </div>
     </div>
@@ -924,10 +1016,10 @@ body::before{
         <div class="login-tagline">Manage your<br>clients, easily.</div>
         <p class="login-sub">Update client dashboards, content plans, branding docs and goals — all changes reflect instantly in the client portal.</p>
         <div class="login-features">
-          <div class="login-feature"><div class="login-feature-dot">👥</div>Manage all client portals from one panel</div>
-          <div class="login-feature"><div class="login-feature-dot">✏️</div>Edit goals, strategy and content plans</div>
-          <div class="login-feature"><div class="login-feature-dot">📊</div>Connect Looker Studio dashboards</div>
-          <div class="login-feature"><div class="login-feature-dot">🎨</div>Update client brand guidelines</div>
+          <div class="login-feature"><div class="login-feature-dot"><svg width="15" height="15"><use href="#ic-users"/></svg></div>Manage all client portals from one panel</div>
+          <div class="login-feature"><div class="login-feature-dot"><svg width="15" height="15"><use href="#ic-edit"/></svg></div>Edit goals, strategy and content plans</div>
+          <div class="login-feature"><div class="login-feature-dot"><svg width="15" height="15"><use href="#ic-monitor"/></svg></div>Connect Looker Studio dashboards</div>
+          <div class="login-feature"><div class="login-feature-dot"><svg width="15" height="15"><use href="#ic-branding"/></svg></div>Update client brand guidelines</div>
         </div>
       </div>
     </div>
@@ -967,12 +1059,12 @@ body::before{
   </div>
 
   <div class="tab-bar">
-    <button class="tab-btn" id="cl-tab-overview"  onclick="clTab('overview')"><span class="tab-icon">📊</span><span class="tab-label"> Live Dashboard</span></button>
-    <button class="tab-btn" id="cl-tab-plan"      onclick="clTab('plan')"><span class="tab-icon">📦</span><span class="tab-label"> My Plan</span></button>
-    <button class="tab-btn" id="cl-tab-goals"     onclick="clTab('goals')"><span class="tab-icon">🎯</span><span class="tab-label"> Goals & Strategy</span></button>
-    <button class="tab-btn" id="cl-tab-content"   onclick="clTab('content')"><span class="tab-icon">📅</span><span class="tab-label"> Content Plan</span></button>
-    <button class="tab-btn" id="cl-tab-branding"  onclick="clTab('branding')"><span class="tab-icon">🎨</span><span class="tab-label"> Brand Docs</span></button>
-    <button class="tab-btn" id="cl-tab-contact"   onclick="clTab('contact')"><span class="tab-icon">✉️</span><span class="tab-label"> Contact</span></button>
+    <button class="tab-btn" id="cl-tab-overview"  onclick="clTab('overview')"><span class="tab-icon"><svg width="16" height="16"><use href="#ic-dashboard"/></svg></span><span class="tab-label"> Live Dashboard</span></button>
+    <button class="tab-btn" id="cl-tab-plan"      onclick="clTab('plan')"><span class="tab-icon"><svg width="16" height="16"><use href="#ic-plan"/></svg></span><span class="tab-label"> My Plan</span></button>
+    <button class="tab-btn" id="cl-tab-goals"     onclick="clTab('goals')"><span class="tab-icon"><svg width="16" height="16"><use href="#ic-goals"/></svg></span><span class="tab-label"> Goals & Strategy</span></button>
+    <button class="tab-btn" id="cl-tab-content"   onclick="clTab('content')"><span class="tab-icon"><svg width="16" height="16"><use href="#ic-calendar"/></svg></span><span class="tab-label"> Content Plan</span></button>
+    <button class="tab-btn" id="cl-tab-branding"  onclick="clTab('branding')"><span class="tab-icon"><svg width="16" height="16"><use href="#ic-branding"/></svg></span><span class="tab-label"> Brand Docs</span></button>
+    <button class="tab-btn" id="cl-tab-contact"   onclick="clTab('contact')"><span class="tab-icon"><svg width="16" height="16"><use href="#ic-mail"/></svg></span><span class="tab-label"> Contact</span></button>
   </div>
 
   <div class="content-area">
@@ -1019,13 +1111,13 @@ body::before{
       </div>
 
       <div class="section-block">
-        <div class="section-block-top"><div class="section-icon">✅</div><div><div class="section-title">What's Included</div><div class="section-subtitle">Everything in your current plan</div></div></div>
+        <div class="section-block-top"><div class="section-icon"><svg width="20" height="20"><use href="#ic-check-circle"/></svg></div><div><div class="section-title">What's Included</div><div class="section-subtitle">Everything in your current plan</div></div></div>
         <div id="cl-plan-includes"></div>
       </div>
 
       <!-- Plan comparison -->
       <div class="section-block">
-        <div class="section-block-top"><div class="section-icon">📋</div><div><div class="section-title">All Available Plans</div><div class="section-subtitle">Compare all MediaNinja packages</div></div></div>
+        <div class="section-block-top"><div class="section-icon"><svg width="20" height="20"><use href="#ic-list"/></svg></div><div><div class="section-title">All Available Plans</div><div class="section-subtitle">Compare all MediaNinja packages</div></div></div>
         <div class="plans-compare-grid">
 
           <div class="plan-card starter" id="plan-card-starter">
@@ -1087,12 +1179,12 @@ body::before{
 
       <!-- T&Cs -->
       <div class="section-block">
-        <div class="section-block-top"><div class="section-icon">📄</div><div><div class="section-title">Terms &amp; Conditions</div><div class="section-subtitle">Please review before starting your campaign</div></div></div>
+        <div class="section-block-top"><div class="section-icon"><svg width="20" height="20"><use href="#ic-file"/></svg></div><div><div class="section-title">Terms &amp; Conditions</div><div class="section-subtitle">Please review before starting your campaign</div></div></div>
         <div class="tnc-grid">
-          <div class="tnc-tile"><div class="tnc-tile-icon">📅</div><div class="tnc-tile-title">Campaign Duration</div><div class="tnc-tile-body">Minimum <strong>2-month campaigns</strong>. Pricing based on 2, 3, or 6-month commitments. <strong>5% discount</strong> for commitments over 3 months.</div></div>
-          <div class="tnc-tile"><div class="tnc-tile-icon">📢</div><div class="tnc-tile-title">Media Buying</div><div class="tnc-tile-body">Minimum boosting budget <strong>฿1,500 per content</strong> created by MediaNinja. <strong>+15% agency fee</strong> on top of ad spend. Ad fees not included in plan price.</div></div>
-          <div class="tnc-tile"><div class="tnc-tile-icon">✏️</div><div class="tnc-tile-title">Revisions Policy</div><div class="tnc-tile-body">Revisions limited to <strong>3 times per content</strong>. Additional corrections charged at <strong>฿100 per revision</strong>.</div></div>
-          <div class="tnc-tile"><div class="tnc-tile-icon">🗂️</div><div class="tnc-tile-title">Materials &amp; Brand Book</div><div class="tnc-tile-body">All materials and brand book must be <strong>provided by the client</strong> for graphic design and content creation.</div></div>
+          <div class="tnc-tile"><div class="tnc-tile-icon"><svg width="18" height="18"><use href="#ic-calendar"/></svg></div><div class="tnc-tile-title">Campaign Duration</div><div class="tnc-tile-body">Minimum <strong>2-month campaigns</strong>. Pricing based on 2, 3, or 6-month commitments. <strong>5% discount</strong> for commitments over 3 months.</div></div>
+          <div class="tnc-tile"><div class="tnc-tile-icon"><svg width="18" height="18"><use href="#ic-megaphone"/></svg></div><div class="tnc-tile-title">Media Buying</div><div class="tnc-tile-body">Minimum boosting budget <strong>฿1,500 per content</strong> created by MediaNinja. <strong>+15% agency fee</strong> on top of ad spend. Ad fees not included in plan price.</div></div>
+          <div class="tnc-tile"><div class="tnc-tile-icon"><svg width="18" height="18"><use href="#ic-pencil"/></svg></div><div class="tnc-tile-title">Revisions Policy</div><div class="tnc-tile-body">Revisions limited to <strong>3 times per content</strong>. Additional corrections charged at <strong>฿100 per revision</strong>.</div></div>
+          <div class="tnc-tile"><div class="tnc-tile-icon"><svg width="18" height="18"><use href="#ic-folder"/></svg></div><div class="tnc-tile-title">Materials &amp; Brand Book</div><div class="tnc-tile-body">All materials and brand book must be <strong>provided by the client</strong> for graphic design and content creation.</div></div>
         </div>
       </div>
     </div>
@@ -1101,15 +1193,15 @@ body::before{
     <div id="cl-page-goals" style="display:none;">
       <div class="page-header"><h1>Goals &amp; Strategy</h1><p>Your agreed marketing direction and execution plan</p></div>
       <div class="section-block">
-        <div class="section-block-top"><div class="section-icon">🎯</div><div><div class="section-title">Business Goals</div><div class="section-subtitle">What we're working towards together</div></div></div>
+        <div class="section-block-top"><div class="section-icon"><svg width="20" height="20"><use href="#ic-goals"/></svg></div><div><div class="section-title">Business Goals</div><div class="section-subtitle">What we're working towards together</div></div></div>
         <div id="cl-goals-list"></div>
       </div>
       <div class="section-block">
-        <div class="section-block-top"><div class="section-icon">🗺️</div><div><div class="section-title">Our Strategy</div><div class="section-subtitle">How we plan to achieve your goals</div></div></div>
+        <div class="section-block-top"><div class="section-icon"><svg width="20" height="20"><use href="#ic-map"/></svg></div><div><div class="section-title">Our Strategy</div><div class="section-subtitle">How we plan to achieve your goals</div></div></div>
         <div id="cl-strategy-text"></div>
       </div>
       <div class="section-block">
-        <div class="section-block-top"><div class="section-icon">📋</div><div><div class="section-title">Current Month Focus</div><div class="section-subtitle">This month's priorities</div></div></div>
+        <div class="section-block-top"><div class="section-icon"><svg width="20" height="20"><use href="#ic-clipboard"/></svg></div><div><div class="section-title">Current Month Focus</div><div class="section-subtitle">This month's priorities</div></div></div>
         <div id="cl-focus-list"></div>
       </div>
     </div>
@@ -1124,7 +1216,7 @@ body::before{
         </div>
       </div>
       <div class="section-block">
-        <div class="section-block-top"><div class="section-icon">📝</div><div><div class="section-title">All Scheduled Posts</div><div class="section-subtitle">Full list of this month's content</div></div></div>
+        <div class="section-block-top"><div class="section-icon"><svg width="20" height="20"><use href="#ic-file-edit"/></svg></div><div><div class="section-title">All Scheduled Posts</div><div class="section-subtitle">Full list of this month's content</div></div></div>
         <div id="cl-content-list"></div>
       </div>
     </div>
@@ -1149,49 +1241,49 @@ body::before{
         <div style="margin-bottom:10px;font-size:13px;color:var(--muted);">Our email:</div>
         <div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:28px;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="543d3a323b143931303d353a3d3a3e3533263b21247a373b39">[email&#160;protected]</a></div>
         <button class="request-btn primary" id="btn-general-request" onclick="openEmail('general')">
-          &#x2709;&#xFE0F; &nbsp;Send Us an Email
+          <svg width="15" height="15" style="margin-right:6px;vertical-align:-2px;"><use href="#ic-mail"/></svg>Send Us an Email
         </button>
       </div>
 
       <!-- Quick request type cards -->
       <div class="section-block">
         <div class="section-block-top">
-          <div class="section-icon">&#x26A1;</div>
+          <div class="section-icon"><svg width="20" height="20"><use href="#ic-zap"/></svg></div>
           <div><div class="section-title">Quick Requests</div><div class="section-subtitle">Click any card to open a pre-filled email for that request type</div></div>
         </div>
         <div class="request-types-grid">
           <div class="request-type-card" onclick="openEmail('edit')">
-            <div class="request-type-icon">&#x270F;&#xFE0F;</div>
+            <div class="request-type-icon"><svg width="24" height="24"><use href="#ic-pencil"/></svg></div>
             <div class="request-type-title">Edit a Post</div>
             <div class="request-type-desc">Request a caption edit, image change, or update to a scheduled post before it goes live.</div>
             <div class="request-type-action">Send request &#x2192;</div>
           </div>
           <div class="request-type-card" onclick="openEmail('brief')">
-            <div class="request-type-icon">&#x1F4A1;</div>
+            <div class="request-type-icon"><svg width="24" height="24"><use href="#ic-lightbulb"/></svg></div>
             <div class="request-type-title">Submit a Content Brief</div>
             <div class="request-type-desc">Have a new idea or topic you'd like us to create content around? Share it with us here.</div>
             <div class="request-type-action">Send request &#x2192;</div>
           </div>
           <div class="request-type-card" onclick="openEmail('ad')">
-            <div class="request-type-icon">&#x1F4E2;</div>
+            <div class="request-type-icon"><svg width="24" height="24"><use href="#ic-megaphone"/></svg></div>
             <div class="request-type-title">Request an Ad Campaign</div>
             <div class="request-type-desc">Want to boost a post or run a paid campaign? Tell us your goal, budget and timeline.</div>
             <div class="request-type-action">Send request &#x2192;</div>
           </div>
           <div class="request-type-card" onclick="openEmail('report')">
-            <div class="request-type-icon">&#x1F4CA;</div>
+            <div class="request-type-icon"><svg width="24" height="24"><use href="#ic-bar-chart"/></svg></div>
             <div class="request-type-title">Request a Report</div>
             <div class="request-type-desc">Need a specific performance report or data export for a particular period or platform?</div>
             <div class="request-type-action">Send request &#x2192;</div>
           </div>
           <div class="request-type-card" onclick="openEmail('urgent')">
-            <div class="request-type-icon">&#x1F6A8;</div>
+            <div class="request-type-icon"><svg width="24" height="24"><use href="#ic-alert"/></svg></div>
             <div class="request-type-title">Urgent Matter</div>
             <div class="request-type-desc">Something needs immediate attention? Flag it as urgent and we'll prioritise your message.</div>
             <div class="request-type-action">Send urgent request &#x2192;</div>
           </div>
           <div class="request-type-card" onclick="openEmail('feedback')">
-            <div class="request-type-icon">&#x2B50;</div>
+            <div class="request-type-icon"><svg width="24" height="24"><use href="#ic-star"/></svg></div>
             <div class="request-type-title">Share Feedback</div>
             <div class="request-type-desc">Love something we did? Want to share a suggestion? We'd love to hear from you.</div>
             <div class="request-type-action">Send feedback &#x2192;</div>
@@ -1201,7 +1293,7 @@ body::before{
 
       <!-- WhatsApp -->
       <a class="whatsapp-card" href="https://wa.me/message/MEDIANINJAGROUP" target="_blank">
-        <div class="whatsapp-icon">&#x1F4AC;</div>
+        <div class="whatsapp-icon"><svg width="26" height="26"><use href="#ic-message"/></svg></div>
         <div>
           <div class="whatsapp-title">Chat on WhatsApp</div>
           <div class="whatsapp-sub">For quick questions, your account manager is available on WhatsApp during business hours (Mon&#x2013;Fri, 9am&#x2013;6pm)</div>
@@ -1212,7 +1304,7 @@ body::before{
       <!-- Contact info -->
       <div class="section-block">
         <div class="section-block-top">
-          <div class="section-icon">&#x1F4CB;</div>
+          <div class="section-icon"><svg width="20" height="20"><use href="#ic-info"/></svg></div>
           <div><div class="section-title">Contact Information</div><div class="section-subtitle">All the ways to reach MediaNinja</div></div>
         </div>
         <div class="info-row">
@@ -1231,6 +1323,36 @@ body::before{
   <footer class="site-footer">
     <span>© <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear())</script> <strong>MediaNinja Group</strong> · All rights reserved</span>
   </footer>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+    <div class="mbn-inner">
+      <button class="mbn-btn" id="mbn-overview" onclick="clTab('overview')">
+        <svg width="20" height="20"><use href="#ic-dashboard"/></svg>
+        <span class="mbn-btn-label">Dashboard</span>
+      </button>
+      <button class="mbn-btn" id="mbn-plan" onclick="clTab('plan')">
+        <svg width="20" height="20"><use href="#ic-plan"/></svg>
+        <span class="mbn-btn-label">Plan</span>
+      </button>
+      <button class="mbn-btn" id="mbn-goals" onclick="clTab('goals')">
+        <svg width="20" height="20"><use href="#ic-goals"/></svg>
+        <span class="mbn-btn-label">Goals</span>
+      </button>
+      <button class="mbn-btn" id="mbn-content" onclick="clTab('content')">
+        <svg width="20" height="20"><use href="#ic-calendar"/></svg>
+        <span class="mbn-btn-label">Content</span>
+      </button>
+      <button class="mbn-btn" id="mbn-branding" onclick="clTab('branding')">
+        <svg width="20" height="20"><use href="#ic-branding"/></svg>
+        <span class="mbn-btn-label">Brand</span>
+      </button>
+      <button class="mbn-btn" id="mbn-contact" onclick="clTab('contact')">
+        <svg width="20" height="20"><use href="#ic-mail"/></svg>
+        <span class="mbn-btn-label">Contact</span>
+      </button>
+    </div>
+  </nav>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -1240,7 +1362,7 @@ body::before{
   <div class="topbar">
     <div class="topbar-logo"><img src="./images/logo.png" alt="MediaNinja"></div>
     <div class="topbar-right">
-      <div class="user-badge admin">⚙️ <span id="adm-display-name"></span></div>
+      <div class="user-badge admin"><svg width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><use href="#ic-settings"/></svg><span id="adm-display-name"></span></div>
       <button class="signout-btn" onclick="show('screen-admin-login')">Sign Out</button>
     </div>
   </div>
@@ -1251,10 +1373,10 @@ body::before{
         <div class="sidebar-user-name" id="adm-sidebar-name">Admin</div>
       </div>
       <div class="nav-group-label">Management</div>
-      <button class="nav-btn" id="adm-nav-clients" onclick="admTab('clients')"><span class="nav-btn-icon">👥</span>All Clients</button>
-      <button class="nav-btn" id="adm-nav-stats"   onclick="admTab('stats')"><span class="nav-btn-icon">📊</span>Agency Stats</button>
+      <button class="nav-btn" id="adm-nav-clients" onclick="admTab('clients')"><span class="nav-btn-icon"><svg width="16" height="16"><use href="#ic-users"/></svg></span>All Clients</button>
+      <button class="nav-btn" id="adm-nav-stats"   onclick="admTab('stats')"><span class="nav-btn-icon"><svg width="16" height="16"><use href="#ic-stats"/></svg></span>Agency Stats</button>
       <div class="nav-group-label">Settings</div>
-      <button class="nav-btn" id="adm-nav-team"    onclick="admTab('team')"><span class="nav-btn-icon">👤</span>Team Access</button>
+      <button class="nav-btn" id="adm-nav-team"    onclick="admTab('team')"><span class="nav-btn-icon"><svg width="16" height="16"><use href="#ic-user"/></svg></span>Team Access</button>
     </div>
     <div class="adm-content">
 
@@ -1276,12 +1398,12 @@ body::before{
               <button class="btn btn-ghost btn-sm" onclick="closeEditPanel()">✕ Close</button>
             </div>
             <div class="edit-tabs">
-              <button class="etab active" id="etab-btn-credentials" onclick="switchETab('credentials')">🔑 Login</button>
-              <button class="etab" id="etab-btn-plan"        onclick="switchETab('plan')">📦 Plan</button>
-              <button class="etab" id="etab-btn-goals"       onclick="switchETab('goals')">🎯 Goals</button>
-              <button class="etab" id="etab-btn-content"     onclick="switchETab('content')">📅 Content</button>
-              <button class="etab" id="etab-btn-branding"    onclick="switchETab('branding')">🎨 Branding</button>
-              <button class="etab" id="etab-btn-looker"      onclick="switchETab('looker')">📊 Live Data</button>
+              <button class="etab active" id="etab-btn-credentials" onclick="switchETab('credentials')"><svg width="13" height="13"><use href="#ic-key"/></svg>Login</button>
+              <button class="etab" id="etab-btn-plan"        onclick="switchETab('plan')"><svg width="13" height="13"><use href="#ic-plan"/></svg>Plan</button>
+              <button class="etab" id="etab-btn-goals"       onclick="switchETab('goals')"><svg width="13" height="13"><use href="#ic-goals"/></svg>Goals</button>
+              <button class="etab" id="etab-btn-content"     onclick="switchETab('content')"><svg width="13" height="13"><use href="#ic-calendar"/></svg>Content</button>
+              <button class="etab" id="etab-btn-branding"    onclick="switchETab('branding')"><svg width="13" height="13"><use href="#ic-branding"/></svg>Branding</button>
+              <button class="etab" id="etab-btn-looker"      onclick="switchETab('looker')"><svg width="13" height="13"><use href="#ic-monitor"/></svg>Live Data</button>
             </div>
             <div id="etab-credentials">
               <div class="ef-grid">
@@ -1323,11 +1445,11 @@ body::before{
             </div>
             <div id="etab-branding" style="display:block;visibility:hidden;height:0;overflow:hidden;">
               <div class="brand-editor-grid">
-                <div class="brand-editor-tile"><span class="brand-editor-label">🎨 Brand Colors</span><div id="brand-colors-editor"></div><button class="add-color" onclick="addBrandColor()" style="margin-top:6px;">+ Add Color</button></div>
-                <div class="brand-editor-tile"><span class="brand-editor-label">🔤 Typography</span><textarea class="ef-textarea" id="ef-typography" rows="4" placeholder="Primary Font: Plus Jakarta Sans&#10;Display: Playfair Display"></textarea></div>
-                <div class="brand-editor-tile"><span class="brand-editor-label">✍️ Brand Voice &amp; Tone</span><textarea class="ef-textarea" id="ef-brand-voice" rows="4" placeholder="Friendly, approachable&#10;Tone: Warm, confident"></textarea></div>
-                <div class="brand-editor-tile"><span class="brand-editor-label">📐 Logo Usage</span><textarea class="ef-textarea" id="ef-logo-notes" rows="4" placeholder="Dark backgrounds only&#10;Min size: 120px wide"></textarea></div>
-                <div class="brand-editor-tile" style="grid-column:1/-1;"><span class="brand-editor-label">📋 Additional Notes</span><textarea class="ef-textarea" id="ef-brand-notes" rows="3" placeholder="Any extra brand guidelines..."></textarea></div>
+                <div class="brand-editor-tile"><span class="brand-editor-label"><svg width="12" height="12" style="vertical-align:-1px;margin-right:5px;"><use href="#ic-branding"/></svg>Brand Colors</span><div id="brand-colors-editor"></div><button class="add-color" onclick="addBrandColor()" style="margin-top:6px;">+ Add Color</button></div>
+                <div class="brand-editor-tile"><span class="brand-editor-label"><svg width="12" height="12" style="vertical-align:-1px;margin-right:5px;"><use href="#ic-type"/></svg>Typography</span><textarea class="ef-textarea" id="ef-typography" rows="4" placeholder="Primary Font: Plus Jakarta Sans&#10;Display: Playfair Display"></textarea></div>
+                <div class="brand-editor-tile"><span class="brand-editor-label"><svg width="12" height="12" style="vertical-align:-1px;margin-right:5px;"><use href="#ic-mic"/></svg>Brand Voice &amp; Tone</span><textarea class="ef-textarea" id="ef-brand-voice" rows="4" placeholder="Friendly, approachable&#10;Tone: Warm, confident"></textarea></div>
+                <div class="brand-editor-tile"><span class="brand-editor-label"><svg width="12" height="12" style="vertical-align:-1px;margin-right:5px;"><use href="#ic-image"/></svg>Logo Usage</span><textarea class="ef-textarea" id="ef-logo-notes" rows="4" placeholder="Dark backgrounds only&#10;Min size: 120px wide"></textarea></div>
+                <div class="brand-editor-tile" style="grid-column:1/-1;"><span class="brand-editor-label"><svg width="12" height="12" style="vertical-align:-1px;margin-right:5px;"><use href="#ic-file"/></svg>Additional Notes</span><textarea class="ef-textarea" id="ef-brand-notes" rows="3" placeholder="Any extra brand guidelines..."></textarea></div>
               </div>
             </div>
             <div id="etab-looker" style="display:block;visibility:hidden;height:0;overflow:hidden;">
@@ -1338,7 +1460,7 @@ body::before{
               </div>
             </div>
             <div class="save-row">
-              <button class="btn btn-primary" onclick="saveClientData()">💾 Save Changes</button>
+              <button class="btn btn-primary" onclick="saveClientData()"><svg width="13" height="13" style="vertical-align:-1px;margin-right:6px;"><use href="#ic-save"/></svg>Save Changes</button>
               <span class="saved-chip" id="saved-msg">Saved!</span>
             </div>
           </div>
@@ -1523,9 +1645,12 @@ function clTab(t) {
   CL_TABS.forEach(p => {
     document.getElementById("cl-page-"+p).style.display = "none";
     const b = document.getElementById("cl-tab-"+p); if(b) b.classList.remove("active");
+    const m = document.getElementById("mbn-"+p); if(m) m.classList.remove("active");
   });
   document.getElementById("cl-page-"+t).style.display = "block";
   const ab = document.getElementById("cl-tab-"+t); if(ab) ab.classList.add("active");
+  const mb = document.getElementById("mbn-"+t); if(mb) mb.classList.add("active");
+  if(window.innerWidth <= 768) window.scrollTo({top:0, behavior:"smooth"});
 }
 
 const ADM_TABS = ["clients","stats","team"];
@@ -1621,19 +1746,19 @@ function loadClient(u) {
   const inc = (c.includes||"").split("\n").filter(Boolean);
   h("cl-plan-includes", inc.length
     ? inc.map(l=>`<div class="goal-row"><div class="goal-badge">✓</div><div class="goal-text">${x(l)}</div></div>`).join("")
-    : emp("📦","Plan details coming soon."));
+    : emp("ic-plan","Plan details coming soon."));
 
   const goals = (c.goals||"").split("\n").filter(Boolean);
   h("cl-goals-list", goals.length
     ? goals.map((g2,i)=>`<div class="goal-row"><div class="goal-badge">${i+1}</div><div class="goal-text">${x(g2)}</div></div>`).join("")
-    : emp("🎯","Goals haven't been set yet."));
+    : emp("ic-goals","Goals haven't been set yet."));
   h("cl-strategy-text", c.strategy
     ? `<p style="font-size:14px;line-height:1.85;color:var(--text2);padding:4px 0;">${x(c.strategy).replace(/\n/g,"<br>")}</p>`
-    : emp("🗺️","Strategy coming soon."));
+    : emp("ic-map","Strategy coming soon."));
   const foc = (c.focus||"").split("\n").filter(Boolean);
   h("cl-focus-list", foc.length
     ? foc.map(f=>`<div class="goal-row"><div class="goal-badge">→</div><div class="goal-text">${x(f)}</div></div>`).join("")
-    : emp("📋","Focus items coming soon."));
+    : emp("ic-clipboard","Focus items coming soon."));
 
   renderCalendar(c);
   renderBranding(c);
@@ -1687,28 +1812,29 @@ function renderCalendar(c) {
   h("cl-content-list", sorted.length
     ? sorted.map(p => {
         const l = p.platform==="both"?"FB+IG":p.platform.toUpperCase();
-        return `<div class="goal-row"><div class="goal-badge" style="background:transparent;border-color:var(--border2);">📅</div><div class="goal-text" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;color:var(--muted);font-size:12px;min-width:46px;">Day ${p.day}</span><span class="post-chip ${p.platform}" style="display:inline-block;">${l}</span><span>${x(p.topic)}</span></div></div>`;
+        return `<div class="goal-row"><div class="goal-badge" style="color:var(--gold);"><svg width="12" height="12"><use href="#ic-calendar"/></svg></div><div class="goal-text" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;color:var(--muted);font-size:12px;min-width:46px;">Day ${p.day}</span><span class="post-chip ${p.platform}" style="display:inline-block;">${l}</span><span>${x(p.topic)}</span></div></div>`;
       }).join("")
-    : emp("📅","No content scheduled yet."));
+    : emp("ic-calendar","No content scheduled yet."));
 }
 
+const IC = id => `<svg width="22" height="22"><use href="#${id}"/></svg>`;
 function renderBranding(c) {
   const grid = document.getElementById("cl-branding-grid");
   const has = (c.brandColors||[]).length||c.typography||c.brandVoice||c.logoNotes||c.brandNotes;
-  if(!has) { grid.innerHTML = `<div style="grid-column:1/-1;">${emp("🎨","Brand docs haven't been added yet.")}</div>`; return; }
-  let htm = `<div class="branding-tile"><div class="branding-icon">🎨</div><div class="branding-title">Brand Colors</div><div class="branding-desc">Your official brand palette</div>`;
+  if(!has) { grid.innerHTML = `<div style="grid-column:1/-1;">${emp("ic-branding","Brand docs haven't been added yet.")}</div>`; return; }
+  let htm = `<div class="branding-tile"><div class="branding-icon">${IC("ic-branding")}</div><div class="branding-title">Brand Colors</div><div class="branding-desc">Your official brand palette</div>`;
   if((c.brandColors||[]).length)
     htm += `<div class="color-swatches">${c.brandColors.map(col=>`<div class="swatch-item"><div class="swatch" style="background:${x(col.hex)};"></div><div class="swatch-hex">${x(col.hex)}</div><div class="swatch-name">${x(col.label)}</div></div>`).join("")}</div>`;
   else htm += `<div style="color:var(--muted);font-size:12px;font-style:italic;">No colors yet.</div>`;
   htm += `</div>`;
-  if(c.typography) htm += bdt("🔤","Typography","Fonts used across your brand",c.typography);
-  if(c.brandVoice) htm += bdt("✍️","Brand Voice & Tone","How we speak on your behalf",c.brandVoice);
-  if(c.logoNotes)  htm += bdt("📐","Logo Usage","Rules for using your logo",c.logoNotes);
-  if(c.brandNotes) htm += bdt("📋","Additional Notes","Extra brand guidelines",c.brandNotes);
+  if(c.typography) htm += bdt("ic-type","Typography","Fonts used across your brand",c.typography);
+  if(c.brandVoice) htm += bdt("ic-mic","Brand Voice & Tone","How we speak on your behalf",c.brandVoice);
+  if(c.logoNotes)  htm += bdt("ic-image","Logo Usage","Rules for using your logo",c.logoNotes);
+  if(c.brandNotes) htm += bdt("ic-file","Additional Notes","Extra brand guidelines",c.brandNotes);
   grid.innerHTML = htm;
 }
-function bdt(icon,title,desc,content){
-  return `<div class="branding-tile"><div class="branding-icon">${icon}</div><div class="branding-title">${title}</div><div class="branding-desc">${desc}</div><div class="branding-content">${x(content)}</div></div>`;
+function bdt(iconId,title,desc,content){
+  return `<div class="branding-tile"><div class="branding-icon">${IC(iconId)}</div><div class="branding-title">${title}</div><div class="branding-desc">${desc}</div><div class="branding-content">${x(content)}</div></div>`;
 }
 
 // ═══ ADMIN ════════════════════════════════════════════════════════════════
@@ -1720,7 +1846,7 @@ function renderTable() {
       <td data-label="Client"><strong>${x(c.name)}</strong><br><span style="font-size:11px;color:var(--muted);">${x(k)}</span></td>
       <td data-label="Plan"><span class="plan-tag ${c.plan}">${c.plan}</span></td>
       <td data-label="Status"><span class="active-dot"></span>Active</td>
-      <td data-label="Action"><button class="btn btn-primary btn-sm" onclick="openEdit('${k}')">✏️ Edit</button></td>
+      <td data-label="Action"><button class="btn btn-primary btn-sm" onclick="openEdit('${k}')"><svg width="12" height="12" style="vertical-align:-1px;margin-right:4px;"><use href="#ic-edit"/></svg>Edit</button></td>
     </tr>`).join("");
   document.getElementById("total-clients").textContent = Object.keys(clients).length;
   document.getElementById("adm-advance-count").textContent = Object.values(clients).filter(c=>["growth","pro","advance","custom"].includes(c.plan)).length;
@@ -1882,7 +2008,12 @@ function openEmail(type) {
 
 // ═══ UTILS ═══════════════════════════════════════════════════════════════
 function x(t){if(!t)return"";return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-function emp(icon,msg){return `<div class="empty"><div class="empty-icon">${icon}</div><p>${msg}</p></div>`;}
+function emp(iconId,msg){
+  const ico = iconId.startsWith("ic-")
+    ? `<svg width="38" height="38"><use href="#${iconId}"/></svg>`
+    : iconId;
+  return `<div class="empty"><div class="empty-icon">${ico}</div><p>${msg}</p></div>`;
+}
 function s(id,val){const e=document.getElementById(id);if(e)e.textContent=val||"";}
 function h(id,html){const e=document.getElementById(id);if(e)e.innerHTML=html;}
 function v(id,val){const e=document.getElementById(id);if(e)e.value=val;}
