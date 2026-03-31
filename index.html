@@ -999,9 +999,44 @@ body::before{
   .content-area{padding:14px 12px;}
   .adm-content{padding:14px 12px;}
 }
+
+/* ════ CURSOR SPOTLIGHT ════ */
+#cursor-spotlight{
+  position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:radial-gradient(
+    600px circle at var(--cx,50%) var(--cy,50%),
+    rgba(240,165,0,0.07) 0%,
+    rgba(59,130,246,0.04) 30%,
+    transparent 70%
+  );
+  transition:opacity 0.4s ease;
+  opacity:0;
+}
+#cursor-dot{
+  position:fixed;width:10px;height:10px;border-radius:50%;
+  background:radial-gradient(circle,rgba(240,165,0,0.9) 0%,rgba(240,165,0,0.2) 60%,transparent 100%);
+  pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 12px 4px rgba(240,165,0,0.35),0 0 30px 8px rgba(240,165,0,0.12);
+  transition:transform 0.08s ease,opacity 0.3s ease;
+  opacity:0;
+}
+#cursor-ring{
+  position:fixed;width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(240,165,0,0.35);
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width 0.2s ease,height 0.2s ease,border-color 0.2s ease,opacity 0.3s ease;
+  opacity:0;
+}
+body:not(.no-cursor) *{cursor:none!important;}
 </style>
 </head>
 <body>
+<!-- ══ CURSOR FX ══ -->
+<div id="cursor-spotlight"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
 <!-- ══ SVG ICON SPRITE ══ -->
 <svg style="display:none;position:absolute" aria-hidden="true">
   <symbol id="ic-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
@@ -2147,6 +2182,75 @@ function s(id,val){const e=document.getElementById(id);if(e)e.textContent=val||"
 function h(id,html){const e=document.getElementById(id);if(e)e.innerHTML=html;}
 function v(id,val){const e=document.getElementById(id);if(e)e.value=val;}
 function g(id){const e=document.getElementById(id);return e?e.value:"";}
+
+// ═══ CURSOR SPOTLIGHT FX ════════════════════════════════════════════════
+(function(){
+  const spotlight = document.getElementById('cursor-spotlight');
+  const dot       = document.getElementById('cursor-dot');
+  const ring      = document.getElementById('cursor-ring');
+  if(!spotlight || !dot || !ring) return;
+
+  let mx=window.innerWidth/2, my=window.innerHeight/2;
+  let rx=mx, ry=my;        // ring lags behind
+  let raf;
+
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  function tick(){
+    // ring smoothly follows cursor
+    rx = lerp(rx, mx, 0.12);
+    ry = lerp(ry, my, 0.12);
+    ring.style.left = rx+'px';
+    ring.style.top  = ry+'px';
+    raf = requestAnimationFrame(tick);
+  }
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+
+    // spotlight (instant)
+    spotlight.style.setProperty('--cx', mx+'px');
+    spotlight.style.setProperty('--cy', my+'px');
+
+    // dot (instant)
+    dot.style.left = mx+'px';
+    dot.style.top  = my+'px';
+
+    // show on first move
+    spotlight.style.opacity='1';
+    dot.style.opacity='1';
+    ring.style.opacity='1';
+  }, {passive:true});
+
+  // scale ring on hover over interactive elements
+  document.addEventListener('mouseover', e => {
+    if(e.target.closest('button,a,input,select,textarea,[role="button"],.tab-btn,.sidebar-item,.btn')){
+      ring.style.width='54px';
+      ring.style.height='54px';
+      ring.style.borderColor='rgba(240,165,0,0.7)';
+      dot.style.transform='translate(-50%,-50%) scale(0.5)';
+    } else {
+      ring.style.width='36px';
+      ring.style.height='36px';
+      ring.style.borderColor='rgba(240,165,0,0.35)';
+      dot.style.transform='translate(-50%,-50%) scale(1)';
+    }
+  }, {passive:true});
+
+  // hide when cursor leaves window
+  document.addEventListener('mouseleave', () => {
+    spotlight.style.opacity='0';
+    dot.style.opacity='0';
+    ring.style.opacity='0';
+  });
+  document.addEventListener('mouseenter', () => {
+    spotlight.style.opacity='1';
+    dot.style.opacity='1';
+    ring.style.opacity='1';
+  });
+
+  raf = requestAnimationFrame(tick);
+})();
 
 // ═══ BOOT ════════════════════════════════════════════════════════════════
 window.addEventListener("DOMContentLoaded", () => {
