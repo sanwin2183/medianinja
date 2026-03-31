@@ -1030,6 +1030,67 @@ body::before{
   opacity:0;
 }
 body:not(.no-cursor) *{cursor:none!important;}
+
+/* ════ PASSWORD TOGGLE ════ */
+.pw-wrap{position:relative;}
+.pw-wrap .field-input{padding-right:44px;}
+.pw-toggle{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;padding:0;cursor:pointer;
+  color:var(--muted);display:flex;align-items:center;justify-content:center;
+  transition:color 0.2s;
+}
+.pw-toggle:hover{color:var(--text2);}
+.pw-toggle svg{width:17px;height:17px;}
+
+/* ════ DASHBOARD FULLSCREEN ════ */
+.dash-fullscreen-btn{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--muted);
+  background:none;border:1px solid var(--border);border-radius:8px;
+  padding:5px 10px;cursor:pointer;transition:all 0.2s;
+}
+.dash-fullscreen-btn:hover{color:var(--text2);border-color:var(--border2);}
+.dash-fullscreen-btn svg{width:14px;height:14px;}
+.dashboard-card-fs{
+  position:fixed!important;inset:0!important;z-index:500!important;
+  border-radius:0!important;background:var(--navy)!important;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.dashboard-card-fs .looker-wrap{
+  flex:1;height:auto!important;border-radius:0!important;
+}
+.dashboard-card-fs .looker-iframe{height:calc(100% + 52px)!important;}
+.fs-minimize-btn{
+  position:fixed;top:16px;right:16px;z-index:600;
+  display:none;align-items:center;gap:6px;
+  font-size:12px;font-weight:700;color:var(--text);
+  background:rgba(13,24,41,0.9);border:1px solid var(--border2);
+  border-radius:10px;padding:8px 14px;cursor:pointer;
+  backdrop-filter:blur(12px);transition:all 0.2s;
+}
+.fs-minimize-btn:hover{border-color:var(--gold);color:var(--gold);}
+.fs-minimize-btn svg{width:14px;height:14px;}
+.fs-active .fs-minimize-btn{display:flex;}
+
+/* ════ ADMIN TEAM MANAGEMENT ════ */
+.team-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:rgba(255,255,255,0.02);
+  border:1px solid var(--border);border-radius:12px;
+}
+.team-row-info{flex:1;min-width:0;}
+.team-row-name{font-weight:700;font-size:13px;}
+.team-row-role{font-size:11px;color:var(--muted);margin-top:2px;}
+.team-row-actions{display:flex;gap:8px;align-items:center;}
+.team-action-btn{
+  font-size:11px;font-weight:600;padding:5px 10px;border-radius:7px;
+  border:1px solid var(--border2);background:none;color:var(--text2);cursor:pointer;transition:all 0.15s;
+}
+.team-action-btn:hover{background:var(--glass2);color:var(--text);}
+.team-action-btn.danger{color:var(--red);border-color:rgba(239,68,68,0.25);}
+.team-action-btn.danger:hover{background:rgba(239,68,68,0.08);}
 </style>
 </head>
 <body>
@@ -1037,6 +1098,11 @@ body:not(.no-cursor) *{cursor:none!important;}
 <div id="cursor-spotlight"></div>
 <div id="cursor-ring"></div>
 <div id="cursor-dot"></div>
+<!-- ══ FULLSCREEN MINIMIZE BTN ══ -->
+<button class="fs-minimize-btn" id="fs-minimize-btn" onclick="toggleDashFS()">
+  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
+  Minimize
+</button>
 <!-- ══ SVG ICON SPRITE ══ -->
 <svg style="display:none;position:absolute" aria-hidden="true">
   <symbol id="ic-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
@@ -1105,7 +1171,7 @@ body:not(.no-cursor) *{cursor:none!important;}
         <p class="login-subheading">Sign in to access your client portal</p>
         <div class="portal-chip client">Client Access</div>
         <div class="field-wrap"><label class="field-label">Username</label><input class="field-input" id="cl-user" type="text" placeholder="Your username" autocomplete="username"></div>
-        <div class="field-wrap"><label class="field-label">Password</label><input class="field-input" id="cl-pass" type="password" placeholder="••••••••"></div>
+        <div class="field-wrap"><label class="field-label">Password</label><div class="pw-wrap"><input class="field-input" id="cl-pass" type="password" placeholder="••••••••"><button class="pw-toggle" type="button" onclick="togglePw('cl-pass',this)" aria-label="Show password"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
         <button class="login-btn client-btn" onclick="clientLogin()">Sign In <span style="font-size:16px;">→</span></button>
         <div class="err-msg" id="cl-err">Incorrect credentials. Please contact your account manager.</div>
         <div class="switch-link">MediaNinja staff? <a onclick="show('screen-admin-login')">Admin Login →</a></div>
@@ -1143,7 +1209,7 @@ body:not(.no-cursor) *{cursor:none!important;}
         <p class="login-subheading">Staff access only</p>
         <div class="portal-chip admin">Staff Access</div>
         <div class="field-wrap"><label class="field-label">Username</label><input class="field-input" id="adm-user" type="text" placeholder="Staff username"></div>
-        <div class="field-wrap"><label class="field-label">Password</label><input class="field-input" id="adm-pass" type="password" placeholder="••••••••"></div>
+        <div class="field-wrap"><label class="field-label">Password</label><div class="pw-wrap"><input class="field-input" id="adm-pass" type="password" placeholder="••••••••"><button class="pw-toggle" type="button" onclick="togglePw('adm-pass',this)" aria-label="Show password"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
         <button class="login-btn admin-btn" onclick="adminLogin()">Enter Admin Panel →</button>
         <div class="err-msg" id="adm-err">Incorrect credentials.</div>
         <div class="switch-link">Client? <a onclick="show('screen-client-login')">← Client Login</a></div>
@@ -1192,6 +1258,10 @@ body:not(.no-cursor) *{cursor:none!important;}
             <div style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);"></div>
             <span style="font-size:13px;font-weight:700;">Live Dashboard</span>
           </div>
+          <button class="dash-fullscreen-btn" id="dash-fs-btn" onclick="toggleDashFS()">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            Fullscreen
+          </button>
         </div>
         <!-- Platform sub-tabs -->
         <div class="platform-tabs">
@@ -1412,16 +1482,6 @@ body:not(.no-cursor) *{cursor:none!important;}
         </div>
       </div>
 
-      <!-- WhatsApp -->
-      <a class="whatsapp-card" href="https://wa.me/message/MEDIANINJAGROUP" target="_blank">
-        <div class="whatsapp-icon"><svg width="26" height="26"><use href="#ic-message"/></svg></div>
-        <div>
-          <div class="whatsapp-title">Chat on WhatsApp</div>
-          <div class="whatsapp-sub">For quick questions, your account manager is available on WhatsApp during business hours (Mon&#x2013;Fri, 9am&#x2013;6pm)</div>
-        </div>
-        <div class="whatsapp-cta">Open WhatsApp &#x2192;</div>
-      </a>
-
       <!-- Contact info -->
       <div class="section-block">
         <div class="section-block-top">
@@ -1614,14 +1674,40 @@ body:not(.no-cursor) *{cursor:none!important;}
 
       <!-- TEAM -->
       <div id="adm-page-team" style="display:none;">
-        <div class="adm-page-header"><div><h1>Team Access</h1><p>Manage who can access the admin panel</p></div></div>
+        <div class="adm-page-header">
+          <div><h1>Team Access</h1><p>Manage admin accounts and passwords</p></div>
+          <button class="btn btn-primary" onclick="openAddAdminModal()">+ Add Admin</button>
+        </div>
         <div class="glass-card">
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;"><div><div style="font-weight:700;font-size:13px;">admin</div><div style="font-size:11px;color:var(--muted);">Owner · Full access</div></div><span class="plan-tag growth">Owner</span></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;"><div><div style="font-weight:700;font-size:13px;">sarah</div><div style="font-size:11px;color:var(--muted);">Account Manager</div></div><span class="plan-tag starter">Staff</span></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;"><div><div style="font-weight:700;font-size:13px;">razif</div><div style="font-size:11px;color:var(--muted);">Content Creator</div></div><span class="plan-tag starter">Staff</span></div>
+          <div id="team-list" style="display:flex;flex-direction:column;gap:10px;">
+            <div style="text-align:center;color:var(--muted);padding:20px;font-size:13px;">Loading…</div>
           </div>
-          <button class="btn btn-primary" style="margin-top:16px;">+ Add Team Member</button>
+        </div>
+      </div>
+
+      <!-- ADD ADMIN MODAL -->
+      <div class="modal-bg" id="add-admin-modal" style="display:none;">
+        <div class="modal">
+          <button class="modal-close" onclick="closeAddAdminModal()">✕</button>
+          <div class="modal-title">Add Admin</div>
+          <div class="modal-sub">Create a new staff login</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="ef-field"><label class="ef-label">Username</label><input class="ef-input" id="new-adm-user" placeholder="e.g. sarah (lowercase, no spaces)"></div>
+            <div class="ef-field"><label class="ef-label">Role / Title</label><input class="ef-input" id="new-adm-role" placeholder="e.g. Account Manager"></div>
+            <div class="ef-field"><label class="ef-label">Password</label><div class="pw-wrap"><input class="ef-input" id="new-adm-pass" type="password" placeholder="Set a password"><button class="pw-toggle" type="button" onclick="togglePw('new-adm-pass',this)" aria-label="Show password"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;margin-top:20px;padding:14px;" onclick="addAdmin()">Create Admin</button>
+        </div>
+      </div>
+
+      <!-- CHANGE PASSWORD MODAL -->
+      <div class="modal-bg" id="chg-pass-modal" style="display:none;">
+        <div class="modal">
+          <button class="modal-close" onclick="closeChgPassModal()">✕</button>
+          <div class="modal-title">Change Password</div>
+          <div class="modal-sub" id="chg-pass-subtitle"></div>
+          <div class="ef-field" style="margin-top:16px;"><label class="ef-label">New Password</label><div class="pw-wrap"><input class="ef-input" id="chg-pass-input" type="password" placeholder="Enter new password"><button class="pw-toggle" type="button" onclick="togglePw('chg-pass-input',this)" aria-label="Show password"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+          <button class="btn btn-primary" style="width:100%;margin-top:20px;padding:14px;" onclick="saveAdminPassword()">Save Password</button>
         </div>
       </div>
 
@@ -1737,8 +1823,143 @@ function dbListen() {
   });
 }
 
-// ═══ ADMIN CREDENTIALS (kept local — never exposed to clients) ══════════
-const ADMIN_CREDS = { admin:"ninja2025", sarah:"staff123" };
+// ═══ ADMIN CREDENTIALS — synced with Firebase ════════════════════════════
+// Fallback used only when Firebase is unavailable
+let ADMIN_CREDS = { admin:"ninja2025", sarah:"staff123" };
+let adminRoles   = { admin:"Owner · Full access", sarah:"Account Manager" };
+
+// ── Firebase admin helpers ──────────────────────────────────────────────
+function dbReadAdmins(cb) {
+  if (!firebaseReady || !db) { cb(ADMIN_CREDS, adminRoles); return; }
+  db.ref("admins").once("value").then(snap => {
+    const data = snap.val();
+    if (data) {
+      ADMIN_CREDS = {};
+      adminRoles  = {};
+      Object.entries(data).forEach(([u, v]) => {
+        ADMIN_CREDS[u] = v.password || "";
+        adminRoles[u]  = v.role || "Staff";
+      });
+      // Seed Firebase if it was empty (first run)
+    } else {
+      const seed = { admin:{password:"ninja2025",role:"Owner · Full access"}, sarah:{password:"staff123",role:"Account Manager"} };
+      db.ref("admins").set(seed);
+    }
+    cb(ADMIN_CREDS, adminRoles);
+  }).catch(() => cb(ADMIN_CREDS, adminRoles));
+}
+
+function dbWriteAdmin(username, password, role) {
+  if (!firebaseReady || !db) return;
+  db.ref("admins/" + username).set({ password, role });
+}
+
+function dbDeleteAdmin(username) {
+  if (!firebaseReady || !db) return;
+  db.ref("admins/" + username).remove();
+}
+
+// ── Team tab UI ──────────────────────────────────────────────────────────
+function renderTeam() {
+  const list = document.getElementById("team-list");
+  if (!list) return;
+  list.innerHTML = "";
+  Object.keys(ADMIN_CREDS).forEach(u => {
+    const isOwner = u === "admin";
+    const row = document.createElement("div");
+    row.className = "team-row";
+    row.innerHTML = `
+      <div class="team-row-info">
+        <div class="team-row-name">${u}</div>
+        <div class="team-row-role">${adminRoles[u] || "Staff"}</div>
+      </div>
+      <div class="team-row-actions">
+        <span class="plan-tag ${isOwner?'growth':'starter'}">${isOwner?'Owner':'Staff'}</span>
+        <button class="team-action-btn" onclick="openChgPassModal('${u}')">Change Password</button>
+        ${!isOwner ? `<button class="team-action-btn danger" onclick="deleteAdminUser('${u}')">Delete</button>` : ""}
+      </div>`;
+    list.appendChild(row);
+  });
+}
+
+let _chgPassTarget = null;
+function openAddAdminModal() { document.getElementById("add-admin-modal").style.display="flex"; }
+function closeAddAdminModal(){ document.getElementById("add-admin-modal").style.display="none"; document.getElementById("new-adm-user").value=""; document.getElementById("new-adm-pass").value=""; document.getElementById("new-adm-role").value=""; }
+
+function addAdmin() {
+  const u = document.getElementById("new-adm-user").value.trim().toLowerCase().replace(/\s+/g,"");
+  const p = document.getElementById("new-adm-pass").value;
+  const r = document.getElementById("new-adm-role").value.trim() || "Staff";
+  if (!u || !p) { alert("Username and password are required."); return; }
+  if (ADMIN_CREDS[u]) { alert("Username already exists."); return; }
+  ADMIN_CREDS[u] = p;
+  adminRoles[u]  = r;
+  dbWriteAdmin(u, p, r);
+  renderTeam();
+  closeAddAdminModal();
+}
+
+function deleteAdminUser(u) {
+  if (!confirm(`Delete admin "${u}"? This cannot be undone.`)) return;
+  delete ADMIN_CREDS[u];
+  delete adminRoles[u];
+  dbDeleteAdmin(u);
+  renderTeam();
+}
+
+function openChgPassModal(u) {
+  _chgPassTarget = u;
+  document.getElementById("chg-pass-subtitle").textContent = `Changing password for: ${u}`;
+  document.getElementById("chg-pass-input").value = "";
+  document.getElementById("chg-pass-modal").style.display = "flex";
+}
+function closeChgPassModal() { document.getElementById("chg-pass-modal").style.display="none"; _chgPassTarget=null; }
+
+function saveAdminPassword() {
+  const p = document.getElementById("chg-pass-input").value;
+  if (!p) { alert("Please enter a new password."); return; }
+  ADMIN_CREDS[_chgPassTarget] = p;
+  dbWriteAdmin(_chgPassTarget, p, adminRoles[_chgPassTarget] || "Staff");
+  closeChgPassModal();
+  alert("Password updated successfully.");
+}
+
+// ── Password show/hide toggle ────────────────────────────────────────────
+const EYE_OPEN  = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+const EYE_SLASH = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+function togglePw(id, btn) {
+  const inp = document.getElementById(id);
+  if (!inp) return;
+  const show = inp.type === "password";
+  inp.type = show ? "text" : "password";
+  btn.innerHTML = show ? EYE_SLASH : EYE_OPEN;
+  btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+}
+
+// ── Dashboard fullscreen ─────────────────────────────────────────────────
+let _dashFS = false;
+function toggleDashFS() {
+  _dashFS = !_dashFS;
+  const card    = document.querySelector("#cl-page-overview .glass-card");
+  const minBtn  = document.getElementById("fs-minimize-btn");
+  const fsBtn   = document.getElementById("dash-fs-btn");
+  if (!card) return;
+  if (_dashFS) {
+    card.classList.add("dashboard-card-fs");
+    document.body.classList.add("fs-active");
+    document.body.style.overflow = "hidden";
+    if (minBtn) minBtn.style.display = "flex";
+    if (fsBtn)  fsBtn.style.display  = "none";
+  } else {
+    card.classList.remove("dashboard-card-fs");
+    document.body.classList.remove("fs-active");
+    document.body.style.overflow = "";
+    if (minBtn) minBtn.style.display = "none";
+    if (fsBtn)  fsBtn.style.display  = "";
+  }
+}
+// ESC key exits fullscreen
+document.addEventListener("keydown", e => { if (e.key === "Escape" && _dashFS) toggleDashFS(); });
 
 // ═══ DEFAULT CLIENT SHAPE ════════════════════════════════════════════════
 function clientDefaults() {
@@ -1805,6 +2026,7 @@ function admTab(t) {
   document.getElementById("adm-page-"+t).style.display = "block";
   document.getElementById("adm-nav-"+t).classList.add("active");
   if(t === "stats") setTimeout(initAdminCharts, 100);
+  if(t === "team")  { dbReadAdmins(() => renderTeam()); }
 }
 
 // ═══ AUTH ════════════════════════════════════════════════════════════════
@@ -1827,18 +2049,20 @@ function clientLogin() {
 function adminLogin() {
   const u = document.getElementById("adm-user").value.trim().toLowerCase();
   const p = document.getElementById("adm-pass").value;
-  if (ADMIN_CREDS[u] && ADMIN_CREDS[u] === p) {
-    document.getElementById("adm-display-name").textContent = u[0].toUpperCase()+u.slice(1);
-    document.getElementById("adm-sidebar-name").textContent = u[0].toUpperCase()+u.slice(1);
-    // Load fresh data from Firebase then show admin
-    dbReadClients(() => {
-      show("screen-admin");
-      loadAdmin();
-      dbListen(); // start real-time sync
-    });
-  } else {
-    showErr("adm-err");
-  }
+  // Always fetch latest admin creds from Firebase before checking
+  dbReadAdmins((creds) => {
+    if (creds[u] && creds[u] === p) {
+      document.getElementById("adm-display-name").textContent = u[0].toUpperCase()+u.slice(1);
+      document.getElementById("adm-sidebar-name").textContent = u[0].toUpperCase()+u.slice(1);
+      dbReadClients(() => {
+        show("screen-admin");
+        loadAdmin();
+        dbListen();
+      });
+    } else {
+      showErr("adm-err");
+    }
+  });
 }
 
 function showErr(id) {
