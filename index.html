@@ -1057,15 +1057,29 @@ body:not(.no-cursor) *{cursor:none!important;}
   display:none;position:fixed;inset:0;z-index:9000;
   background:var(--navy);flex-direction:column;overflow:hidden;
 }
+/* Every element in the flex chain must stretch — glass-card */
 #dash-fs-overlay .glass-card{
-  flex:1;margin:0;border-radius:0;
-  display:flex;flex-direction:column;overflow:hidden;
-  padding:0!important;height:100%;
+  flex:1;min-height:0;margin:0;border-radius:0!important;
+  display:flex!important;flex-direction:column;overflow:hidden;
+  padding:0!important;
 }
+/* Header bar — fixed height, don't stretch */
+#dash-fs-overlay .glass-card > div:first-child{flex-shrink:0;}
+/* Platform tabs row — fixed height */
+#dash-fs-overlay .platform-tabs{flex-shrink:0;}
+/* Platform containers — must stretch to fill remaining space */
+#dash-fs-overlay [id^="cl-plat-"]{
+  flex:1;min-height:0;display:flex;flex-direction:column;
+}
+/* Looker wrap — fill platform container */
 #dash-fs-overlay .looker-wrap{
-  flex:1;height:auto!important;border-radius:0!important;
+  flex:1;min-height:0;height:auto!important;
+  border-radius:0!important;
 }
-#dash-fs-overlay .looker-iframe{height:calc(100% + 52px)!important;}
+/* Iframe — 52px extra clips the Looker footer bar */
+#dash-fs-overlay .looker-iframe{
+  width:100%;height:calc(100% + 52px)!important;
+}
 .fs-minimize-btn{
   position:fixed;top:16px;right:16px;z-index:9100;
   display:none;align-items:center;gap:6px;
