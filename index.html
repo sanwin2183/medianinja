@@ -792,6 +792,27 @@ body::before{
   #cl-page-overview .glass-card{margin-bottom:0;}
 }
 
+/* ════ PLATFORM TABS ════ */
+.platform-tabs{display:flex;overflow-x:auto;scrollbar-width:none;padding:10px 16px;gap:8px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.01);}
+.platform-tabs::-webkit-scrollbar{display:none;}
+.ptab{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all 0.2s;white-space:nowrap;}
+.ptab:hover{color:var(--text2);border-color:var(--border2);}
+.ptab-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ptab[data-p="fb"].active{background:rgba(24,119,242,0.1);color:#60a5fa;border-color:rgba(24,119,242,0.3);}
+.ptab[data-p="ig"].active{background:rgba(225,48,108,0.1);color:#f472b6;border-color:rgba(225,48,108,0.3);}
+.ptab[data-p="web"].active{background:rgba(6,182,212,0.1);color:#22d3ee;border-color:rgba(6,182,212,0.3);}
+.ptab[data-p="ads"].active{background:rgba(240,165,0,0.1);color:var(--gold);border-color:rgba(240,165,0,0.3);}
+.looker-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:60px 24px;text-align:center;min-height:380px;background:rgba(0,0,0,0.12);}
+.looker-placeholder img{height:48px;opacity:0.18;filter:brightness(0) invert(1);}
+.looker-ph-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:800;color:var(--text);}
+.looker-ph-sub{font-size:13px;color:var(--muted);max-width:280px;line-height:1.75;}
+.looker-ph-cta{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:100px;background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.2);color:var(--gold);text-decoration:none;font-size:13px;font-weight:700;transition:all 0.2s;}
+.looker-ph-cta:hover{background:rgba(240,165,0,0.15);border-color:rgba(240,165,0,0.4);}
+@media(max-width:768px){
+  .looker-wrap{height:calc(100svh - 250px) !important;}
+  .looker-placeholder{min-height:280px;padding:40px 20px;}
+}
+
 /* ════ FOOTER ════ */
 .site-footer{
   border-top:1px solid var(--border);
@@ -1017,6 +1038,7 @@ body::before{
   <symbol id="ic-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></symbol>
   <symbol id="ic-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></symbol>
   <symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="ic-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
 </svg>
 <div class="mesh-bg"></div>
 
@@ -1135,9 +1157,19 @@ body::before{
             <div style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);"></div>
             <span style="font-size:13px;font-weight:700;">Live Dashboard</span>
           </div>
-          <span style="font-size:11px;color:var(--muted);">Facebook · Instagram · All Platforms</span>
         </div>
-        <div id="cl-looker-container-overview"></div>
+        <!-- Platform sub-tabs -->
+        <div class="platform-tabs">
+          <button class="ptab active" data-p="fb" onclick="switchPlatform('fb')"><span class="ptab-dot" style="background:#60a5fa;"></span>Facebook</button>
+          <button class="ptab" data-p="ig" onclick="switchPlatform('ig')"><span class="ptab-dot" style="background:#f472b6;"></span>Instagram</button>
+          <button class="ptab" data-p="web" onclick="switchPlatform('web')"><span class="ptab-dot" style="background:#22d3ee;"></span>Website / SEO</button>
+          <button class="ptab" data-p="ads" onclick="switchPlatform('ads')"><span class="ptab-dot" style="background:var(--gold);"></span>FB &amp; IG Ads</button>
+        </div>
+        <!-- Platform containers -->
+        <div id="cl-plat-fb"></div>
+        <div id="cl-plat-ig" style="display:none;"></div>
+        <div id="cl-plat-web" style="display:none;"></div>
+        <div id="cl-plat-ads" style="display:none;"></div>
       </div>
     </div>
 
@@ -1507,10 +1539,22 @@ body::before{
               </div>
             </div>
             <div id="etab-looker" style="display:block;visibility:hidden;height:0;overflow:hidden;">
+              <div style="font-size:11px;color:var(--muted);margin-bottom:14px;">Looker Studio → File → Embed Report → copy the src URL. Leave blank to show a "Contact us" placeholder.</div>
               <div class="ef-field">
-                <label class="ef-label">Looker Studio Embed URL</label>
-                <input class="ef-input" id="ef-looker" placeholder="https://lookerstudio.google.com/embed/reporting/...">
-                <div style="font-size:11px;color:var(--muted);margin-top:7px;">Looker Studio → File → Embed Report → copy the src URL</div>
+                <label class="ef-label" style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#60a5fa;"></span>Facebook Dashboard URL</label>
+                <input class="ef-input" id="ef-looker-fb" placeholder="https://lookerstudio.google.com/embed/reporting/...">
+              </div>
+              <div class="ef-field">
+                <label class="ef-label" style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f472b6;"></span>Instagram Dashboard URL</label>
+                <input class="ef-input" id="ef-looker-ig" placeholder="https://lookerstudio.google.com/embed/reporting/...">
+              </div>
+              <div class="ef-field">
+                <label class="ef-label" style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#22d3ee;"></span>Website / SEO Dashboard URL</label>
+                <input class="ef-input" id="ef-looker-web" placeholder="https://lookerstudio.google.com/embed/reporting/...">
+              </div>
+              <div class="ef-field">
+                <label class="ef-label" style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gold);"></span>FB &amp; IG Ads Dashboard URL</label>
+                <input class="ef-input" id="ef-looker-ads" placeholder="https://lookerstudio.google.com/embed/reporting/...">
               </div>
             </div>
             <div class="save-row">
@@ -1671,7 +1715,7 @@ function clientDefaults() {
     includes:"8 posts per month\n1 language (Burmese or Thai)\nContent planning",
     goals:"", strategy:"", focus:"",
     contentMonth:"", monthStart:0, monthDays:31,
-    contentPosts:[], looker:"", brandColors:[],
+    contentPosts:[], looker:"", lookerFb:"", lookerIg:"", lookerWeb:"", lookerAds:"", brandColors:[],
     typography:"", brandVoice:"", logoNotes:"", brandNotes:""
   };
 }
@@ -1705,6 +1749,16 @@ function clTab(t) {
   const ab = document.getElementById("cl-tab-"+t); if(ab) ab.classList.add("active");
   const mb = document.getElementById("mbn-"+t); if(mb) mb.classList.add("active");
   if(window.innerWidth <= 768) window.scrollTo({top:0, behavior:"smooth"});
+}
+
+const PLATFORMS = ["fb","ig","web","ads"];
+function switchPlatform(p) {
+  PLATFORMS.forEach(id => {
+    const el = document.getElementById("cl-plat-"+id);
+    if(el) el.style.display = id===p ? "block" : "none";
+    const btn = document.querySelector(`.ptab[data-p="${id}"]`);
+    if(btn) btn.classList.toggle("active", id===p);
+  });
 }
 
 const ADM_TABS = ["clients","stats","team"];
@@ -1817,14 +1871,7 @@ function loadClient(u) {
   renderCalendar(c);
   renderBranding(c);
 
-  const noLooker = `<div style="min-height:440px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:rgba(0,0,0,0.2);">
-    <img src="./images/logo.png" alt="MediaNinja" style="height:52px;width:auto;opacity:0.25;">
-    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--text);">Live Dashboard</div>
-    <div style="font-size:13px;color:var(--muted);text-align:center;max-width:300px;line-height:1.7;">Your Looker Studio dashboard will appear here once connected.</div>
-    <div style="font-size:11px;padding:8px 18px;background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.18);border-radius:100px;color:var(--gold);font-weight:700;">Awaiting connection</div>
-  </div>`;
   function makeLooker(src) {
-    // Append ?rm=minimal to reduce Looker Studio chrome (hides top nav bar)
     const url = src + (src.includes('?') ? '&' : '?') + 'rm=minimal';
     return `<div class="looker-wrap">
       <div class="looker-loading" id="ll-${Date.now()}">
@@ -1841,9 +1888,19 @@ function loadClient(u) {
       ></iframe>
     </div>`;
   }
-  const lookerHTML = c.looker ? makeLooker(c.looker) : noLooker;
-  h("cl-looker-container-overview", lookerHTML);
-  h("cl-looker-container", lookerHTML);
+  function renderPlatform(url, label) {
+    if (url) return makeLooker(url);
+    return `<div class="looker-placeholder">
+      <img src="./images/logo.png" alt="MediaNinja">
+      <div class="looker-ph-title">No ${x(label)} data yet</div>
+      <div class="looker-ph-sub">Connect your ${x(label)} dashboard to see live analytics here.</div>
+      <a class="looker-ph-cta" href="mailto:hello@medianinja.co"><svg width="14" height="14" style="flex-shrink:0;"><use href="#ic-mail"/></svg>Contact us to get started</a>
+    </div>`;
+  }
+  h("cl-plat-fb",  renderPlatform(c.lookerFb  || c.looker, "Facebook"));
+  h("cl-plat-ig",  renderPlatform(c.lookerIg,              "Instagram"));
+  h("cl-plat-web", renderPlatform(c.lookerWeb,             "Website / SEO"));
+  h("cl-plat-ads", renderPlatform(c.lookerAds,             "FB & IG Ads"));
 
   const cm = document.getElementById("contact-manager-name");
   if(cm) cm.textContent = c.manager || "Your account manager";
@@ -1932,7 +1989,8 @@ function openEdit(k) {
   v("ef-posts",c.posts||""); v("ef-ads",c.ads||""); v("ef-renewal",c.renewal||""); v("ef-includes",c.includes||"");
   v("ef-goals",c.goals||""); v("ef-strategy",c.strategy||""); v("ef-focus",c.focus||"");
   v("ef-content-month",c.contentMonth||""); v("ef-month-start",c.monthStart||0); v("ef-month-days",c.monthDays||31);
-  v("ef-looker",c.looker||""); v("ef-typography",c.typography||""); v("ef-brand-voice",c.brandVoice||"");
+  v("ef-looker-fb",c.lookerFb||""); v("ef-looker-ig",c.lookerIg||""); v("ef-looker-web",c.lookerWeb||""); v("ef-looker-ads",c.lookerAds||"");
+  v("ef-typography",c.typography||""); v("ef-brand-voice",c.brandVoice||"");
   v("ef-logo-notes",c.logoNotes||""); v("ef-brand-notes",c.brandNotes||"");
   brandColorsEditList = (c.brandColors||[]).map(z=>({...z}));
   renderColorsEditor(); renderAdminPosts(); switchETab("credentials");
@@ -1966,7 +2024,8 @@ function saveClientData() {
     contentMonth:g("ef-content-month"),
     monthStart:parseInt(g("ef-month-start"))||0,
     monthDays:parseInt(g("ef-month-days"))||31,
-    looker:g("ef-looker"), typography:g("ef-typography"), brandVoice:g("ef-brand-voice"),
+    lookerFb:g("ef-looker-fb"), lookerIg:g("ef-looker-ig"), lookerWeb:g("ef-looker-web"), lookerAds:g("ef-looker-ads"),
+    typography:g("ef-typography"), brandVoice:g("ef-brand-voice"),
     logoNotes:g("ef-logo-notes"), brandNotes:g("ef-brand-notes"),
     brandColors:brandColorsEditList.map(z=>({...z}))
   };
