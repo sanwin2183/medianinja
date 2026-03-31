@@ -1973,18 +1973,20 @@ function toggleDashFS() {
 
   if (!_dashFS) {
     // ── Enter fullscreen ──────────────────────────────────────────────
-    // Remember where to put it back
     _dashCardParent = card.parentNode;
     _dashCardNext   = card.nextSibling;
-    // Move card into the overlay (DOM move — iframes don't reload)
+    _dashFS = true; // set before switchPlatform so it uses "flex"
     overlay.appendChild(card);
     overlay.style.display = "flex";
     document.body.style.overflow = "hidden";
     if (minBtn) minBtn.style.display = "flex";
     if (fsBtn)  fsBtn.style.display  = "none";
-    _dashFS = true;
+    // Fix whichever platform tab is currently active
+    const activePtab = card.querySelector(".ptab.active");
+    if (activePtab) switchPlatform(activePtab.dataset.p);
   } else {
     // ── Exit fullscreen ───────────────────────────────────────────────
+    _dashFS = false; // set before switchPlatform so it uses "block"
     if (_dashCardParent) {
       _dashCardParent.insertBefore(card, _dashCardNext);
     }
@@ -1992,7 +1994,9 @@ function toggleDashFS() {
     document.body.style.overflow = "";
     if (minBtn) minBtn.style.display = "none";
     if (fsBtn)  fsBtn.style.display  = "";
-    _dashFS = false;
+    // Restore active platform to block display
+    const activePtab = card.querySelector(".ptab.active");
+    if (activePtab) switchPlatform(activePtab.dataset.p);
   }
 }
 // ESC key exits fullscreen
@@ -2048,7 +2052,7 @@ const PLATFORMS = ["fb","ig","web","ads"];
 function switchPlatform(p) {
   PLATFORMS.forEach(id => {
     const el = document.getElementById("cl-plat-"+id);
-    if(el) el.style.display = id===p ? "block" : "none";
+    if(el) el.style.display = id===p ? (_dashFS ? "flex" : "block") : "none";
     const btn = document.querySelector(`.ptab[data-p="${id}"]`);
     if(btn) btn.classList.toggle("active", id===p);
   });
