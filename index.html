@@ -1052,27 +1052,31 @@ body:not(.no-cursor) *{cursor:none!important;}
 }
 .dash-fullscreen-btn:hover{color:var(--text2);border-color:var(--border2);}
 .dash-fullscreen-btn svg{width:14px;height:14px;}
-.dashboard-card-fs{
-  position:fixed!important;inset:0!important;z-index:500!important;
-  border-radius:0!important;background:var(--navy)!important;
-  display:flex;flex-direction:column;
-  overflow:hidden;
+/* Fullscreen overlay — direct body child, no stacking context issues */
+#dash-fs-overlay{
+  display:none;position:fixed;inset:0;z-index:9000;
+  background:var(--navy);flex-direction:column;overflow:hidden;
 }
-.dashboard-card-fs .looker-wrap{
+#dash-fs-overlay .glass-card{
+  flex:1;margin:0;border-radius:0;
+  display:flex;flex-direction:column;overflow:hidden;
+  padding:0!important;height:100%;
+}
+#dash-fs-overlay .looker-wrap{
   flex:1;height:auto!important;border-radius:0!important;
 }
-.dashboard-card-fs .looker-iframe{height:calc(100% + 52px)!important;}
+#dash-fs-overlay .looker-iframe{height:calc(100% + 52px)!important;}
 .fs-minimize-btn{
-  position:fixed;top:16px;right:16px;z-index:600;
+  position:fixed;top:16px;right:16px;z-index:9100;
   display:none;align-items:center;gap:6px;
   font-size:12px;font-weight:700;color:var(--text);
-  background:rgba(13,24,41,0.9);border:1px solid var(--border2);
-  border-radius:10px;padding:8px 14px;cursor:pointer;
-  backdrop-filter:blur(12px);transition:all 0.2s;
+  background:rgba(13,24,41,0.92);border:1px solid var(--border2);
+  border-radius:10px;padding:9px 16px;cursor:pointer;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:all 0.2s;
 }
 .fs-minimize-btn:hover{border-color:var(--gold);color:var(--gold);}
 .fs-minimize-btn svg{width:14px;height:14px;}
-.fs-active .fs-minimize-btn{display:flex;}
 
 /* ════ ADMIN TEAM MANAGEMENT ════ */
 .team-row{
@@ -1103,6 +1107,8 @@ body:not(.no-cursor) *{cursor:none!important;}
   <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
   Minimize
 </button>
+<!-- ══ FULLSCREEN OVERLAY ══ -->
+<div id="dash-fs-overlay"></div>
 <!-- ══ SVG ICON SPRITE ══ -->
 <svg style="display:none;position:absolute" aria-hidden="true">
   <symbol id="ic-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
@@ -1938,24 +1944,41 @@ function togglePw(id, btn) {
 
 // ── Dashboard fullscreen ─────────────────────────────────────────────────
 let _dashFS = false;
+let _dashCardParent = null;
+let _dashCardNext   = null;   // sibling before which we re-insert on exit
+
 function toggleDashFS() {
-  _dashFS = !_dashFS;
-  const card    = document.querySelector("#cl-page-overview .glass-card");
+  const overlay = document.getElementById("dash-fs-overlay");
   const minBtn  = document.getElementById("fs-minimize-btn");
   const fsBtn   = document.getElementById("dash-fs-btn");
-  if (!card) return;
-  if (_dashFS) {
-    card.classList.add("dashboard-card-fs");
-    document.body.classList.add("fs-active");
+  const card    = _dashFS
+    ? overlay.querySelector(".glass-card")
+    : document.querySelector("#cl-page-overview .glass-card");
+
+  if (!overlay || !card) return;
+
+  if (!_dashFS) {
+    // ── Enter fullscreen ──────────────────────────────────────────────
+    // Remember where to put it back
+    _dashCardParent = card.parentNode;
+    _dashCardNext   = card.nextSibling;
+    // Move card into the overlay (DOM move — iframes don't reload)
+    overlay.appendChild(card);
+    overlay.style.display = "flex";
     document.body.style.overflow = "hidden";
     if (minBtn) minBtn.style.display = "flex";
     if (fsBtn)  fsBtn.style.display  = "none";
+    _dashFS = true;
   } else {
-    card.classList.remove("dashboard-card-fs");
-    document.body.classList.remove("fs-active");
+    // ── Exit fullscreen ───────────────────────────────────────────────
+    if (_dashCardParent) {
+      _dashCardParent.insertBefore(card, _dashCardNext);
+    }
+    overlay.style.display = "none";
     document.body.style.overflow = "";
     if (minBtn) minBtn.style.display = "none";
     if (fsBtn)  fsBtn.style.display  = "";
+    _dashFS = false;
   }
 }
 // ESC key exits fullscreen
